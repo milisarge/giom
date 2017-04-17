@@ -1,0 +1,16 @@
+<tr><td><hr noshade size=2></td><td><hr noshade size=2></td></tr>
+<tr>
+<table>
+<tr>
+<td>%25</td><td>%33</td><td>%40</td><td>%50</td>
+</tr>
+<tr>
+<td><input type=text id=ykar1 name=ykar1 width="40" style="width:40px"></td>
+<td><input type=text id=ykar2 name=ykar2 width="40" style="width:40px"></td>
+<td><input type=text id=ykar3 name=ykar3 width="40" style="width:40px"></td>
+<td><input type=text id=ykar4 name=ykar4 width="40" style="width:40px"></td>
+<td> şimdiki kar oranı</td>
+<td><input type=text id=ykar name=ykar width="40" style="width:40px"></td>
+</tr>
+</table>
+</tr>

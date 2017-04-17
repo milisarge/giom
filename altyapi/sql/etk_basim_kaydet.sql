@@ -1,0 +1,1 @@
+insert into etiket_basilan (stok_kodu,bf,basim_tarihi) values('@kod@','@bf@',NOW())

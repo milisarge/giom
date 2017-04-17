@@ -1,0 +1,72 @@
+
+<html>
+  {% block body %}
+ <!-- Codes by HTML.am -->
+ <html>
+ 
+ <body bgcolor='silver' > 
+	<title>ALTYAPI LABORATUVARI</title>
+  <div style="background-color:gray;)">
+  <script>
+function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
+
+</script>
+  <table>
+   <tr>
+  <h2>ALTYAPI DUZENLEME-CALISTIRMA</h2>
+  <td>
+  <form action="{{ url_for('editor') }}" method=post>
+      <dl>
+	  <dt><b>icerik:</b>
+	  <dt>{% if akdos %}Aktif Dosya-->{{ akdos }}{% endif %}
+      <dt><textarea rows="10" cols="60" name='sqlcumlesi'>{{gonderilen}}</textarea> 
+      <dt><input type=submit name=komut value=calistir>
+	  <dt><input type=submit name=komut value=kaydet onClick="alert('mevcut icerik kaydedildi.')">
+	  <dt><input type=submit name=komut value=yenikaydet>
+	  <input type=text name=yenidosya value='yeni.sql'>Yeni dosya ismi
+	  <dt>islem hizi: {{islemhizi}}	
+	  </dl>
+  </td>
+  <td>
+	  <dd><b>ayar dizini:
+      <dd><select name="ayardizini">
+	  <option>.\ini\\</option>
+	  <option>.\sql\\</option>
+	  </select><input type=submit name=komut value=sec>
+	  <dd>
+      <dd><b>sql dosyasi yukleyin:
+      <dd><select name="sqldosyasi">
+	  <option>{{ akdos }}</option>
+	  {% for dosya in dosyalar %}
+        <option>{{dosya}}</option>
+      {% endfor %}
+	  </select>
+      <dd><input type=submit name=komut value=yukle>
+	  <dd><input type=submit name=komut value=sil>
+	  
+  </form>
+  </td>
+  </tr>
+  
+ </table>
+  </div>
+  
+  <a href="../">ana sayfa</a><br><a href="../exit">CIKIS</a><br> </html>
+  {% endblock %}
+ <body>
+<input type="button" onclick="printDiv('printableArea')" value="YAZDIR" /><br>
+ </html>
+
+{% if sonuc %} {{ sonuc }}{% endif %}  
+
+ 
+

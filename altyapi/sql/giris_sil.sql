@@ -1,0 +1,1 @@
+delete from giris_liste where id='@id@'

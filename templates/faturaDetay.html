@@ -1,0 +1,95 @@
+<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>FATURA</title>
+<meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./static/css/reset.css" />
+<script src="../static/jquery.js"></script>
+<script src="../static/js/jquery-ui.js"></script>
+<script src="./static/js/datetimepicker.js"></script>
+<script type="text/javascript"
+	src="./static/js/jquery.maskedinput.min.js"></script>
+<script src="../static/js/jquery.form.min.js"></script>
+<script src="../static/js/jquery.handsontable.full.js"></script>
+<link rel="stylesheet"
+	href="./static/js/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet"
+	href="./static/css/jquery.handsontable.full.css" />
+<script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
+<script src="./static/js/jquery.blockUI.js"></script>
+<link rel="stylesheet"
+	href="{{url_for('static', filename='css/table2.css')}}" type="text/css"
+	id="" media="print, projection, screen">
+<script>
+$(document).ready(function() {	
+	$("#hareketrapor").click(function(event){
+		var tar;
+		if (event.target) targ = event.target;
+		else if (event.srcElement) targ = event.srcElement;
+		if (targ.nodeType == 3) // defeat Safari bug
+			targ = targ.parentNode;
+		console.log("->",targ.id);
+		var islem=targ.id.split("@");
+		var olay=islem[0];
+		var islem_no=islem[1];
+
+		if(olay == "stk_yukle"){
+			succesHandler("message_y");
+		}
+		if(olay == "stk_sil"){
+			succesHandler("message_sil");
+		}
+	});
+});
+$(document).click(function(event) {	
+	
+	var tar;
+	if (event.target) targ = event.target;
+	else if (event.srcElement) targ = event.srcElement;
+	if (targ.nodeType == 3) // defeat Safari bug
+		targ = targ.parentNode;
+	console.log("ccc>",targ.id);
+	var islem=targ.id.split("@");
+	var olay=islem[0];
+	var islem_no=islem[1];
+
+	if(olay == "stk_yukle"){
+		succesHandler("message_y");
+	}
+	if(olay == "stk_sil"){
+		succesHandler("message_sil");
+		}
+	
+});
+function succesHandler(message) {
+	// TODO: hata mesaj dön
+	$.blockUI({ 
+		message: message, 
+		fadeIn: 500, 
+		fadeOut: 500, 
+		timeout: 2000, 
+		showOverlay: false, 
+		centerY: false, 
+		css: { 
+			width: '550px',
+			top: '6px', 
+			left: '', 
+			right: '100px', 
+			border: 'none', 
+			padding: '10px', 
+			backgroundColor: '#080', 
+			'-webkit-border-radius': '6px', 
+			'-moz-border-radius': '6px', 
+			'border-radius': '6px',
+			opacity: .6, 
+			'font-style': 'italic',
+			'font-weight': 'normal',
+			'font-family': 'Georgia, "Times New Roman", Times, serif',
+			'font-size': '16px',
+			color: '#fff'
+		}
+	});
+}
+</script>
+
+</head>	
+</html>

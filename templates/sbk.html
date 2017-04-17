@@ -1,0 +1,138 @@
+<HTML>
+
+
+
+<script type="text/javascript" src="./static/jquery.js"></script>
+<script src="./static/js/datetimepicker.js"></script>
+<title>GİOM</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<script>
+  
+ 
+	function aramakon()
+	{
+		var arama=document.forms["sbk"]["arama"].value;
+		if (arama==null || arama=="")
+		{alert("arama bos olamaz");return false;}
+	}
+	
+  </script>
+<body bgcolor='silver' > 
+<h3>Stok Bilgi Karti</h3>
+<table><tr><td valign="top">
+
+<table  border=1  align=left>
+<form name=sbk action="{{ url_for('sbk') }}" method=post>
+<tr>
+<td>KOD:</td><input type=submit name=komut value=bul></td>
+<input type=submit name=komut value=gonder>MERKEZ->
+<select type=text id=merkez name=merkez >
+  <option>{{merkez}}</option>
+  <option>28</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>5</option>
+  <option>6</option>
+  <option>7</option>
+  <option>8</option>
+  <option>10</option>
+  <option>11</option>
+  <option>12</option>
+  <option>15</option>
+  <option>17</option>
+  <option>23</option>
+  </select></td>
+<td><input type=text id=kod name=kod value="{{stkod[2]}}" onclick=this.value=''></td>
+
+</tr>
+<tr>
+<td>ISIM:</td>
+<td><input type=text id=ad name=ad value="{{stkod[4]}}" width="250" style="width: 250px"></td>
+<tr>
+<td>NAKDV FIYAT:</td>
+<td><input type=text id=nakdv name=nakdv value="{{stkod[58]}}"></td></tr>
+<tr>
+<td>DAT FIYAT:</td>
+<td><input type=text id=datfiat name=datfiat value="{{stkod[28]}}"></td>
+<tr>
+<td>SAT1 FIYAT:</td>
+<td><input type=text id=sat1fiat name=sat1fiat value="{{stkod[26]}}"></td></tr>
+<tr>
+<td>SAT2 FIYAT:</td>
+<td><input type=text id=sat2fiat name=sat2fiat value="{{stkod[27]}}"></td>
+<tr>
+<td>BARKOD1:</td>
+<td><input type=text id=barkod1 name=barkod1 value="{{stkod[54]}}"></td></tr>
+<tr>
+<td>BARKOD2:</td>
+<td><input type=text id=barkod2 name=barkod2 value="{{stkod[55]}}"></td>
+<tr>
+<td>BARKOD3:</td>
+<td><input type=text id=barkod3 name=barkod3 value="{{stkod[56]}}"></td></tr>
+<tr>
+<td>ALKDV:</td>
+<td><input type=text id=alkdv name=alkdv value="{{stkod[57]}}"></td>
+<tr>
+<td>SATKDV:</td>
+<td><input type=text id=satkdv name=satkdv value="{{stkod[37]}}"></td>
+</tr>
+<tr><td>
+
+<a href="../"><img src="./static/ana.png" border="0"></a>
+<a href="../halis"><img src="./static/add.png" border="0"></a>
+<a href="../exit"><img src="./static/close.png" border="0"></a>
+<a href="../grafik"><img src="./static/search.png" border="0"></a>
+<a target="_blank" href="./static/f21.html"><img src="./static/calc.ico" border="0"></a><br>
+</td><td>
+<input id="bastarih" name="bastarih" value="{{bastarih}}" type="text" size="25"><a href="javascript:NewCal('bastarih','ddmmyyyy')"><img src="/static/js/cal.gif" width="16" height="16" border="0" alt="tarih sec"></a>
+<input id="sontarih" name="sontarih" value="{{sontarih}}" type="text" size="25"><a href="javascript:NewCal('sontarih','ddmmyyyy')"><img src="/static/js/cal.gif" width="16" height="16" border="0" alt="tarih sec"></a>
+<input type=submit name=komut value="tarih_reset">
+<br>
+</td></tr>
+</table><p>
+</td>
+<td valign="top">
+
+	<h3>Stok Arama</h3> 
+  <dl>
+  <dt>kriter:<select  type=text id=kriter name=kriter value="{{kriter}}" >
+  <option>{{kriter}}</option>
+  <option>STOK_KODU</option>
+  <option>STOK_ADI</option>
+  <option>KOD_1</option>
+  <option>KOD_2</option>
+  <option>KOD_3</option>
+  <option>SATICI_KODU</option>
+  <option>BARKOD1</option>
+  <option>BARKOD2</option>
+  <option>BARKOD3</option>
+  </select>
+  ---><input type=text id=arama name=arama value="{{arama}}" >
+  <input type=submit name=komut value=stokgetir onclick="return aramakon()" >
+  </dl>
+    
+ <table  align=right>
+	{% if stoklar %}
+  {% for stok in stoklar %}
+	   <tr>
+	   <td><input type=submit name=gstok value="{{stok[2]}}" ></td>
+	   <td>{{stok[4]}}</td>
+	   <td>{{stok[54]}}</td>
+	   <td>{{stok[55]}}</td>
+	   <td>{{stok[56]}}</td>
+	   </tr>
+  {% endfor %}
+  {% endif %}
+  </table>
+    
+  </form>
+  </td>
+</td><tr>
+</table>	
+
+
+
+
+</HTML>

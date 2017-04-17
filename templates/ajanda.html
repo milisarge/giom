@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="content-type" contentType="text/html; charset=UTF-8">
+
+<link href="{{url_for('static', filename='css/fullcalendar.css')}}"
+	rel='stylesheet' />
+<link
+	href="{{url_for('static', filename='css/fullcalendar.print.css')}}" />
+<script src="{{url_for('static', filename='jquery.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/fullcalendar.js')}}"></script>
+<script
+	src="{{url_for('static', filename='js/jquery-ui.fullcalendar.min.js')}}"></script>
+<script
+	src="{{url_for('static', filename='js/jquery.qtip-1.0.0-rc3.min.js')}}"></script>
+<script>
+	function deleteEvent(eventId) {
+		$('#calendar').fullCalendar( 'removeEvents' , eventId );
+	}
+
+	$(document).ready(function() {
+
+		/* initialize the external events
+		-----------------------------------------------------------------*/
+		$('#external-events div.external-event').each(function() {
+			// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+			// it doesn't need to have a start or end
+			var eventObject = {
+				title : $.trim($(this).text())
+			// use the element's text as the event title
+			};
+
+			// store the Event Object in the DOM element so we can get to it later
+			$(this).data('eventObject', eventObject);
+			
+			// make the event draggable using jQuery UI
+			$(this).draggable({
+				zIndex : 999,
+				revert : true, // will cause the event to go back to its
+				revertDuration : 0
+				
+			//  original position after the drag
+			});
+		});
+
+		/* initialize the calendar
+		-----------------------------------------------------------------*/
+		$('#calendar').fullCalendar({
+			header : {
+				left : 'title',
+				center : 'prevYear,prev,today,next,nextYear',
+				right : 'month,basicWeek,basicDay'
+			},
+			columnFormat: {
+				month: 'dddd',
+				week: 'ddd d/M',
+				day: 'dddd d/M'
+			},
+			firstDay: 1, // pazartesi icin
+			monthNames: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+			monthNamesShort: ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'],
+			dayNames: ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'],
+			dayNamesShort: ['Paz','Pts','Sal','Çar','Per','Cum','Cts'],
+			buttonText: {
+				today: 'Bugün',
+				month: 'Ay',
+				week: 'Hafta',
+				day: 'Gün'
+			},
+			editable : true,
+			droppable : true, // this allows things to be dropped onto the calendar !!!
+			drop : function(date, allDay) { // this function is called when something is dropped
+
+				// retrieve the dropped element's stored Event Object
+				var originalEventObject = $(this).data(
+						'eventObject');
+
+				// we need to copy it, so that multiple events don't have a reference to the same object
+				var copiedEventObject = $.extend({},
+						originalEventObject);
+				
+				// assign it the date that was reported
+				copiedEventObject.start = date;
+				copiedEventObject.allDay = allDay;
+				
+				// TODO: Make ajax call to write database, unique id will be sent from server
+				// TODO: If committing to database is failure, show error message and quit
+				
+				// render the event on the calendar
+				// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+				$('#calendar').fullCalendar('renderEvent',
+						copiedEventObject, true);
+
+				// is the "remove after drop" checkbox checked?
+				if ($('#drop-remove').is(':checked')) {
+					// if so, remove the element from the "Draggable Events" list
+					$(this).remove();
+				}
+			},
+			events :
+				{%- if events -%}
+					[
+					 	{%- for event in events -%}{
+							id: "{{event.id}}",
+							title: "{{event.title}}"
+							start: "{{event.start}}",
+							allDay: {{event.allDay}},
+							end: "{{event.end}}",
+							url: "{{event.url}}"
+						}{%- endfor -%}
+					]
+				{%- endif -%}
+				{%- if emptyEvent -%}
+					'/ajanda'
+				{%- endif -%},
+			eventRender: function(event, element) {
+	            element.qtip({
+	                content: event.title + '<br />' + event.start + "<br><a href='www.google.com'>Google</a>",
+	                position: {
+	                    corner:	{
+	    					target:		'topRight',
+	    					tooltip:	'bottomLeft'
+	    				},
+	    				adjust: {
+	    					screen: true,
+	    					x: -20
+	    				}
+	                },
+	                style: {
+	                    //name: 'cream',
+	                    tip: true,
+	                    background: '#E6EFF5',
+	                    color: '#297AA8',
+	                    border: {
+	                        radius: 8,
+	                        color: '#bfd8e8'
+	                    }
+	                },
+					hide:{ //moved hide to here,
+				        delay:500, //give a small delay to allow the user to mouse over it.
+				        fixed:true
+					}
+	            });
+	        },
+			eventDrop : function(event, delta) {				
+				// TODO: save changes to database
+			},
+			eventClick: function(calEvent, jsEvent, view) {
+		    	$(this).qtip('hide');
+				if(confirm( calEvent.title + "    Silinsin mi?")) {
+		    		$(this).qtip('destroy');
+
+			        // TODO: delete event in database
+			        
+			        // delete in calendar
+			        $('#calendar').fullCalendar('removeEvents', calEvent.id);
+			        $('#calendar').fullCalendar("rerenderEvents");
+				}
+		    },
+		    eventDestroy: function(event, element, view) {
+		    	element.qtip('hide');
+		    	element.qtip('destroy');
+		    },
+		    eventDragStart: function(event, jsEvent, ui, view) {
+		    	$(this).qtip('hide');
+		    	$(this).qtip('disable');
+		    },
+		    eventDragStop: function(event, jsEvent, ui, view) {
+		    	$(this).qtip('enable');
+		    },
+		    eventMouseover: function(calEvent, domEvent) {
+		    },
+		    eventMouseout: function(calEvent, domEvent) {
+		    }
+		});
+	});
+</script>
+<style>
+body {
+	margin-top: 40px;
+	text-align: center;
+	font-size: 14px;
+	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+}
+
+#wrap {
+	width: 1500px;
+	margin: 0 auto;
+}
+
+#external-events {
+	float: left;
+	width: 250px;
+	padding: 0 10px;
+	border: 1px solid #ccc;
+	background: #eee;
+	text-align: left;
+}
+
+#external-events h4 {
+	font-size: 16px;
+	margin-top: 0;
+	padding-top: 1em;
+}
+
+.external-event { /* try to mimick the look of a real event */
+	margin: 5px 0;
+	padding: 2px 4px;
+	background: #3366CC;
+	color: #fff;
+	font-size: .85em;
+	cursor: pointer;
+}
+
+#external-events input {
+	margin: 5px auto;
+	padding: 2px 4px;
+	width: 238px;
+}
+
+#external-events p {
+	margin: 1.5em 0;
+	font-size: 11px;
+	color: #666;
+}
+
+#external-events p input {
+	margin: 0;
+	vertical-align: middle;
+}
+
+#calendar {
+	float: right;
+	width: 1200px;
+}
+</style>
+</head>
+<body>
+	<div id='wrap'>
+		<div id='external-events'>
+			<h4>Cari Listesi</h4>
+			<div class="">
+				<input type="text" value="">
+			</div>
+			<div class='external-event'>olay 1</div>
+			<div class='external-event'>olay 2</div>
+			<div class='external-event'>olay 3</div>
+			<div class='external-event'>olay 4</div>
+			<div class='external-event'>olay 5</div>
+		</div>
+		<div id='kullanimtalimati'>
+			
+		</div>
+		
+		<div id='calendar'></div>
+		<div style='clear: both'></div>
+	</div>
+</body>
+</html>

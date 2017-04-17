@@ -1,0 +1,14 @@
+<html>
+<head>
+<title>STOK HAREKET ISLEME</title>
+</head>
+<frameset cols="50%,*">
+{% if gstok %}
+	<frame src="{{ url_for('halis/gstok') }}">
+{% else %}
+	<frame src="{{ url_for('halis') }}">
+{% endif %}
+
+<frame src="{{ url_for('arama') }}">
+</frameset>
+</html>

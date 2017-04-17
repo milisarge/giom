@@ -1,0 +1,610 @@
+<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>YETKİLİ</title>
+<meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./static/css/reset.css" />
+<script src="../static/jquery.js"></script>
+<script src="../static/js/jquery-ui.js"></script>
+<script src="./static/js/datetimepicker.js"></script>
+<script type="text/javascript" src="./static/js/jquery.maskedinput.min.js"></script>
+<script src="../static/js/jquery.form.min.js"></script>
+<script src="../static/js/jquery.handsontable.full.js"></script>
+<script src="./static/js/jquery.blockUI.js"></script>
+<script src="./static/js/jquery.cookie.js"></script>
+<script src="../static/js/hintbox.js"></script>
+<script src="../static/js/jquery-barcode-last.min.js"></script>
+<link rel="stylesheet" href="./static/css/hintbox.css" />
+<link rel="stylesheet" href="./static/js/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="./static/css/jquery.handsontable.full.css" />
+<script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='css/table2.css')}}" type="text/css" id="" media="print, projection, screen">
+
+<style type="text/css">
+body {
+	margin: 0px auto;
+	padding: 0px 0px;
+	font-family: calibri;
+	
+}
+.anasablon {
+	width: 1200;
+	height: auto;
+	
+}
+.mheader {
+	font-family: Arial, Verdana;
+	text-shadow: 2px 2px 2px #ccc;
+	display: block;
+	float: left;
+	font-weight: bold;
+	padding-left: 10px;
+	text-align: left;
+	font-size: 15px;
+	width: 100%;
+	position: fixded;
+	height: 20px;
+}
+.formalan{
+	float:left;
+	width:270px;
+	height:800px;
+	border:#CCC solid 1px;
+	background-color:#669999 ;
+	margin-right: 10px;
+	margin-left: 4px;
+	font-family:monospace;
+	font-weight: bold;
+}
+.raporalan{
+	width:890px;
+	height:899px;
+	overflow: scroll;
+}
+.genelalan {
+	float: right;
+	width: 890px;
+	height: 900px;
+	background-color:#669999 ;
+}
+.operbutonlar{
+	width:auto; 
+	margin: 5 ;
+	font-family:monospace;
+	font-weight: bold;
+}
+.element{
+	width:320px; 
+	margin: 10 ;
+	float:center;
+	font-family:monospace;
+	font-weight: bold;
+}
+p{ 
+	margin:5px 0; 
+}
+hr {
+	top:5px; 
+	width: 100%;
+	clear: both;
+	margin: auto;
+}
+
+.mheader,.formalan,.raporalan{
+	margin: 3px;
+	padding: 15px;
+	background: #669999;
+	border: 1px solid #cccccc;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 2px 2px 2px #cccccc;
+	-webkit-box-shadow: 2px 2px 2px #cccccc;
+	box-shadow: 2px 2px 2px #cccccc;
+}
+
+</style>
+<script>
+	$(document).ready(function() {
+		
+	    //$("#bcTarget").barcode("86905330540606", "ean13",{barWidth:2, barHeight:20,output:'css'}); 
+		
+		//console.log(validateEan13("869053305406"));
+		
+		$.ajax({
+			url : "/kullanicilar",
+		}).done(function(data) {
+			$('#raporalan').html(data);
+		});
+					
+		var d = new Date();
+		var month = d.getMonth()+1;
+		var day = d.getDate();
+		var daygeri = d.getDate()-7;
+		var output = (day<10 ? '0' : '') + day + '-' +(month<10 ? '0' : '') + month + '-' + d.getFullYear() ;
+		var outputgeri = (daygeri<10 ? '0' : '') + daygeri + '-' +(month<10 ? '0' : '') + month + '-' + d.getFullYear() ;
+		$('#bas_tarih').val(outputgeri);
+		$('#son_tarih').val(output);
+			
+		
+		$('#bas_tarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			minDate: new Date(2013, 0, 1),
+			maxDate: new Date(2014, 11, 31),
+		}).mask('99-99-2014');
+		
+		$('#son_tarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			minDate: new Date(2013, 0, 1),
+			maxDate: new Date(2014, 11, 31),
+		}).mask('99-99-2014');
+		
+		$("#kul_no").click(function(event){
+			$("#kul_no").val("nev");
+		});
+		
+		$("#ayar_no").click(function(event){
+			$("#ayar_no").val("nev");
+		});
+
+		
+		$('#kul_ekle').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/kullaniciEkle",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir,
+				beforeSubmit 	: kullKayitKontrol
+			};
+			$('#yetkiliForm').ajaxSubmit(formOption);
+		});	
+		
+		$('#kul_sil').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/kullaniciSil",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir,
+				beforeSubmit 	: kullKayitKontrol
+			};
+			$('#yetkiliForm').ajaxSubmit(formOption);
+		});	
+		
+		$('#bagli_kul').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/bagliKul",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#yetkiliForm').ajaxSubmit(formOption);
+		});
+		
+		$('#bagli_sil').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/bagliSil",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#yetkiliForm').ajaxSubmit(formOption);
+		});
+		
+		$('#ayar_ekle').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/ayarEkle",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir,
+				beforeSubmit 	: ayarKayitKontrol
+			};
+			$('#yetkiliForm').ajaxSubmit(formOption);
+		});	
+		
+		$('#ayar_sil').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/ayarSil",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir,
+				beforeSubmit 	: ayarKayitKontrol
+			};
+			$('#yetkiliForm').ajaxSubmit(formOption);
+		});	
+		
+		$('#ayarlar').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/ayarlarGetir",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#yetkiliForm').ajaxSubmit(formOption);
+		});
+		
+		$('#tumstk_gerial').on('click', function(event){
+			event.preventDefault();
+			$.ajax({
+				url : "/tumstkGerial",
+			}).done(function(data) {
+				islemTamam(data);
+			});
+		});
+		
+		$('#vt_yedekle').on('click', function(event){
+			event.preventDefault();
+			$.ajax({
+				url : "/vtYedekle",
+			}).done(function(data) {
+				islemTamam(data);
+			});
+		});
+		
+		$('#bakim1').on('click', function(event){
+			event.preventDefault();
+			$('#bakim_no').val("1");
+			var formOption = {
+				url				: "/bakim",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#yetkiliForm').ajaxSubmit(formOption);
+		});
+		
+		$('#bakim2').on('click', function(event){
+			event.preventDefault();
+			$('#bakim_no').val("2");
+			var formOption = {
+				url				: "/bakim",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#yetkiliForm').ajaxSubmit(formOption);
+		});
+		
+		$('#bakim3').on('click', function(event){
+			event.preventDefault();
+			$('#bakim_no').val("3");
+			var formOption = {
+				url				: "/bakim",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#yetkiliForm').ajaxSubmit(formOption);
+		});
+
+		$('#servis1').on('click', function(event){
+			event.preventDefault();
+			$.ajax({
+				url : "/servisBaslat",
+			}).done(function(data) {
+				islemTamam(data);
+			});
+		});
+		
+		$("#raporalan").click(function(event){
+		    var targ;
+		    if (event.target) targ = event.target;
+		    else if (event.srcElement) targ = event.srcElement;
+		    if (targ.nodeType == 3) // defeat Safari bug
+		        targ = targ.parentNode;
+			console.log(targ.id);
+			var islem=targ.id.split("@");
+			var olay=islem[0];
+			var islem_no=islem[1];
+		    if(olay == "cahar_yukle"){
+				faturaUstbilgi(islem_no);
+			}
+			if(olay == "cahar_sil"){
+				if( confirm("Faturayı silmek İstediğinizden Emin misiniz?") ) {
+					$.ajax({
+					url : "/fatuSil?fkod="+islem_no,
+					}).done(function(data) {
+						islemTamam(data);
+					});
+				}	 
+			}
+			if(olay == "stk_yukle"){
+				stkYerlestir(islem_no);
+			}
+			if(olay == "stk_sil"){
+				stkSatirSil(islem_no);
+			}
+			if(olay == "pano_kopya"){
+				if (islem_no<1000){
+					$.ajax({
+						url : "/kullaniciGetir?no="+islem_no,
+					}).done(function(data) {
+						kullaniciDoldur(data);
+					});
+				}else{
+					$.ajax({
+						url : "/ayarGetir?no="+islem_no,
+					}).done(function(data) {
+						ayarDoldur(data);
+					});
+				}
+			}
+		});	
+		
+	});
+	
+	
+	
+	function raporGetir(res, statusText, xhr, $form) {
+		if(res!=null){
+			$("#raporalan").html(res);
+			$("#hareketrapor").tablesorter();
+		}
+		else{
+			hataGoster("Ekleme hatasi")
+		}
+	}
+	
+	function kullaniciDoldur(data) {
+		$('#kul_isim').val(data[0]);
+		$('#kul_sifre').val(data[1]);
+		$('#kul_uisim').val(data[2]);
+		$('#kul_eposta').val(data[3]);
+		$('#kul_yetki').val(data[4]);
+		$('#kul_no').val(data[5]);
+	}
+	
+	function kullKayitKontrol() {
+		var bosKontrol=true;
+		var hata="";
+		
+		if($('#kul_isim').val() == ""){
+			bosKontrol=false;
+			hata="isim boş olamaz!";
+		}
+		if($('#kul_sifre').val() == ""){
+			bosKontrol=false;
+			hata="şifre boş olamaz!";
+		}
+		if(bosKontrol==false){
+			hataGoster(hata);
+		}else{
+			$('#raporalan').html("");
+		}
+		return bosKontrol;
+	}
+	
+	function ayarDoldur(data) {
+		$('#ayar_no').val(data[0]);
+		$('#ayar_kulno').val(data[1]);
+		$('#ayar_bas').val(data[2]);
+		$('#ayar_deger').val(data[3]);
+	}
+	
+	function ayarKayitKontrol() {
+		var bosKontrol=true;
+		var hata="";
+		
+		if($('#ayar_kulno').val() == ""){
+			bosKontrol=false;
+			hata="ayar kullanıcısı boş olamaz!";
+		}
+		if($('#ayar_bas').val() == ""){
+			bosKontrol=false;
+			hata="ayar baslık boş olamaz!";
+		}
+		if($('#ayar_deger').val() == ""){
+			bosKontrol=false;
+			hata="ayar deger boş olamaz!";
+		}
+		if(bosKontrol==false){
+			hataGoster(hata);
+		}else{
+			$('#raporalan').html("");
+		}
+		return bosKontrol;
+	}
+
+	
+	function islemTamam(message) {
+		// TODO: hata mesajı dön
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#080', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff'
+            }
+        });
+	}
+	
+	function hataGoster(message) {
+		
+		console.log("HATA:" + message);
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#900', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff',
+                
+            }
+        });
+	}
+	/*
+	function validateEan13($digits)
+	{
+	    $originalcheck = false;
+	    if ( $digits.length == 13 ) {
+	        $originalcheck = $digits.substr(-1);
+	        $digits =$digits.substr( 0, -1);
+	    } else if ( $digits.length != 12 ) {
+	        // Invalid EAN13 barcode
+	        return false;
+	    }
+	 
+	    // Add even numbers together
+	    $even = $digits[1] + $digits[3] + $digits[5] + $digits[7] + $digits[9] + $digits[11];
+	    // Multiply this result by 3
+	    $even = $even * 3;
+	    
+	    // Add odd numbers together
+	    $odd = $digits[0] + $digits[2] + $digits[4] + $digits[6] + $digits[8] + $digits[10];
+	    
+	    // Add two totals together
+	    $total = $even + $odd;
+	    
+	    // Calculate the checksum
+	    // Divide total by 10 and store the remainder
+	    $checksum = $total % 10;
+	    // If result is not 0 then take away 10
+	    if($checksum != 0){
+	        $checksum = 10 - $checksum;
+	    }
+	 
+	    // Return results.
+	    if ( $originalcheck !== false ) {
+	        return [$digits, $checksum,$originalcheck];
+	    } else {
+	        return [$digits, $checksum];
+	    }
+	}
+	*/
+</script>
+</head>
+<body bgcolor='silver' > 
+<div class=anasablon>
+<div class="mheader" tabindex="-1">
+	<a href="/yetkiliModul"><img src="config.png" class="hover" hinttext="Yetkili" style="margin-right:120px;"></a> 
+	<a href="/stokModul"><img src="stok.png" class="hover" hinttext="Stok" style="margin-right:20px;"></a> 
+	<a href="/faturaModul"><img src="fatura.png" class="hover" hinttext="Fatura" style="margin-right:20px;"></a> 
+	<a href="/cariModul"><img src="cari.png" class="hover" hinttext="Cari" style="margin-right:20px;"></a> 
+	<a href="/siparisModul"><img src="spr.png" class="hover" hinttext="Sipariş" style="margin-right:20px;"></a> 
+	<a href="/sayimModul"><img src="pencil.png" class="hover" hinttext="Sayım" style="margin-right:20px;"></a> 
+	<a href="/raporModul"><img src="rapor.png" class="hover" hinttext="Rapor" style="margin-right:20px;"></a> 
+	<a href="/veriModul"><img src="veri.png" class="hover" hinttext="Veri" style="margin-right:20px;"></a> 
+	<a href="/altyapiModul"><img src="altyapi.png" class="hover" hinttext="Altyapı" style="margin-right:20px;"></a> 
+	<a href="/logModul"><img src="log.png" class="hover" hinttext="Log" style="margin-right:20px;"></a> 
+	<a href="/exit"><img src="cikis.png" class="hover" hinttext="ÇIKIŞ" style="margin-left:40px;"></a> 
+	<div class="kulblok">{{kullanici}}</div>
+</div><br>
+	<div class=formalan  >
+		<form id=yetkiliForm name=yetkiliForm action="{{ url_for('yetkiliModul') }}" method=post>
+			<div class=element> 
+				<div class=element><label>Kullanıcı İşlemleri</label></div>
+				kulno<input type="text" class="txt" name="kul_no" id="kul_no" readonly="" style="width: 30px;"/><br>
+				isim <input type="text" class="txt" name="kul_isim" id="kul_isim"  style="width: 150px;"/><br>
+				şifre<input type="text" class="txt" name="kul_sifre" id="kul_sifre"  style="width: 150px;"/><br>
+				uisim<input type="text" class="txt" name="kul_uisim" id="kul_uisim"  style="width: 150px;"/><br>	
+				posta<input type="text" class="txt" name="kul_eposta" id="kul_eposta"  style="width: 150px;"/><br>	
+				yetki<input type="text" class="txt" name="kul_yetki" id="kul_yetki"  style="width: 150px;"/><br>
+				</br>
+				<input type="submit" name="kul_ekle" id="kul_ekle" value="Ekle" tabindex="-1"/>
+				<input type="submit" name="kul_sil" id="kul_sil" value="Sil" tabindex="-1"/>
+				<input type="submit" name="bagli_kul" id="bagli_kul" value="Baglılar" tabindex="-1"/>
+				<input type="submit" name="bagli_sil" id="bagli_sil" value="Baglantı Sil" tabindex="-1"/>
+			</div>
+			<div class=element>	
+				<br>
+				<label>Kullanıcı Ayarları</label><br>
+				ayarno<input type="text" class="txt" name="ayar_no" id="ayar_no" readonly="" style="width: 40px;"/><br>
+				kul no<input type="text" class="txt" name="ayar_kulno" id="ayar_kulno"  style="width: 150px;"/><br>
+				baslik<input type="text" class="txt" name="ayar_bas" id="ayar_bas"  style="width: 150px;"/><br>
+				değer <input type="text" class="txt" name="ayar_deger" id="ayar_deger"  style="width: 150px;"/><br>
+				<br>
+				<input type="submit" name="ayar_ekle" id="ayar_ekle" value="Ekle" tabindex="-1"/>
+				<input type="submit" name="ayar_sil" id="ayar_sil" value="Sil" tabindex="-1"/>
+				<input type="submit" name="ayarlar" id="ayarlar" value="ayarlar" tabindex="-1"/>
+			</div>
+			<div class=element>	
+				<br>
+				<label>Stk Veritabanı İşlemleri</label><br>
+				<input type="submit" name="tumstk_gerial" id="tumstk_gerial" value="Silinen Stk vt geri yükle"  style="margin-top:10px;" tabindex="-1"/>	
+			</div>
+			<div class=element>	
+				<br>
+				<label>Veritabanı İşlemleri</label><br>
+				<input type="submit" name="vt_yedekle" id="vt_yedekle" value="Veritabanını Yedekle"  style="margin-top:10px;" tabindex="-1"/>	
+			</div>
+			<div class=element>	
+				<br>
+				<label>Bakım İşlemleri</label><br>
+				<input type="text" class="txt" name="bakim_no" id="bakim_no" hidden value=""/>
+				<input type="submit" name="bakim1" id="bakim1" value="Bakım No:1"  style="margin-top:10px;" tabindex="-1"/>	
+				<input type="submit" name="bakim2" id="bakim2" value="Bakım No:2"  style="margin-top:10px;" tabindex="-1"/><p>
+				<input type="submit" name="bakim3" id="bakim3" value="Bakım No:3"  style="margin-top:10px;" tabindex="-1"/>	
+			</div>
+			<div class=element>	
+				<br>
+				<label>Kullanıcı Servis İşlemleri</label><br>
+				<input type="submit" name="servis1" id="servis1" value="Yazıcı Servislerini Başlat"  style="margin-top:10px;" tabindex="-1"/>	
+			</div>
+			<p>
+			<p>
+			<!---<div id="bcTarget"></div>--->
+			
+		</form>
+	</div>
+	<div id='genelalan' class="genelalan" width="60" tabindex="-1">
+		<div class=raporalan id=raporalan></div>
+		<div id="hintbox"></div>
+		<hr noshade size=1>
+	</div>
+</div>
+</body>
+</HTML>

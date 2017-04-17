@@ -1,0 +1,1 @@
+select bf from sthar where kaynak='@kaynak@' and hedef='@hedef@' and ftip='G' and stok_kodu='@stokod@'  ORDER BY TARIH DESC LIMIT 1

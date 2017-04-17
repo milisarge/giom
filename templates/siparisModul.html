@@ -1,0 +1,941 @@
+<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>SIPARIS</title>
+<meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./static/css/reset.css" />
+<script src="../static/jquery.js"></script>
+<script src="../static/js/jquery-ui.js"></script>
+<script src="./static/js/datetimepicker.js"></script>
+<script type="text/javascript"
+	src="./static/js/jquery.maskedinput.min.js"></script>
+<script src="../static/js/jquery.form.min.js"></script>
+<script src="../static/js/jquery.handsontable.full.js"></script>
+<script src="./static/js/jquery.blockUI.js"></script>
+<script src="./static/js/jquery.cookie.js"></script>
+<link rel="stylesheet"
+	href="./static/js/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet"
+	href="./static/css/jquery.handsontable.full.css" />
+<script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
+<link rel="stylesheet"
+	href="{{url_for('static', filename='css/table2.css')}}" type="text/css"
+	id="" media="print, projection, screen">
+
+<style type="text/css">
+body {
+	margin: 0px auto;
+	padding: 0px 0px;
+	font-family: calibri;
+	
+}
+.anasablon {
+	width: 1556px;
+	height: auto;
+	
+}
+.mheader {
+	font-family: Arial, Verdana;
+	text-shadow: 2px 2px 2px #ccc;
+	display: block;
+	float: left;
+	font-weight: bold;
+	padding-left: 10px;
+	text-align: left;
+	font-size: 15px;
+	width: 1530px;
+	height: 20px;
+}
+.formalan{
+	float:left;
+	width:475px;
+	height:650px;
+	border:#CCC solid 1px;
+	background-color:#996600 ;
+	margin-right: 10px;
+	margin-left: 4px;
+	font-family:monospace;
+	font-weight: bold;
+}
+.raporalan{
+	float:right;
+	width:1000px;
+	height:500px;
+	border:#Cf0 solid 1px;
+	background-color:solid ;
+	margin-right: 10px;
+	margin-left: 4px;
+	font-family:monospace;
+	font-weight: bold;
+	overflow: scroll;
+}
+.operbutonlar{
+	width:auto; 
+	margin: 5 ;
+	font-family:monospace;
+	font-weight: bold;
+}
+.element{
+	width:470px; 
+	margin:8 ;
+	float:center;
+	font-family:monospace;
+	font-weight: bold;
+}
+p{ 
+	margin:5px 0; 
+}
+hr {
+	top:5px; 
+	width: 100%;
+	clear: both;
+	margin: auto;
+}
+
+.mheader,.formalan,.raporalan{
+	margin: 3px;
+	padding: 15px;
+	background: #669999;
+	border: 1px solid #cccccc;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 2px 2px 2px #cccccc;
+	-webkit-box-shadow: 2px 2px 2px #cccccc;
+	box-shadow: 2px 2px 2px #cccccc;
+}
+</style>
+<script>
+
+	var stoklar=[];
+	var spix = 0;
+	
+	$(function(){
+	    var $hello= $('[id$="fkod"]');
+
+	    $hello.on("change", function(){ //bind() for older jquery version
+	        stokSorguCa();
+	    }).triggerHandler('change'); //could be change() or trigger('change')
+	});
+	
+	$(document).ready(function() {
+	
+		
+		$('#kod').keypress(function(event){return event.keyCode != 13;});
+		$('#ad').keypress(function(event){return event.keyCode != 13;});
+		
+		$("#ad").autocomplete({
+			source : "/addanStokAra",
+			type: "POST",
+			minLength : 3,
+			remoteDataType : 'json',
+			autoFill : true,
+			select : secilenStokuGetir
+		});
+		
+		
+		$("#fatuHedef").autocomplete({
+			source : "/cariBul",
+			type: "POST",
+			minLength : 2,
+			remoteDataType : 'json',
+			autoFill : true,
+			select : cariIliskiDok
+		});
+		
+		$('#kod').keypress(function(event){
+			if(event.keyCode ==13 || event.keyCode ==9){
+				$.ajax({
+						url : "/stokNesneGetir?kriter=kod&stokod=" + $('#kod').val(),
+				}).done(function(data) {
+					if(data && data !=""){
+						$('#bilgi').html("");
+						stokBilgiDoldur(data);
+						stokShb();
+					}else{
+						$('#bilgi').html("stok bulunamadi.");
+						stokBilgiBosalt();
+					}
+				});
+			}
+		});
+		
+		
+		$('#kod_eski').keypress(function(event){
+			if(event.keyCode ==13 || event.keyCode ==9){
+				$.ajax({
+						url : "/stokNesneGetir?kriter=kod&stokod=" + $('#kod').val(),
+				}).done(function(data) {
+					if(data && data !=""){
+						$('#bilgi').html("");
+						
+						stokBilgiDoldur(data);
+						//stokBakiyeBilgi();
+						stokShb();
+							
+
+					}else{
+						$('#bilgi').html("stok bulunamadi.");
+						stokBilgiBosalt();
+					}
+				});
+			}
+		});
+		
+		$('#merkeznokta').on('blur', function(event){
+			stokShb();
+			//stokBakiyeBilgi();
+		});
+		$('#nokta1').on('blur', function(event){
+			stokShb();
+			//stokBakiyeBilgi();
+		});
+		$('#nokta2').on('blur', function(event){
+			stokShb();
+			//stokBakiyeBilgi();
+		});
+		$('#gerigun').on('blur', function(event){
+			stokShb();
+			//stokBakiyeBilgi();
+		});
+		
+		$('#spr1ekle').on('click', function(event){
+			event.preventDefault();
+			$('#stksecim').val("stk1");
+			var opspr = {
+				url: "/sprStkEkle",
+				type: "post",
+				//target:"#raporalan",
+				dataType: "json",
+				beforeSubmit : stkKayitKontrol,
+				success : stkBilgiGetir
+			};
+			$("#sprform").ajaxSubmit(opspr); 
+		});
+		
+		$('#spr2ekle').on('click', function(event){
+			event.preventDefault();
+			$('#stksecim').val("stk2");
+			var opspr = {
+				url: "/sprStkEkle",
+				type: "post",
+				dataType: "json",
+				beforeSubmit : stkKayitKontrol,
+				success : stkBilgiGetir
+			};
+			$("#sprform").ajaxSubmit(opspr); 
+		});
+		
+		$('#sth1ekle').on('click', function(event){
+			event.preventDefault();
+			$('#stksecim').val("sth1");
+			var opspr = {
+				url: "/sprSthEkle",
+				type: "post",
+				dataType: "json",
+				beforeSubmit : sthKayitKontrol,
+				success : sthEklendi
+			};
+			$("#sprform").ajaxSubmit(opspr); 
+		});
+		
+		$('#sth2ekle').on('click', function(event){
+			event.preventDefault();
+			$('#stksecim').val("sth2");
+			var opspr = {
+				url: "/sprSthEkle",
+				type: "post",
+				dataType: "json",
+				beforeSubmit : sthKayitKontrol,
+				success : sthEklendi
+			};
+			$("#sprform").ajaxSubmit(opspr); 
+		});
+		
+		
+		$('#sprno').on('blur', function(event){
+			tempOption = new Option($('#sprno').val());
+			$("#sprstk2").append(tempOption);
+			tempOption = new Option($('#sprno').val());
+			$("#sprstk1").append(tempOption);
+			stkHarListGetir();
+			
+		});
+		
+		$('#fatuHedef').on('blur', function(event){
+			cariIliskiDok();
+		});
+		
+		$('#spryap').on('click', function(event){
+			event.preventDefault();
+			$('#stksecim').val("no");
+			var opspr = {
+				url: "/sprStkEkle",
+				type: "post",
+				dataType: "json",
+				beforeSubmit : stkKayitKontrol,
+				success : stkBilgiGetir
+			};
+			$("#sprform").ajaxSubmit(opspr); 
+		});
+		
+		$('#sprstk2').on('change', function(event){
+			$('#stksecim').val("stk2");
+			stkHarListGetir();
+			
+		});
+		
+		$('#sprstk1').on('change', function(event){
+			$('#stksecim').val("stk1");
+			stkHarListGetir();
+		});
+		
+		$('#spr1fis').on('change', function(event){
+			$('#stksecim').val("sth1");
+			formOption = {
+				url		: "/sthGetir",
+				type	: "POST",
+				dataType: "json",
+				success : sthBilgiGetir
+			};
+			$("#sprform").ajaxSubmit(formOption); 
+		});
+		
+		$('#spr2fis').on('change', function(event){
+			$('#stksecim').val("sth2");
+			formOption = {
+				url		: "/sthGetir",
+				type	: "POST",
+				dataType: "json",
+				success : sthBilgiGetir
+			};
+			$("#sprform").ajaxSubmit(formOption); 
+		});
+		
+		
+		/*
+		$('#stokSorgu').on('click', function(event){
+			/*event.preventDefault();
+			var opgetir = {
+					url: "/stokSorgu2",
+					//target:"#hareketGozlem",
+					DataType : 'json',
+					type: "POST",	
+					success: hareketGozlemDonus
+			};
+			$('#sprform').ajaxSubmit(opgetir);
+			event.preventDefault();
+			$.cookie('spix',-1);
+		});
+		*/
+		
+		$('#caStokSorgu').on('click', function(event){
+			event.preventDefault();
+			stokSorguCa();
+		});
+		
+		$('#sprStokSorgu').on('click', function(event){
+			event.preventDefault();
+			$.ajax({
+				url : "/sprStokSorgu?stkno=" + $('#sprstok').val(),
+			}).done(function(data) {
+				stokListHazirla(data);
+			});
+		});
+		
+		$('#ileri').on('click', function(event){	
+			event.preventDefault();
+			spix=parseInt($.cookie('spix'));
+			console.log(spix);
+			$.cookie('spix',spix+1);
+			
+			stokArama(spix+1);
+		});
+		
+		$('#geri').on('click', function(event){	
+			event.preventDefault();
+			spix=parseInt($.cookie('spix'));
+			console.log(spix);
+			$.cookie('spix',spix-1);
+			stokArama(spix-1);	
+		});
+		
+		$('#reset').on('click', function(event){	
+			event.preventDefault();
+			$.cookie('spix',-1);
+		});
+		
+		$("#raporalan").click(function(event){
+			var tar;
+			if (event.target) targ = event.target;
+			else if (event.srcElement) targ = event.srcElement;
+			if (targ.nodeType == 3) // defeat Safari bug
+				targ = targ.parentNode;
+			console.log(targ.id);
+			var islem=targ.id.split("@");
+			var olay=islem[0];
+			var islem_no=islem[1];
+			
+			if(olay == "stk_sil"){
+				stkSatirSil(islem_no);
+			}
+			if(olay == "sth_sil"){
+				sthSil(islem_no);
+			}
+		
+		});
+		
+		
+	});
+	
+	function stkSatirSil(stkno){
+		$('#stkSira').val(stkno);
+		var formOption = {
+			url				: "/stkSatirSil",
+			type			: "POST",
+			target			:"#raporalan",
+			success			: stkBilgiGetir
+		};
+		console.log(stkno);
+		$('#sprform').ajaxSubmit(formOption);
+	}
+	
+	function sthSil(sthkod){
+		$('#sthkod').val(sthkod);
+		var formOption = {
+			url				: "/sthSil",
+			type			: "POST",
+			target			:"#raporalan",
+			success			: sthBilgiGetir
+			//beforeSubmit 	: kontrolStkSatirSil
+		};
+		$('#sprform').ajaxSubmit(formOption);
+	}
+	
+	function secilenStokuGetir() {
+		stokad=$('#ad').val();
+		stokad=stokad.replace(/%/g ,"%25");
+		stokad=stokad.replace(/&/g,"%26");
+		stokad=stokad.replace('+','%2B');
+		$.ajax({
+			url : "/stokNesneGetir?kriter=ad&stokad=" +stokad ,
+		}).done(function(data) {
+			console.log(data)
+			stokBilgiDoldur(data);
+			stokShb();
+		});
+	}
+	
+	function otosprHesapla(){
+		var nok1spr=0
+		var bak1=$('#bak1').val();
+		bak1=parseFloat(bak1);
+		var sat1=$('#sat1').val();
+		sat1=parseFloat(sat1);
+		var bak2=$('#bak2').val();
+		bak2=parseFloat(bak2);
+		var sat2=$('#sat2').val();
+		sat2=parseFloat(sat2);
+		
+		if(bak1>0 && bak1<sat1){
+			console.log(sat1,bak1)
+			nok1spr=sat1-bak1;
+		}
+		var nok2spr=0
+		
+		if(bak2>0 && bak2<sat2){
+			nok2spr=sat2-bak2;
+		}
+		$('#otospr').val(parseFloat(nok1spr)+parseFloat(nok2spr));
+		/*console.log(sat1);
+		console.log(sat2);
+		$('#otospr').val(parseFloat(sat1)+parseFloat(sat2));*/
+	}
+	
+	function stkHarListGetir(){
+		formOption = {
+			url		: "/stkHarListGetir",
+			type	: "POST",
+			dataType: "json",
+			success : stkBilgiGetir
+		};
+		$("#sprform").ajaxSubmit(formOption); 
+	}
+	
+	function stkBilgiGetir(res, statusText, xhr, $form) {
+		if(res!='None'){
+			$("#raporalan").html(res);
+			$("#hareketrapor").tablesorter();
+		}
+	}
+	
+	function sthBilgiGetir(res, statusText, xhr, $form) {
+		if(res!='None'){
+			$("#raporalan").html("");
+			$("#raporalan").html(res);
+			$("#hareketrapor").tablesorter();
+		}
+	}
+	
+	function sthEklendi(res, statusText, xhr, $form) {
+		stokShb();
+		//stokBakiyeBilgi();
+		sthBilgiGetir(res);
+		succesHandler("sth eklendi");
+	}
+	
+	function stokBakiyeBilgi(){
+		$.ajax({
+			url : "/stokBakiyeGetir?stokod="+$("#kod").val()+"&merkez="+$("#merkeznokta").val()
+			+"&nokta1="+$("#nokta1").val()+"&nokta2="+$("#nokta2").val(),
+		}).done(function(data) {
+			stokSatisBilgi();
+			stokBakiyeDoldur(data);	
+			
+		});
+	}
+	
+	//stok siparis hazırlama bilgileri
+	function stokShb(){
+		var formOption = {
+				url: "/stokShb",
+				type: "POST",	
+				success: shbDoldur
+		};
+		$("#sprform").ajaxSubmit(formOption); 
+		console.log("shb istek gonderildi.");
+	}
+	
+	function shbDoldur(data){
+		console.log("shb istek geldi.");
+		
+		//-$("#kod").val(data[0]);
+		//-$("#ad").val(data[1]);
+		//$("#nakdv").val(data.alis_fiat1);
+		//$("#sat1fiat").val(data[2]);
+		//$("#sat2fiat").val(data.satis_fiat2);
+		//-$("#datfiat").val(data[2]);
+		//$("#barkod1").val(data.barkod1);
+		//$("#barkod3").val(data.barkod3);
+		//$("#barkod2").val(data.barkod2);
+		//$("#alkdv").val(data.aliskdv);
+		//$("#satkdv").val(data.satiskdv);
+		//$("#grupkod").val(data.grupkod);
+		//$("#pkadet").val(data[0]);
+		
+		$("#merbak").val(data[0]);
+		$("#bak1").val(data[1]);
+		$("#bak2").val(data[2]);
+		
+		$("#sat1").val(data[3]);
+		$("#sat2").val(data[4]);
+		$("#sstrh1").val(data[5]);
+		$("#sstrh2").val(data[6]);
+		$("#sgtrh1").val(data[7]);
+		$("#sgtrh2").val(data[8]);
+		$("#saytrh1").val(data[9]);
+		$("#saytrh2").val(data[10]);
+		otosprHesapla();
+	}
+	
+	
+	function stokBakiyeDoldur(data){
+		$("#merbak").val(data[0]);
+		$("#bak1").val(data[1]);
+		$("#bak2").val(data[2]);
+	}
+	
+	function stokSatisBilgi(){
+		$.ajax({
+			url : "/stokSatisGetir?stokod="+$("#kod").val()+"&gerigun="+$("#gerigun").val()
+			+"&nokta1="+$("#nokta1").val()+"&nokta2="+$("#nokta2").val(),
+		}).done(function(data) {
+			stokSatisDoldur(data);
+		});
+	}
+	
+	function stokSatisDoldur(data){
+		$("#sat1").val(data[0]);
+		$("#sat2").val(data[1]);
+		$("#sstrh1").val(data[2]);
+		$("#sstrh2").val(data[3]);
+		$("#sgtrh1").val(data[4]);
+		$("#sgtrh2").val(data[5]);
+		$("#saytrh1").val(data[6]);
+		$("#saytrh2").val(data[7]);
+		otosprHesapla();
+		
+	}
+	
+	function stokBilgiDoldur(data){
+		$("#kod").val(data.kod);
+		$("#ad").val(data.isim);
+		$("#nakdv").val(data.alis_fiat1);
+		$("#sat1fiat").val(data.satis_fiat1);
+		$("#sat2fiat").val(data.satis_fiat2);
+		$("#datfiat").val(data.satis_fiat3);
+		$("#barkod1").val(data.barkod1);
+		$("#barkod3").val(data.barkod3);
+		$("#barkod2").val(data.barkod2);
+		$("#alkdv").val(data.aliskdv);
+		$("#satkdv").val(data.satiskdv);
+		$("#grupkod").val(data.grupkod);
+		$("#pkadet").val(data.payda);
+	}
+	
+	function stokBilgiBosalt(){
+		$("#kod").val("");
+		$("#ad").val("");
+		$("#nakdv").val("");
+		$("#sat1fiat").val("");
+		$("#sat2fiat").val("");
+		$("#pkadet").val("");
+		$("#datfiat").val("");
+		$("#barkod1").val("");
+		$("#barkod3").val("");
+		$("#barkod2").val("");
+		$("#alkdv").val("");
+		$("#satkdv").val("");
+		$("#grupkod").val("");
+	}
+	
+	function cariIliskiDok(){
+			
+		var formOption = {
+				url: "/fHareketGozlem",
+				type: "POST",	
+				//beforeSubmit : hareketGozlemKontrol,
+				success: caharGozlemDonus
+		};
+		$("#sprform").ajaxSubmit(formOption); 
+	}
+	
+	function caharGozlemDonus(res,statusText,xhr,$form){
+		//$('#hareketGozlem').html(res);
+		if(res!='None'){
+			$("#raporalan").html(res);
+			$("#hareketrapor").tablesorter();
+		}
+	}
+	
+	function stokSorguCa(){
+		$.ajax({
+			url : "/caStokSorgu?fkod=" + $('#fkod').val(),
+		}).done(function(data) {
+			stokListHazirla(data);
+		});
+	}
+	
+	
+	//eskifonksiyon 27.02.15 ten sonra stokArama kullanildi.
+	function diziStokGetir(spix){
+		var stokodlar=$.cookie('stoklar').split(',')
+		//var stokod=stokodlar[$.cookie('spix')];
+		console.log(spix,stokodlar[spix])
+		var stokod=stokodlar[spix];
+		stokGetir(stokod);
+	}
+	
+	function stokArama(spix){
+		$.ajax({
+			url : "/stokArama?kriter="+$('#kriter').val()+"&aranan=" +$('#arama').val()+"&sira="+spix,
+		}).done(function(data) {
+			stokGetir(data);
+		});
+	}
+	
+	function stokGetir(stokod){
+		$.ajax({
+			url : "/stokNesneGetir?kriter=kod&stokod=" + stokod,
+		}).done(function(data) {
+			if(data && data !=""){
+				$('#bilgi').html("");
+				stokBilgiDoldur(data);
+				stokShb();
+				//stokBakiyeBilgi();
+			}else{
+				$('#bilgi').html("stok bulunamadi.");
+				stokBilgiBosalt();
+			}
+		});
+	}
+	
+	function stkKayitKontrol(formData, jqForm, options) {
+		
+		if( $('#sprstk1').prop("selectedIndex") < 0  && $('#sprstk1').prop("selectedIndex")< 0 ){
+			hataGoster("bir stk seciniz.");
+			return false;
+		}
+		if( $("#kod").val() && $("#ad").val() && $("#datfiat").val() && $("#otospr").val()
+			&& $("#sprno").val() && $("#otospr").val()!=0) {
+			return true;
+		} else {
+			hataGoster("BOS SAHA VAR.");
+			return false;
+		}
+	}
+	
+	function sthKayitKontrol(formData, jqForm, options) {
+		
+		if( $("#kod").val() && $("#ad").val() && $("#datfiat").val() && $("#otospr").val() && $("#otospr").val()!=0) {
+			return true;
+		} else {
+			hataGoster("BOS SAHA VAR.");
+			return false;
+		}
+	}
+	
+	function hareketGozlemDonus(res,statusText,xhr,$form){
+		stokListHazirla(res);
+	}
+	
+	function stokListHazirla(dizi){
+		if(dizi!='None'){
+			var sorgu=[];
+			sorgu=dizi;
+			var durma=true;
+			var say=0;
+			var stkod="";
+			$.cookie('spix',-1 );
+			stoklar=new Array;
+			/*while(sorgu[say][0]){
+				stkod=sorgu[say][0];
+				stoklar.push(stkod);
+				//$.cookie('k',stkod );
+				console.log(stkod)
+				say=say+1;	
+				$.cookie('stoklar',stoklar );
+			}*/
+			
+			while(sorgu[say]){
+				stkod=sorgu[say];
+				stoklar.push(stkod);
+				say=say+1;	
+				$.cookie('stoklar',stoklar );
+			}
+			console.log("gelen stok sayi:"+say);
+			console.log(stoklar);
+		}
+		
+	}
+	
+	function succesHandler(message) {
+		
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#080', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff'
+            }
+        });
+	}
+	
+	function hataGoster( message) {
+		
+		console.log("HATA:" + message);
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#900', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff',
+                
+            }
+        });
+	}
+	
+</script>
+</head>
+
+<body bgcolor='silver' > 
+<div class=anasablon>
+	<div class="mheader" tabindex="-1">
+		<a href="/siparisModul"><img src="spr.png" class="hover" hinttext="Stok" style="margin-right:120px;"></a> 
+		<a href="/faturaModul"><img src="fatura.png" class="hover" hinttext="Fatura" style="margin-right:20px;"></a> 
+		<a href="/cariModul"><img src="cari.png" class="hover" hinttext="Cari" style="margin-right:20px;"></a> 
+		<a href="/stokModul"><img src="stok.png" class="hover" hinttext="Sipariş style="margin-right:20px;"></a> 
+		<a href="/sayimModul"><img src="pencil.png" class="hover" hinttext="Sayım style="margin-right:20px;"></a> 
+		<a href="/raporModul"><img src="rapor.png" class="hover" hinttext="Rapor" style="margin-right:20px;"></a> 
+		<a href="/veriModul"><img src="veri.png" class="hover" hinttext="Veri" style="margin-right:20px;"></a> 
+		<a href="/altyapiModul"><img src="altyapi.png" class="hover" hinttext="Altyapı" style="margin-right:20px;"></a> 
+		<a href="/logModul"><img src="log.png" class="hover" hinttext="Log" style="margin-right:20px;"></a> 
+		<a href="/yetkiliModul"><img src="config.png" class="hover" hinttext="Yetkili" style="margin-right:20px;"></a> 
+		<div class="kulblok">{{kullanici}}</div>
+	</div><br>
+	<div class=formalan>
+		<div class=element>
+			<form id=sprform name=sprform action="{{ url_for('siparisModul') }}" method=post>
+			kod
+			<input type=text id=kod name=kod value="{{stok.kod}}" ondblclick=this.value='' style="margin-top: 3px;margin-left:39px;"><br>
+			isim
+			<input type=text id=ad name=ad value="{{stok.isim}}" ondblclick=this.value='' width="250" style="width: 250px;margin-top: 3px;margin-left:31px;"><br>
+			dat
+			<input type=text id=datfiat name=datfiat value="{{stok.satis_fiat3}}" style="margin-top: 3px;margin-left:38px;"><br>
+			koli ici
+			<input type=text id=pkadet name=pkadet value="{{stok.payda}}" style="margin-top: 3px;"><br>
+		</div>
+		<div class=element>	
+				  kriter:<select  type=text id=kriter name=kriter value="{{kriter}}" style="margin-left:14px;" >
+				  <option>{{kriter}}</option>
+				  <option>STOK_KODU</option>
+				  <option>STOK_ADI</option>
+				  <option>KOD_1</option>
+				  <option>KOD_2</option>
+				  <option>KOD_3</option>
+				  <option>SATICI_KODU</option>
+				  <option>BARKOD1</option>
+				  <option>BARKOD2</option>
+				  <option>BARKOD3</option>
+				  <option>FKOD</option>
+				  </select>
+				  aranan<input type=text id=arama name=arama value="{{arama}}" style="width: 100px">
+				  
+				  <div id="bilgix" style="margin-top:10px;">
+				  <input type=submit id="reset" name="reset" value="sorgula" >
+				  <input type=submit id="geri" name="geri" value="geri" >
+				  <input type=submit id="ileri" name="ileri" value="ileri" ><p>
+				  fatura carisi<input type=text id=fatuHedef name=fatuHedef value="" style="width: 100px">
+				   <input type=submit id="caStokSorgu" name="caStokSorgu" value="stok getir" >
+				   <div class=element>
+						<label>spr_stk</label>
+						<select name="sprstok" id="sprstok" class="txt"style="width: 150px;" > 
+						{% for har in hardos %}<option>{{har[0]}}</option>{% endfor %}
+						</select>
+						<input type="submit" name="sprStokSorgu" id="sprStokSorgu" class="button gray medium" value="stok getir" />
+				   </div>
+				   <input type=text id=fkod name=fkod hidden value={{fkod}} >
+				  </div>
+		</div>
+		
+		<hr noshade size=2>
+
+		<div class=operbutonlar>
+			<div class=element>
+			sg
+			<input type=text id=gerigun name=gerigun value='12' ondblclick=this.value='' style="width: 50px">
+			<label>bakiye</label>
+			</div>
+			<p>
+			<div class=element>
+			mr
+			<input type=text id=merkeznokta name=merkeznokta value='@28' ondblclick=this.value='' style="margin-center: 80px; width: 50px">
+			<input type=text id=merbak name=merbak value='' ondblclick=this.value='' readonly="true" style="width: 50px">
+			<label>&nbsp;satis</label>
+			<label>&nbsp;&nbsp;&nbsp;s.satis</label>
+			<label>&nbsp;&nbsp;&nbsp;s.giriş</label>
+			<label>&nbsp;&nbsp;&nbsp;s.sayım</label>
+			</div>
+			<p>
+			<div class=element>
+			n1
+			<input type=text id=nokta1 name=nokta1 value='@02' ondblclick=this.value='' style="width: 50px">
+			<input type=text id=bak1 name=bak1 value='' ondblclick=this.value='' readonly="true" style="width: 50px;">
+			<input type=text id=sat1 name=sat1 value='' ondblclick=this.value='' readonly="true" style="width: 50px;">
+			<input type=text id=sstrh1 name=sstrh1 value='' ondblclick=this.value='' readonly="true" style="width: 70px;margin-left:10px">
+			<input type=text id=sgtrh1 name=sstrh1 value='' ondblclick=this.value='' readonly="true" style="width: 70px;margin-left:10px">
+			<input type=text id=saytrh1 name=sstrh1 value='' ondblclick=this.value='' readonly="true" style="width: 70px;margin-left:10px">
+			
+			</div>
+			<p>
+			<div class=element>
+			n2
+			<input type=text id=nokta2 name=nokta2 value='@06' ondblclick=this.value='' style="width: 50px">
+			<input type=text id=bak2 name=bak2 value='' ondblclick=this.value='' readonly="true" style="width: 50px">
+			<input type=text id=sat2 name=sat2 value='' ondblclick=this.value='' readonly="true" style="width: 50px">
+			<input type=text id=sstrh2 name=sstrh2 value='' ondblclick=this.value='' readonly="true" style="width: 70px;margin-left:10px">
+			<input type=text id=sgtrh2 name=sstrh2 value='' ondblclick=this.value='' readonly="true" style="width: 70px;margin-left:10px">
+			<input type=text id=saytrh2 name=sstrh2 value='' ondblclick=this.value='' readonly="true" style="width: 70px;margin-left:10px">
+			</div>
+			<p>
+			<hr noshade size=2>
+			<p>
+			<label>otospr</label>
+			<input type=text id=otospr name=otospr value='' onclick=this.value='' style="width:70px">
+			<input type="submit" name="spryap" id="spryap" class="button gray medium" value="EKLE" style="margin-left:10px"/>
+			<label>spr_no</label>
+			<input type=text id=sprno name=sprno value='' ondblclick=this.value='' style="margin-left:5px ;width:70px">
+			<p>
+			<hr noshade size=2>
+			<div class=element>
+				<label>nokta1 spr</label>
+				<select name="sprstk1" id="sprstk1" class="txt"style="width: 150px;" > 
+				{% for har in hardos %}<option>{{har[0]}}</option>{% endfor %}
+				</select>
+				<input type="submit" name="spr1ekle" id="spr1ekle" class="button gray medium" value="EKLE" />
+			</div>
+			<div class=element>
+				<label>nokta2 spr</label>
+				<select name="sprstk2" id="sprstk2" class="txt"style="width: 150px;" > 
+				{% for har in hardos %}<option>{{har[0]}}</option>{% endfor %}
+				</select>
+				<input type="submit" name="spr2ekle" id="spr2ekle" class="button gray medium" value="EKLE" />
+			</div>
+			<hr noshade size=2>
+			<div class=element>
+				<label>nokta1 sprfis</label>
+				<select name="spr1fis" id="spr1fis" class="txt"style="width: 150px;" > 
+				{% if fisler %}
+				{% for fis in fisler %}<option>{{fis[0].decode('iso-8859_9')}}</option>{% endfor %}
+				 {% endif %}
+				</select>
+				<input type="submit" name="sth1ekle" id="sth1ekle" class="button gray medium" value="ekle" />
+			</div>
+			<div class=element>
+				<label>nokta2 sprfis</label>
+				<select name="spr2fis" id="spr2fis" class="txt"style="width: 150px;" > 
+				{% if fisler %}
+				{% for fis in fisler %}<option>{{fis[0].decode('iso-8859_9')}}</option>{% endfor %}
+				 {% endif %}
+				</select>
+				<input type="submit" name="sth2ekle" id="sth2ekle" class="button gray medium" value="ekle" />
+			</div>
+			<div class=element>
+				<input id="stksecim" name="stksecim" type="hidden" value="" />
+			</div>
+			<input id="stkSira" name="stkSira"  hidden value="nev" />
+			<input id="sthkod" name="sthkod"  hidden value="nev" />
+			<input id="modulAd" name="modulAd"  hidden value="siparis" />
+		</div>
+	</div>
+	<div class=raporalan id=raporalan>
+	ilgili rapor alani	
+	</div>
+</div>
+</body>
+</HTML>

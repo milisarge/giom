@@ -1,0 +1,1 @@
+select * from tblstokbar where barkod='@stkod' limit 1;

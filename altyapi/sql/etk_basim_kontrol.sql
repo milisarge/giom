@@ -1,0 +1,1 @@
+select (basim_tarihi) as tarih from etiket_basilan where stok_kodu='@kod@' and bf='@bf@'

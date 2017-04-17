@@ -1,0 +1,2 @@
+SELECT TARIH, GENELTOPLAM, VADE_TARIHI
+FROM `fatura` WHERE FTIP = 'G' and VADE_TARIHI<='@vade_tarihi@' AND HEDEF = '@hedef@' order by VADE_TARIHI

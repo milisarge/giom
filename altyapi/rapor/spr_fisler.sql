@@ -1,0 +1,1 @@
+select fno from fatura where kaynak='@merkez@' and ftip='C' order by tarih desc

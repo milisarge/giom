@@ -1,0 +1,1 @@
+select stok_kodu,kdv_orani from tblstsabit

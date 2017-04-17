@@ -1,0 +1,1035 @@
+<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>CARI</title>
+<meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./static/css/reset.css" />
+<script src="../static/jquery.js"></script>
+<script src="../static/js/jquery-ui.js"></script>
+<script src="./static/js/datetimepicker.js"></script>
+<script type="text/javascript" src="./static/js/jquery.maskedinput.min.js"></script>
+<script src="../static/js/jquery.form.min.js"></script>
+<script src="../static/js/jquery.handsontable.full.js"></script>
+<script src="../static/js/hintbox.js"></script>
+<script src="./static/js/jquery.cookie.js"></script>
+<link rel="stylesheet" href="./static/css/hintbox.css" />
+<link rel="stylesheet" href="./static/js/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="./static/css/jquery.handsontable.full.css" />
+<script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
+<script src="./static/js/jquery.blockUI.js"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='css/table2.css')}}" type="text/css" id="" media="print, projection, screen">
+
+<style type="text/css">
+body {
+	margin: 0px auto;
+	padding: 0px 0px;
+	font-family: tahoma;
+	
+}
+.anasablon {
+	width: 1556px;
+	height: auto;
+	
+}
+.mheader {
+	font-family: Tahoma;
+	text-shadow: 2px 2px 2px #ccc;
+	display: block;
+	float: left;
+	
+	padding-left: 10px;
+	text-align: left;
+	font-size: 15px;
+	width: 1300px;
+	height: 15px;
+}
+
+.formblock {
+	display: block;
+	margin-bottom: 2px;
+	float: left;
+}
+.formblock label {
+	margin-left: 2px;
+	display: block;
+	font-style: italic;
+	font-weight: bold;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 12px;
+	color: black;
+}
+
+.formblock select {
+	padding: 1px 0px 1px 0px;
+	font-size: 12px;
+	font-family: Arial, Tahoma, sans-serif;
+	color: #666;
+	width: 90px;
+}
+
+.formblock2{
+	float:left;
+	width:150;
+	height:auto;
+	border:#CCC solid 0px;
+	background-color: solid  ;
+	margin-right: 10px;
+	margin-left: 4px;
+	font-family:monospace;
+	font-weight: bold;
+}
+.formalan{
+	float:left;
+	width:340px;
+	height:700px;
+	border:#CCC solid 1px;
+	background-color: #3388BB;
+	margin-right: 10px;
+	margin-left: 5px;
+	font-family:monospace;
+	font-weight: bold;
+}
+.raporalan{
+	float:right;
+	width:1150px;
+	height:700px;
+	border:#Cf0 solid 1px;
+	background-color:#3388BB;
+	margin-right: 10px;
+	margin-left: 4px;
+	font-family:monospace;
+	font-weight: bold;
+	overflow: scroll;
+}
+.operbutonlar{
+	width:auto; 
+	margin:10 ;
+	font-family:monospace;
+	font-weight: bold;
+}
+.element{
+	width:auto; 
+	margin: 10 ;
+	float:left;
+	font-family:monospace;
+	
+}
+p{ 
+    margin:5px 0; 
+}
+.mheader,.formalan,.raporalan{
+	margin: 3px;
+	padding: 10px;
+	background: #3388bb;
+	border: 1px solid #cccccc;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 2px 2px 2px #cccccc;
+	-webkit-box-shadow: 2px 2px 2px #cccccc;
+	box-shadow: 2px 2px 2px #cccccc;
+}
+
+.stkHeader {
+	font-family: Arial, Verdana;
+	text-shadow: 2px 2px 2px #AAA;
+	display: block;
+	float: left;
+	font-weight: bold;
+	padding-left: 10px;
+	text-align: center;
+	font-size: 22px;
+	width: 100%;
+	height: 35px;
+}
+
+.pageContainer {
+	width: 1556px;
+	height: auto;
+}
+
+.stkHeader,.stkContainer,.stkHareket,.stkFatura, .infoCenter {
+	margin: 1px;
+	padding: 15px;
+	background: #3388BB;
+	border: 1px solid #DDDDDD;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 2px 2px 2px #DDDDDD;
+	-webkit-box-shadow: 2px 2px 2px #DDDDDD;
+	box-shadow: 4px 4px 4px #DDDDDD;
+}
+.button {
+	display: inline-block;
+	zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+	*display: inline;
+	vertical-align: baseline;
+	margin: 0 2px;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+}
+
+.button:hover {
+	text-decoration: none;
+}
+
+.button:active {
+	position: relative;
+	top: 1px;
+}
+
+.medium {
+	font-size: 12px;
+	padding: .32em 1.1em .32em;
+}
+
+.small {
+	font-size: 11px;
+	padding: .3em 1em .3em;
+}
+/* gray */
+.gray {
+	color:black;
+	font-weight: bold;
+	border: solid 1px #999;
+	background: #6e6e6e;
+	background: -webkit-gradient(linear, left top, left bottom, from(#888),
+		to(#575757));
+	background: -moz-linear-gradient(top, #888, #575757);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888',
+		endColorstr='#575757');
+}
+
+.gray:hover {
+	background: #616161;
+	background: -webkit-gradient(linear, left top, left bottom, from(#757575),
+		to(#4b4b4b));
+	background: -moz-linear-gradient(top, #757575, #4b4b4b);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#757575',
+		endColorstr='#4b4b4b');
+}
+
+.gray:active {
+	color: #afafaf;
+	background: -webkit-gradient(linear, left top, left bottom, from(#575757),
+		to(#888));
+	background: -moz-linear-gradient(top, #575757, #888);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#575757',
+		endColorstr='#888888');
+}
+</style>
+<script>
+	var sigc = 0;
+	
+	$(document).ready(function() {
+		
+		var d = new Date();
+		var month = d.getMonth()+1;
+		var day = d.getDate();
+		var output = (day<10 ? '0' : '') + day + '-' +(month<10 ? '0' : '') + month + '-' + d.getFullYear() ;
+		var outputbas=('1-1-' + d.getFullYear()) ;
+		$('#cariYasTrh').val(output);
+		$('#hrkSonTrh').val(output);
+		$('#hrkBasTrh').val(outputbas);
+		
+		//cari adindan arama
+		$("#ad").autocomplete({
+			source : "/cariBul",
+			type: "POST",
+			minLength : 3,
+			remoteDataType : 'json',
+			autoFill : true,
+			//select : secilenCariGetir
+		});
+		
+		$('#kod').keypress(function(event){return event.keyCode != 13;});
+		$('#ad').keypress(function(event){return event.keyCode != 13;});
+		/*
+		$('#ad').on('blur', function(event){
+			var opcgozlem = {
+					url: "/cHareketGozlem",
+					target:"#bilgi",
+					DataType : 'json',
+					type: "POST",	
+					success: hareketGozlemDonus
+			};
+			$('#cariModulform').ajaxSubmit(opcgozlem);
+		});
+		*/
+		$('#kod').keypress(function(event){
+			if(event.keyCode ==13 || event.keyCode ==9){
+				$.ajax({
+					url : "/cariNesneGetir?kriter=kod&kod=" + $('#kod').val(),
+				}).done(function(data) {
+					if(data !=""){
+						$('#bilgi').html("");
+						cariBilgiDoldur(data);
+					}else{
+						errorHandler("Cari Bulunamadı!");
+						cariBilgiBosalt();
+					}
+				});
+			}
+		});
+		
+		$('#ad').keypress(function(event){
+			if(event.keyCode ==13 || event.keyCode ==9){
+				$.ajax({
+					url : "/cariNesneGetir?kriter=ad&ad=" + $('#ad').val(),
+				}).done(function(data) {
+					if(data && data !=""){
+						$('#bilgi').html("");
+						cariBilgiDoldur(data);
+					}else{
+						errorHandler("Cari Bulunamadı!");
+						cariBilgiBosalt();
+					}
+				});
+			}
+		});
+		
+		$('#cariYasTrh').on('blur', function(event){
+			var opcgozlem = {
+					url: "/cariYaslandir",
+					//target:"#hareketGozlem",
+					target:"#bilgi",
+					DataType : 'json',
+					type: "POST",	
+					success: hareketGozlemDonus
+			};
+			$('#cariModulform').ajaxSubmit(opcgozlem);
+		});
+		
+		$('#hrkSonTrh').on('blur', function(event){
+			var opcgozlem = {
+					url: "/cHareketGozlem2",
+					//target:"#hareketGozlem",
+					target:"#bilgi",
+					DataType : 'json',
+					type: "POST",	
+					success: function (data,status){
+						var win=window.open('about:blank');
+					    with(win.document)
+					    {
+					      open();
+					      write(data);
+					      close();
+					    }
+					}
+			};
+			$('#cariModulform').ajaxSubmit(opcgozlem);
+		});
+		
+		$('#cariGozlem').on('click', function(event){
+			event.preventDefault();
+			$('#chgun').val('-1');
+			chGozlem();
+		});
+		
+		$('#cariGozlemH').on('click', function(event){
+			event.preventDefault();
+			$('#chgun').val('7');
+			chGozlem();
+		});
+		
+		$('#cariGozlemAy').on('click', function(event){
+			event.preventDefault();
+			$('#chgun').val('0');
+			chGozlem();
+		});
+		
+		$('#cariGozlemAy2').on('click', function(event){
+			event.preventDefault();
+			$('#chgun').val('30');
+			chGozlem();
+		});
+		
+		$('#cariKaydet').on('click', function(event){
+			event.preventDefault();
+			var opcarikaydet = {
+					url: "/cariKaydet",
+					type: "POST",
+					DataType : 'json',
+					//cari icin sahalarin kontrolu
+					beforeSubmit : cariKayitKontrol,
+					//success : fatuKayitDonus
+					success: function (data, status) {
+						succesHandler(data);
+					}
+			};
+			$('#cariModulform').ajaxSubmit(opcarikaydet);
+		});
+		
+		$('#cariSil').on('click', function(event){
+			event.preventDefault();
+			$.ajax({
+				url : "/cariSil?kod=" + $('#kod').val(),
+			}).done(function(data) {
+				succesHandler(data);
+			});
+			
+		});
+		
+		$('#chTarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			defaultDate: +7,
+			minDate: new Date(2014, 0, 1),
+			maxDate: new Date(2015, 11, 31),
+		}).mask('99-99-2015');
+		
+		$('#chvdTarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			defaultDate: +7,
+			minDate: new Date(2014, 0, 1),
+			maxDate: new Date(2015, 11, 31),
+		}).mask('99-99-2015');
+		
+		//guncel tarih ayarlama
+		var d = new Date();
+		var month = d.getMonth()+1;
+		var day = d.getDate();
+		var output = (day<10 ? '0' : '') + day + '-' +(month<10 ? '0' : '') + month + '-' + d.getFullYear() ;
+		$('#chTarih').val(output);
+		$('#chvdTarih').val(output);
+		
+		$('#chTutar').on('blur', function(event){
+			
+			if( $("#kod").val() && $("#chTutar").val() && $("#chTarih").val() && $("#chvdTarih").val() && $("#chFisno").val() ) {
+				var opch = {
+				url: "/chEkle",
+				type: "post",
+				target:"#bilgi",
+				dataType: "json",
+				success : hareketGozlem
+				};
+				$('#cariModulform').ajaxSubmit(opch);
+				$("#ad").focus();
+			} else {
+				errorHandler("boş sahalar var!");
+			}
+			
+		});
+		
+		$('#caharGonder').on('click', function(event){
+			event.preventDefault();
+			var opcgozlem = {
+				url: "/caharGonder",
+				//target:"#hareketGozlem",
+				//target:"#bilgi",
+				DataType : 'json',
+				type: "POST",	
+				success: function (data,status){
+						var win=window.open('about:blank');
+					    with(win.document)
+					    {
+					      open();
+					      write(data);
+					      close();
+					    }
+				}
+			};
+			$('#cariModulform').ajaxSubmit(opcgozlem);
+			
+		});
+		
+		$('#ileri').on('click', function(event){	
+			event.preventDefault();
+			sigc=parseInt($.cookie('sigc'));
+			console.log(sigc);
+			$.cookie('sigc',sigc+1);
+			diziCariGetir(sigc+1);
+		});
+		
+		$('#geri').on('click', function(event){	
+			event.preventDefault();
+			sigc=parseInt($.cookie('sigc'));
+			console.log(sigc);
+			$.cookie('sigc',sigc-1);
+			diziCariGetir(sigc-1);	
+		});
+		
+		$('#reset').on('click', function(event){	
+			event.preventDefault();
+			$.cookie('sigc',-1);
+		});
+		
+		$("#chfkod").click(function(event){
+			event.preventDefault();
+			$("#chfkod").val("nev");
+		});
+		
+		$("#bilgi").click(function(event){
+		    var tar;
+		    if (event.target) targ = event.target;
+		    else if (event.srcElement) targ = event.srcElement;
+		    if (targ.nodeType == 3) // defeat Safari bug
+		        targ = targ.parentNode;
+			//console.log(targ.id);
+			var islem=targ.id.split("@");
+			var olay=islem[0];
+			var islem_no=islem[1];
+		    if(olay == "cahar_yukle"){
+				caharYukle(islem_no);
+			}
+			if(olay == "cahar_sil"){
+				if( confirm("Faturayı silmek İstediğinizden Emin misiniz?") ) {
+					$.ajax({
+					url : "/fatuSil?fkod="+islem_no,
+					}).done(function(data) {
+						hareketGozlem();
+						succesHandler(data);
+					});
+				}	 
+			}
+			if(olay == "pano_kopya"){
+				console.log("yapimda");
+			}
+			
+		});
+		
+		$('#cariSorgu').on('click', function(event){
+			event.preventDefault();
+			var opgetir = {
+					url: "/cariSorgu",
+					//target:"#hareketGozlem",
+					target:"#bilgi",
+					DataType : 'json',
+					type: "POST",	
+					success: hareketGozlemDonus
+			};
+			$('#cariModulform').ajaxSubmit(opgetir);
+		});
+		
+		$('#carilerAl').on('click', function(event){
+			event.preventDefault();
+			var opgetir = {
+					url: "/cariSorgu2",
+					DataType : 'json',
+					type: "POST",	
+					success: sorguDonus
+			};
+			$('#cariModulform').ajaxSubmit(opgetir);
+		});
+		
+		$('#ckoddeg').on('click', function(event){
+			event.preventDefault();
+			var opgetir = {
+					url: "/carikodDegis",
+					DataType : 'json',
+					type: "POST",	
+					success: hareketGozlemDonus
+			};
+			$('#cariModulform').ajaxSubmit(opgetir);
+		});
+		
+		$("#test").click(function(event){
+			event.preventDefault();
+			//"<div class='dialog' title='" + "Fatura Kayıt Onayı" + "'><p>" + "ss" + "</p></div>"
+			return $( "#dialog-form" )
+		    .dialog({
+		        hide: "hide",
+				resizable: true,
+		        height:250,
+				width:500,
+		        modal: true,
+		        buttons: {
+					"onayla": function() {
+						$( this ).dialog( "close" );
+		            },
+		            "iptal": function() {
+		                $( this ).dialog( "close" );
+		            }
+		        }
+			});
+			
+		});	
+		
+	
+	});
+	
+	function cariKayitKontrol(formData, jqForm, options) {
+		var bosKontrol=true;
+		var hata="";
+		if($('#kod').val() == ""){
+			bosKontrol=false;
+			hata="cari kodu bos olamaz!";
+		}
+		if($('#ad').val() == ""){
+			bosKontrol=false;
+			hata="cari adi bos olamaz!";
+		}
+	
+		if(bosKontrol==false){
+			errorHandler(hata);
+			return false;
+		}
+	};
+	
+	function secilenCariGetir() {
+		
+		$.ajax({
+			url : "/cariNesneGetir?kriter=ad&ad=" + $('#ad').val(),
+		}).done(function(data) {
+			
+			cariBilgiDoldur(data);
+		
+			//$("#stkMiktar").focus();
+		});
+	}
+	
+	function hareketGozlem(){
+		var opcgozlem = {
+			url: "/cHareketGozlem",
+			//target:"#hareketGozlem",
+			target:"#bilgi",
+			DataType : 'json',
+			type: "POST",	
+			success: hareketGozlemDonus
+		};
+		$('#cariModulform').ajaxSubmit(opcgozlem);
+	}
+	
+	function cariBilgiDoldur(data){
+		$("#kod").val(data.kod);
+		$("#ad").val(data.isim);
+		$("#adres").val(data.adres);
+		$("#tel").val(data.tel);
+		$("#tel2").val(data.tel2);
+		$("#vergino").val(data.vergino);
+		$("#vergiyer").val(data.vergiyer);
+		//$("#muhkod").val(data.muhkod);
+		$("#eposta").val(data.eposta);
+		//$("#tip").val(data.tip);
+		//$("#iskoran").val(data.iskoran);
+		$("#vadegunu").val(data.vadegunu);
+		$("#ctip").val(data.cari_tip);
+		$("#grupkod").val(data.grupkod);
+		$("#iban").val(data.iban);
+		$("#kod1").val(data.kod1);
+		//$("#kod2").val(data.kod2);
+	}
+	
+	function cariBilgiBosalt(){
+		$("#kod").val("");
+		$("#ad").val("");
+		$("#adres").val("");
+		$("#tel").val("");
+		$("#tel2").val("");
+		$("#vergino").val("");
+		$("#vergiyer").val("");
+		$("#eposta").val("");
+		//$("#iskoran").val("");
+		$("#vadegunu").val("");
+		$("#cari_tip").val("");
+		$("#grupkod").val("");
+		$("#iban").val("");
+		$("#kod1").val("");
+		//$("#kod2").val("");
+	}
+	
+	function hareketGozlemDonus(res,statusText,xhr,$form){
+		if(res!='None'){
+			$("#bilgi").html(res);
+			$("#hareketrapor").tablesorter();
+		}else{
+			errorHandler("GÖRÜNTÜLENECEK RAPOR YOK");
+		}
+	}
+	
+	function chGozlem(){
+		var opcgozlem = {
+			url: "/cHareketGozlem",
+			target:"#bilgi",
+			DataType : 'json',
+			type: "POST",	
+			success: hareketGozlemDonus
+		};
+		$('#cariModulform').ajaxSubmit(opcgozlem);
+	}
+	
+	function caharYukle(fkod){
+		$.ajax({
+			url : "/faturaUstbilgi?fkod=" + fkod,
+		}).done(function(data) {
+			console.log(data);
+			var islem=data[2];
+			var chfkod=data[24];
+			if(islem=='F'){
+				$("#chfkod").val(chfkod);
+			}else{
+				$("#chfkod").val("nev");
+			}
+			$("#chTarih").val(data[3]);
+			$("#chvdTarih").val(data[4]);
+			var fisno=data[0];
+				
+			if(islem=='A' || islem=='F'){
+				if(fisno=='MUTABAKAT'){
+					//$('#hartip option:eq(0)').attr('selected','selected'); 
+					$('#chFisno').empty();
+					gecopt = new Option(fisno);
+					$(gecopt).attr("selected", true);
+					$("#chFisno").append(gecopt);
+					opt2 = new Option("DÜZELTME");
+					$("#chFisno").append(opt2);
+					opt3 = new Option("DEVİR");
+					$("#chFisno").append(opt3);
+				}if(fisno=='DÜZELTME'){
+					$('#chFisno').empty();
+					gecopt = new Option(fisno);
+					$(gecopt).attr("selected", true);
+					$("#chFisno").append(gecopt);
+					opt2 = new Option("MUTABAKAT");
+					$("#chFisno").append(opt2);
+					opt3 = new Option("DEVİR");
+					$("#chFisno").append(opt3);
+				}if(fisno=='DEVİR'){
+					$('#chFisno').empty();
+					gecopt = new Option(fisno);
+					$(gecopt).attr("selected", true);
+					$("#chFisno").append(gecopt);
+					opt2 = new Option("MUTABAKAT");
+					$("#chFisno").append(opt2);
+					opt3 = new Option("DÜZELTME");
+					$("#chFisno").append(opt3);
+				}else{
+					$('#chFisno').empty();
+					gecopt = new Option(fisno);
+					$(gecopt).attr("selected", true);
+					$("#chFisno").append(gecopt);
+				}
+				ack=data[5];
+				
+				$("#chAck").val(ack);
+				var ftip=data[1];
+				var tutar=data[9];
+				
+				if (ftip=='C'){
+					tutar=-1*tutar;
+				}
+				$("#chTutar").val(tutar);
+				
+			}
+			
+		});	
+	}
+	
+	function sorguDonus(res,statusText,xhr,$form){
+		cariListHazirla(res);
+	}
+	
+	function cariListHazirla(dizi){
+		//console.log(dizi);
+		if(dizi!='None'){
+			var sorgu=[];
+			sorgu=dizi;
+			var durma=true;
+			var say=0;
+			var carikod="";
+			$.cookie('sigc',-1 );
+			cariler=new Array;
+			
+			while(sorgu[say]){
+				carikod=sorgu[say];
+				cariler.push(carikod);
+				say=say+1;	
+				$.cookie('cariler',cariler );
+			}
+			console.log("gelen cari sayi:"+say);
+		}
+		
+	}
+	
+	function diziCariGetir(sigc){
+		var carikodlar=$.cookie('cariler').split(',')
+		//var stokod=stokodlar[$.cookie('stix')];
+		var carikod=carikodlar[sigc];
+		$.ajax({
+			url : "/cariNesneGetir?kriter=kod&kod=" + carikod,
+		}).done(function(data) {
+			if(data !=""){
+				$('#bilgi').html("");
+				cariBilgiDoldur(data);
+			}else{
+				errorHandler("Cari Bulunamadı!");
+				cariBilgiBosalt();
+			}
+		});
+	}
+	
+	function errorHandler(message) {
+		// TODO: hata mesajı dön
+		console.log("HATA:" + message);
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#900', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#000066',
+                
+            }
+        });
+	}
+	
+	function succesHandler(message) {
+		// TODO: hata mesajı dön
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#ccffff', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#996600'
+            }
+        });
+	}
+	
+</script>
+</head>
+
+<body bgcolor='silver' >
+<div class=anasablon>
+	<div class="stkHeader" tabindex="-1" >
+		<div class="formblock">
+			<a href="/cariModul"><img src="cari.png" class="hover" hinttext="Cari" style="margin-right:120px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/faturaModul"><img src="fatura.png" class="hover" hinttext="Fatura" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/stokModul"><img src="stok.png" class="hover" hinttext="Stok" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/siparisModul"><img src="spr.png" class="hover" hinttext="Sipariş" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/sayimModul"><img src="pencil.png" class="hover" hinttext="Sayım" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/raporModul"><img src="rapor.png" class="hover" hinttext="Rapor" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/veriModul"><img src="veri.png" class="hover" hinttext="Veri" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/altyapiModul"><img src="altyapi.png" class="hover" hinttext="Altyapı" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/logModul"><img src="log.png" class="hover" hinttext="Log" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/yetkiliModul"><img src="config.png" class="hover" hinttext="Yetkili" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/exit"><img src="cikis.png" class="hover" hinttext="ÇIKIŞ" style="margin-left:40px;"></a> 
+		</div>
+		<div class="kulblok">{{kullanici}}</div>
+	</div>
+	<br>
+	<div class=formalan>
+		<table  border=1  align=left>
+			<form id=cariModulform name=cariModul action="{{ url_for('cariModul') }}" method=post>
+			<tr>
+				<td>CARİ KODU:</td>
+				<td><input type=text id=kod name=kod value="{{cari.kod}}" ondblclick=this.value=''  style="width: 55px">
+				<input type="submit" name="cariGozlem" id="cariGozlem" value="Tüm Har" style="width: 70px">
+				<input type="submit" name="cariGozlemH" id="cariGozlemH" value="1Hf" style="width: 30px">
+				<input type="submit" name="cariGozlemAy" id="cariGozlemAy" value="1Ay" style="width: 30px">
+				<input type="submit" name="cariGozlemAy2" id="cariGozlemAy2" value="2Ay" style="width: 30px"></td>
+			</tr>
+			<tr>
+				<td>CARİ İSMİ:</td>
+				<td><textarea name=ad id=ad value="{{cari.isim}}" cols="29" rows="3" ondblclick=this.value=''></textarea></td>
+			</tr>
+			<tr>
+				<td>ADRES:</td>
+				<td><textarea name=adres id=adres value="{{cari.adres}}" cols="29" rows="3"></textarea></td>
+			</tr>
+			<tr>
+				<td>VERGİ D.:</td>
+				<td><input type=text id=vergiyer name=vergiyer value="{{cari.vergiyer}}"></td>
+			</tr>
+			<tr>
+				<td>VERGİ NO:</td>
+				<td><input type=text id=vergino name=vergino value="{{cari.vergino}}"></td>
+			</tr>
+			<tr>
+				<td>TELEFON:</td>
+				<td><input type=text id=tel name=tel value="{{cari.tel}}"></td>
+			</tr>
+			<tr>
+				<td>TELEFON-2:</td>
+				<td><input type=text id=tel2 name=tel2 value="{{cari.tel2}}"></td>
+			</tr>
+			
+			<tr>
+				<td>E-POSTA:</td>
+				<td><input type=text id=eposta name=eposta value="{{cari.eposta}}"></td>
+			</tr>
+			<tr>
+				<td>CARİ TİP:</td>
+				<td><input type=text id=ctip name=ctip value="{{cari.tip}}"></td>
+			</tr>
+			<tr>
+				<td>VADE GÜNÜ:</td>
+				<td><input type=text id=vadegunu name=vadegunu value="{{cari.vade_gunu}}"></td>
+			</tr>
+			<tr>
+				<td>GRUP KODU:</td>
+				<td><input type=text id=grupkod name=grupkod value="{{cari.grupkod}}"></td>
+			</tr>
+			<tr>
+				<td>KOD_1:</td>
+				<td><input type=text id=kod1 name=kod1 value="{{cari.kod1}}"></td>
+			</tr>
+			<tr>
+				<td>IBAN NO:</td>
+				<td><input type=text id=iban name=iban value="{{cari.iban}}" width="250" style="width: 250px"></td>
+			</tr>
+			<tr>
+				<td><br></td>
+			</tr>
+		</table> 
+		<div class=operbutonlar>
+			<div class=element>
+				<input type="submit" name="cariKaydet" id="cariKaydet" value="kaydet" />
+			</div>
+			<div class=element>
+				<input type="submit" name="cariSil" id="cariSil" value="sil" />
+			</div>
+			<div class=element>
+				<p>
+			</div>
+			<div class=element>
+				
+				<input type="submit" name="caharGonder" id="caharGonder" value="dokum Gönder" />
+			</div>
+			<div class=element>
+				Cari Yaşlandırma
+				<input type=text id=cariYasTrh name=cariYasTrh>
+			</div>
+			<div class=element>
+				Cari Döküm Rapor
+				<input type=text id=hrkBasTrh name=hrkBasTrh width="70" style="width: 70px">-
+				<input type=text id=hrkSonTrh name=hrkSonTrh width="70" style="width: 70px">
+			</div>
+			<div class=element>
+				Yeni Cari kod:
+				<input type=text id=cariYkod name=cariYkod width="70" style="width: 70px">
+				<input type="submit" name="ckoddeg" id="ckoddeg" value="kod değiştir" />
+			</div>
+			<div class=element>
+				
+				<input type="submit" name="test" id="test" value="test" />
+			</div>
+		</div>
+	</div>
+	<div id="hintbox"></div>
+	<div class=raporalan>	
+		<div class=operbutonlar>
+			<hr noshade size="1">
+			<label>merkez şube<label>
+			<input type=text id=kod2 name=kod2 value="{{mkod}}" width="100" style="width: 100px" ondblclick=this.value='' />
+			<label>merkez cari<label>
+			<input type=text id=kod_mcari name=kod_mcari value="{{mcari}}" width="100" style="width: 100px" ondblclick=this.value='' />
+		</div>
+		<div class=operbutonlar>
+		
+			  <dl>
+			  <dt>kriter:<select  type=text id=kriter name=kriter value="{{kriter}}" >
+			  <option>{{kriter}}</option>
+			  <option>cari_kod</option>
+			  <option>cari_isim</option>
+			  <option>cari_adres</option>
+			  <option>vergi_numarasi</option>
+			  <option>vergi_dairesi</option>
+			  <option>grup_kodu</option>
+			  <option>rapor_kodu1</option>
+			  </select>
+			  <input type=text id=arama name=arama value="{{arama}}" >
+			  <input type=submit id="cariSorgu" name="cariSorgu" value="cari sorgulama" >
+			  <input type=submit id="carilerAl" name="carilerAl" value="cari liste al" >
+			  <input type=submit id="reset" name="reset" value="başa dön" >
+			  <input type=submit id="geri" name="geri" value="geri" >
+			  <input type=submit id="ileri" name="ileri" value="ileri" >
+			  </dl>
+			
+			<hr noshade size="1">
+			<label>TARİH:</label>
+			<input type="text" class="txt"name="chTarih" id="chTarih" style="margin-right: 5px; width: 120px;"/>
+			<input type="text" class="txt"name="chvdTarih" id="chvdTarih" style="margin-right: 5px; width: 120px;"/>
+			<label>FİŞ NO:</label>
+			<select  type=text id=chFisno name=chFisno value="DÜZELTME" >
+				<option>DÜZELTME</option>
+				<option>MUTABAKAT</option>
+				<option>DEVİR</option>
+			</select>
+			<label>Not:</label>
+			<input type="text" class="txt"name="chAck" id="chAck" style="margin-right: 5px; width: 200px;"/>
+			<label>Tutar:</label>
+			<input type="text" class="txt"name="chTutar" id="chTutar" style="margin-right: 5px; width: 70px;"/>
+			<hr noshade size="1">
+			<div id="bilgi"></div>
+			<input type="text" class="txt"name="chfkod" id="chfkod" hidden value='nev' style="margin-right: 5px; width: 70px;"/>
+			<input type="text" class="txt"name="chgun" id="chgun" hidden value='0' style="margin-right: 5px; width: 70px;"/>
+			
+		</div>
+	</div>   
+</form>
+</div>
+</body>
+</HTML>

@@ -1,0 +1,1 @@
+select stok_kodu,stok_adi,barkod1,barkod2,barkod3,grup_kodu,kod_1,kod_2,kod_3 from tblstsabit where @kriter@ like '%@aranan@%'

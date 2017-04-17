@@ -1,0 +1,1 @@
+select * from sthar where inckeyno='@incno@'

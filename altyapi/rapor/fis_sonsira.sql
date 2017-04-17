@@ -1,0 +1,1 @@
+select max(sira) from sthar where fisno='@fisno@'

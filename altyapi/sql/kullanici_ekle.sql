@@ -1,0 +1,1 @@
+insert into kullanici (isim,sifre,uzun_isim,eposta,yetki_duzey,kayit_tarihi) values('@isim@','@sifre@','@uisim@','@eposta@','@yetki@',NOW())

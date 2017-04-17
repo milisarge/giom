@@ -1,0 +1,16 @@
+<!doctype html>
+<title>Giom Rapor Sunucusu</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+
+<div class=page>
+  <h1>KARSILAMA</h1><br>
+  <div class=metanav>
+  {% if name %}
+  <h1>Hos gelip {{ name }}!</h1>
+  <a href="../">ANA SAYFA</a> 
+  {% else %}
+  <h1>Misafir hos geldiniz!</h1>
+  <a href="../">ANA SAYFA</a> 
+  {% endif %}
+  {% block body %}{% endblock %}
+</div>

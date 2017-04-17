@@ -1,0 +1,1 @@
+select stok_adi from tblstsabit where stok_adi like  '%@stkad@%';

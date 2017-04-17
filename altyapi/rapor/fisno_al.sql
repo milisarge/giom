@@ -1,0 +1,1 @@
+select fno from fatura where INCKEYNO='@fkod@'

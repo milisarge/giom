@@ -1,0 +1,25 @@
+<html>
+
+
+ <div class=page>
+	<h3>Stok Arama Sonuclari</h3>
+  <form action="{{ url_for('halis') }}" method=post>
+  <dl>
+  <table border=1>
+  {% for stok in stoklar %}
+       <tr>
+	   <td><input type=submit name=komut value=bul></td>
+	   <td><input type=text id=stkod name=stkod value="{{stok[2]}}"></td>
+	   <td>{{stok[4]}}</td>
+	   <td>{{stok[54]}}</td>
+	   <td>{{stok[55]}}</td>
+	   <td>{{stok[56]}}</td>
+	   </tr>
+  {% endfor %}
+  </table>
+  
+  </dl>
+  </form>
+<a href="../">ana sayfa</a>
+  </div>
+  </html>

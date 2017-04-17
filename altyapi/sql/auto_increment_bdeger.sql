@@ -1,0 +1,1 @@
+ALTER TABLE @tablo@ AUTO_INCREMENT = @basdeger@;

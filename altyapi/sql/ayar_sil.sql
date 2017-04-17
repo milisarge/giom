@@ -1,0 +1,1 @@
+delete from kul_ayar where ayar_no = '@no@'

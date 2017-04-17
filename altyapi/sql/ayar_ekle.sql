@@ -1,0 +1,1 @@
+insert into kul_ayar (kul_no,ayar_bas,ayar_deger,kayit_tarihi) values('@ayar_kulno@','@ayar_bas@','@ayar_deger@',NOW())

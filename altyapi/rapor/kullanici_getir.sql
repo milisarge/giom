@@ -1,0 +1,1 @@
+select isim,sifre,uzun_isim,eposta,yetki_duzey,id from kullanici where id = '@no@'

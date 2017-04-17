@@ -1,0 +1,1 @@
+SELECT * FROM `fatura` WHERE geneltoplam<>kdtutar and hedef not in ('2732','3882') and tarih>'2015-03-01'

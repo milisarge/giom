@@ -1,0 +1,1 @@
+select stok_kodu from sthar where stok_kodu='@kod@' limit 1;

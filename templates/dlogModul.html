@@ -1,0 +1,237 @@
+<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>DEBUG LOG</title>
+<meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./static/css/reset.css" />
+<script src="../static/jquery.js"></script>
+<script src="../static/js/jquery-ui.js"></script>
+<script src="./static/js/datetimepicker.js"></script>
+<script type="text/javascript"
+	src="./static/js/jquery.maskedinput.min.js"></script>
+<script src="../static/js/jquery.form.min.js"></script>
+<script src="../static/js/jquery.handsontable.full.js"></script>
+<script src="./static/js/jquery.blockUI.js"></script>
+<script src="./static/js/jquery.cookie.js"></script>
+<link rel="stylesheet"
+	href="./static/js/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet"
+	href="./static/css/jquery.handsontable.full.css" />
+<script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
+<link rel="stylesheet"
+	href="{{url_for('static', filename='css/table2.css')}}" type="text/css"
+	id="" media="print, projection, screen">
+
+<style type="text/css">
+body {
+	margin: 0px auto;
+	padding: 0px 0px;
+	font-family: calibri;
+	
+}
+.anasablon {
+	width: auto;
+	height: auto;
+	
+}
+.mheader {
+	font-family: Arial, Verdana;
+	text-shadow: 2px 2px 2px #ccc;
+	display: block;
+	float: left;
+	font-weight: bold;
+	padding-left: 10px;
+	text-align: left;
+	font-size: 15px;
+	width: 1300px;
+	height: 15px;
+}
+.formalan{
+	float:left;
+	width:600px;
+	height:500px;
+	border:#CCC solid 1px;
+	background-color:#669999 ;
+	margin-right: 10px;
+	margin-left: 4px;
+	font-family:monospace;
+	font-weight: bold;
+}
+.raporalan{
+	width:auto;
+	height:800px;
+	overflow: scroll;
+}
+.genelalan {
+	float: left;
+	width: 1500px;
+	height: 800;
+	background-color:#669999 ;
+}
+.operbutonlar{
+	width:auto; 
+	margin: 5 ;
+	font-family:monospace;
+	font-weight: bold;
+}
+.element{
+	width:360px; 
+	margin: 10 ;
+	float:center;
+	font-family:monospace;
+	font-weight: bold;
+}
+p{ 
+	margin:5px 0; 
+}
+hr {
+	top:5px; 
+	width: 100%;
+	clear: both;
+	margin: auto;
+}
+
+.mheader,.formalan,.raporalan{
+	margin: 3px;
+	padding: 15px;
+	background: #669999;
+	border: 1px solid #cccccc;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 2px 2px 2px #cccccc;
+	-webkit-box-shadow: 2px 2px 2px #cccccc;
+	box-shadow: 2px 2px 2px #cccccc;
+}
+</style>
+<script>
+	$(document).ready(function() {
+		
+		
+		jQuery.get('/dlogAl', function(data) {
+			i=0;
+			var text="";
+			dosya=data.split("\n");
+			dosya.reverse();
+			for (satir in dosya) {
+			text+=dosya[satir]+"<br>"
+			text+="<hr noshade size=1>"
+			}
+			$("#fsb").html(text);
+		});
+	
+		
+		$("#yenile").click(function() {
+	        jQuery.get('/dlogAl', function(data) {
+				i=0;
+				var text="";
+				dosya=data.split("\n");
+				dosya.reverse();
+				for (satir in dosya) {
+					text+=dosya[satir]+"<br>"
+					text+="<hr noshade size=1>"
+				}
+				$("#fsb").html(text);
+			});
+		});
+		
+		$("#temizle").click(function() {
+	        jQuery.get('/dlogSil', function(data) {
+				islemTamam("log temizlendi");
+				$("#fsb").html("");
+			});
+		});
+	
+	});
+	
+	function raporGetir(res, statusText, xhr, $form) {
+		//console.log(res);
+		if(res!='None'){
+			$("#raporalan").html(res);
+			$("#hareketrapor").tablesorter();
+		}
+	}
+	
+	function islemTamam(message) {
+		// TODO: hata mesajı dön
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#080', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff'
+            }
+        });
+	}
+	
+	function hataGoster(message) {
+		
+		console.log("HATA:" + message);
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#900', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff',
+                
+            }
+        });
+	}
+	
+</script>
+</head>
+
+<body bgcolor='silver' > 
+<div class=anasablon>
+	<div class="mheader" tabindex="-1">GİOM-DEBUG LOG</div><br>
+	
+	<div id='genelalan' class="genelalan" tabindex="-1">
+		<div class=raporalan id=raporalan>
+			<div class=element>
+			<input type="submit" name="yenile" id="yenile" value="Yenile" tabindex="-1"/>
+			<input type="submit" name="temizle" id="temizle" value="Temizle" tabindex="-1"/>
+			</div>
+			<div class="fsb" id="fsb"></div>
+			
+		</div>
+		<hr noshade size=1>
+		
+	</div>
+</div>
+</body>
+</HTML>

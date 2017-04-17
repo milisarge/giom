@@ -1,0 +1,6 @@
+*.pyc
+kondarma/*
+!kondarma/beni.oku
+*.prn
+log/*.*
+sql_cikti/*.*

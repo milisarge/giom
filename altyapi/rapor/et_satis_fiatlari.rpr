@@ -1,0 +1,9 @@
+set @adbenzer1='dana%';
+set @adbenzer2='kuzu%';
+set @adbenzer3='oglak%';
+#sql
+select stok_kodu,stok_adi,round(satis_fiat1,2) from tblstsabit where 
+stok_adi like @adbenzer1 or
+stok_adi like @adbenzer2 or
+stok_adi like @adbenzer3
+order by stok_adi 

@@ -1,0 +1,1 @@
+select isim from kullanici where id='@id@'

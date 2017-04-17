@@ -1,0 +1,545 @@
+<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>RAPOR</title>
+<meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./static/css/reset.css" />
+<script src="../static/jquery.js"></script>
+<script src="../static/js/jquery-ui.js"></script>
+<script src="./static/js/datetimepicker.js"></script>
+<script type="text/javascript"
+	src="./static/js/jquery.maskedinput.min.js"></script>
+<script src="../static/js/jquery.form.min.js"></script>
+<script src="../static/js/jquery.handsontable.full.js"></script>
+<script src="./static/js/jquery.blockUI.js"></script>
+<script src="./static/js/jquery.md5.js"></script>
+<script src="./static/js/jquery.cookie.js"></script>
+<link rel="stylesheet"
+	href="./static/js/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet"
+	href="./static/css/jquery.handsontable.full.css" />
+<script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
+<link rel="stylesheet"
+	href="{{url_for('static', filename='css/table2.css')}}" type="text/css"
+	id="" media="print, projection, screen">
+
+<style type="text/css">
+body {
+	margin: 0px auto;
+	padding: 0px 0px;
+	font-family: calibri;
+	
+}
+.anasablon {
+	width: 1556px;
+	height: auto;
+	
+}
+.mheader {
+	font-family: Arial, Verdana;
+	text-shadow: 2px 2px 2px #ccc;
+	display: block;
+	float: left;
+	font-weight: bold;
+	padding-left: 10px;
+	text-align: left;
+	font-size: 15px;
+	width: 100%;
+	position: fixded;
+	height: 20px;
+}
+.formalan{
+	float:left;
+	width:250px;
+	height:850px;
+	border:#CCC solid 1px;
+	background-color:#996600 ;
+	margin-right: 10px;
+	margin-left: 4px;
+	font-family:monospace;
+	font-weight: bold;
+}
+.raporalan{
+	width:1170px;
+	height:899px;
+	overflow: scroll;
+}
+.genelalan {
+	float: right;
+	width: 1220px;
+	height: 950px;
+	background-color:#996600 ;
+}
+.operbutonlar{
+	width:auto; 
+	margin: 5 ;
+	font-family:monospace;
+	font-weight: bold;
+}
+.element{
+	width:360px; 
+	margin: 10 ;
+	float:center;
+	font-family:monospace;
+	font-weight: bold;
+}
+p{ 
+	margin:5px 0; 
+}
+hr {
+	top:5px; 
+	width: 100%;
+	clear: both;
+	margin: auto;
+}
+
+.mheader,.formalan,.raporalan,.genelalan{
+	margin: 3px;
+	padding: 15px;
+	background: #669999;
+	border: 1px solid #cccccc;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 2px 2px 2px #cccccc;
+	-webkit-box-shadow: 2px 2px 2px #cccccc;
+	box-shadow: 2px 2px 2px #cccccc;
+}
+</style>
+<script>
+	$(document).ready(function() {
+		
+		$('#bas_tarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			minDate: new Date(2015, 0, 1),
+			maxDate: new Date(2015, 11, 31),
+		}).mask('99-99-2015');
+		
+		$('#son_tarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			minDate: new Date(2015, 0, 1),
+			maxDate: new Date(2015, 11, 31),
+		}).mask('99-99-2015');
+		
+		$('#mbas_tarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			minDate: new Date(2015, 0, 1),
+			maxDate: new Date(2015, 11, 31),
+		}).mask('99-99-2015');
+		
+		$('#mson_tarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			minDate: new Date(2015, 0, 1),
+			maxDate: new Date(2015, 11, 31),
+		}).mask('99-99-2015');
+		
+		$('#pbas_tarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			minDate: new Date(2015, 0, 1),
+			maxDate: new Date(2015, 11, 31),
+		}).mask('99-99-2015');
+		
+		$('#pson_tarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			minDate: new Date(2015, 0, 1),
+			maxDate: new Date(2015, 11, 31),
+		}).mask('99-99-2015');
+		
+		var d = new Date();
+		var month = d.getMonth()+1;
+		var day = d.getDate();
+		var daygeri = d.getDate()-7;
+		var output = (day<10 ? '0' : '') + day + '-' +(month<10 ? '0' : '') + month + '-' + d.getFullYear() ;
+		var outputgeri = (daygeri<10 ? '0' : '') + daygeri + '-' +(month<10 ? '0' : '') + month + '-' + d.getFullYear() ;
+		$('#bas_tarih').val(outputgeri);
+		$('#son_tarih').val(output);
+		$('#mbas_tarih').val(outputgeri);
+		$('#mson_tarih').val(output);
+		$('#pbas_tarih').val(outputgeri);
+		$('#pson_tarih').val(output);
+		
+		// AUTOCOMPLETE
+		$("#kasakod").autocomplete({
+			source : "/cariBul?tip=K','B",
+			type: "POST",
+			minLength : 2,
+			remoteDataType : 'json',
+			autoFill : true,
+			messages : {
+				noResults : ''
+			}
+		});
+		
+		
+		$('#borc_dokum').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/cariBorcDokum",
+				type			: "POST",
+				target			: "#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});	
+		
+		$('#kontrol_dokum').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/kontrolcariBorcDokum",
+				type			: "POST",
+				target			: "#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#kontrol_dokum2').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/kontrolCariHareket",
+				type			: "POST",
+				target			: "#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#kasa_banka_durum').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/kasaBankaRapor",
+				type			: "POST",
+				target			: "#raporalan",
+				success			: raporGetir
+				
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#iban_dokum').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/ibanDokum",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#kasa_rapor').on('click', function(event){
+			event.preventDefault();
+			islemTamam("Lütfen bekleyiniz.");
+			var formOption = {
+				url				: "/kasaRapor",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+			
+		$('#odeme_plan').on('click', function(event){
+			event.preventDefault();
+			islemTamam("Ödeme plan raporu hazırlanıyor.",12000);
+			var formOption = {
+				url				: "/odemePlani",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#entegre').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/entegre",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#kdvli_srapor').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/kdvliSrapor",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#pazar_rapor').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/pazarRapor",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: raporGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$("#raporalan").click(function(event){
+		    //event.preventDefault();
+			event = event || window.event;
+			console.log(event);
+	         if(event.target.id !='sisLink')
+	         {
+	            event.preventDefault(); 
+	         }
+			var targ;
+		    if (event.target) targ = event.target;
+		    else if (event.srcElement) targ = event.srcElement;
+		    if (targ.nodeType == 3) // defeat Safari bug
+		        targ = targ.parentNode;
+			console.log(targ.id);
+			var islem=targ.id.split("@");
+			var olay=islem[0];
+			var islem_no=islem[1];
+		    
+			if(olay == "pano_kopya"){
+				console.log("x");
+			}
+		});
+		
+		$('#psqlCalistir').on('click', function(event){
+			event.preventDefault();
+			var paramliste=$('#paramsaha').val();
+			paramliste=paramliste.replace(/#/g , "%23");
+			$.ajax({
+				url : "/psqlCalistir?paramlar="+paramliste+"&dosya="+$('#raporlist').val(),
+			}).done(function(data) {
+				$("#raporalan").html(data);
+				islemTamam("calisti");
+			});
+		});	
+		
+		$('#rprLazerbas').on('click', function(event){
+			event.preventDefault();
+			$.ajax({
+				url : "/rprLazerbas?dosya="+$('#raporlist').val(),
+			}).done(function(data) {
+				$("#raporalan").html(data);
+				islemTamam("yazdirildi");
+			});
+		});	
+		
+		$('#raporlist').change(function(){
+			$.ajax({
+				url : "/raporParamAl?"+"&dosya="+$('#raporlist').val(),
+			}).done(function(data) {
+				$("#paramsaha").val(data);
+			});	
+		});
+		
+		
+		
+	});
+	
+	
+	function raporGetir(res, statusText, xhr, $form) {
+		
+		if(res!='None'){
+			$("#raporalan").html(res);
+			$("#hareketrapor").tablesorter();
+		}
+	}
+	
+	function islemTamam(message,time=2000) {
+		// TODO: hata mesajı dön
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: time, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#080', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff'
+            }
+        });
+	}
+	
+	function hataGoster(message) {
+		
+		//console.log("HATA:" + message);
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#900', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff',
+                
+            }
+        });
+	}
+	
+</script>
+</head>
+
+<body bgcolor='silver' > 
+<div class=anasablon>
+	<div class="mheader" tabindex="-1">
+		<a href="/raporModul"><img src="rapor.png" class="hover" hinttext="Rapor" style="margin-right:120px;"></a> 
+		<a href="/stokModul"><img src="stok.png" class="hover" hinttext="Stok" style="margin-right:20px;"></a> 
+		<a href="/faturaModul"><img src="fatura.png" class="hover" hinttext="Fatura" style="margin-right:20px;"></a> 
+		<a href="/cariModul"><img src="cari.png" class="hover" hinttext="Cari" style="margin-right:20px;"></a> 
+		<a href="/siparisModul"><img src="spr.png" class="hover" hinttext="Sipariş" style="margin-right:20px;"></a> 
+		<a href="/sayimModul"><img src="pencil.png" class="hover" hinttext="Sayım" style="margin-right:20px;"></a> 
+		<a href="/veriModul"><img src="veri.png" class="hover" hinttext="Veri" style="margin-right:20px;"></a> 
+		<a href="/yetkiliModul"><img src="config.png" class="hover" hinttext="Yetkili" style="margin-right:20px;"></a> 
+		<a href="/altyapiModul"><img src="altyapi.png" class="hover" hinttext="Altyapı" style="margin-right:20px;"></a> 
+		<a href="/logModul"><img src="log.png" class="hover" hinttext="Log" style="margin-right:20px;"></a> 
+		<a href="/exit"><img src="cikis.png" class="hover" hinttext="ÇIKIŞ" style="margin-left:40px;"></a> 
+		<div class="kulblok">{{kullanici}}</div>
+	</div><br>
+	<div class=formalan  >
+		
+		<form id=raporForm name=raporForm action="{{ url_for('raporModul') }}" method=post>
+		
+		<div class=element>
+		<input type="submit" name="borc_dokum" id="borc_dokum" value="Borç-Alacak Dökümü" tabindex="-1"/>
+		</div>
+		<hr noshade size=2>
+		<br>
+		<div class=element>
+		<input type="submit" name="iban_dokum" id="iban_dokum" value="İban Listesi" tabindex="-1"/>
+		</div>
+		<hr noshade size=2>
+		<br>
+		<div class=element>
+		<input type="text" class="txt" name="kasakod" id="kasakod" ondblclick=this.value=''  style="width: 227px;"/><p>
+		<input type="text" class="txt" name="bas_tarih" id="bas_tarih" style="width: 110px;" />
+		<input type="text" class="txt" name="son_tarih" id="son_tarih" style="width: 110px;" />
+		</div>
+		<div class=element>
+		<label>Kırılım</label>
+		<input type="checkbox" class="txt" name="krlm" id="krlm" style="margin-right: 10px;margin-top:9px;" checked/>
+		<input type="submit" name="kasa_rapor" id="kasa_rapor" value="Kasa Raporu" tabindex="-1"/>
+		</div>
+		<hr noshade size=2>
+		<div class=element>
+		<input type="submit" name="kontrol_dokum" id="kontrol_dokum" value="Cari hareket kontrolü" tabindex="-1"/>
+		</div>
+		<div class=element>
+		<input type="submit" name="kontrol_dokum2" id="kontrol_dokum2" value="Cari hareket kontrolü2" tabindex="-1"/>
+		</div>
+		<hr noshade size=2>
+		<div class=element>
+		<input type="submit" name="odeme_plan" id="odeme_plan" value="Cari Ödeme Planı" tabindex="-1"/>
+		</div>
+		<hr noshade size=2>
+		<div class=element>
+		<input type="submit" name="kasa_banka_durum" id="kasa_banka_durum" value="Banka Kasa Durum" tabindex="-1"/>
+		</div>
+		<hr noshade size=2>
+		<div class=element>
+		<input type="text" class="txt" name="subekod" id="subekod" value="02" style="width: 40px;" />
+		<input type="text" class="txt" name="mbas_tarih" id="mbas_tarih" style="width: 80px;" />
+		<input type="text" class="txt" name="mson_tarih" id="mson_tarih" style="width: 80px;" /><p>
+		<input type="submit" name="kdvli_srapor" id="kdvli_srapor" value="Market Satiş Raporu" tabindex="-1"/>
+		</div>
+		<hr noshade size=2>
+		<div class=element>
+		<input type="text" class="txt" name="pazarkod" id="pazarkod" value="12" style="width: 40px;" />
+		<input type="text" class="txt" name="pbas_tarih" id="pbas_tarih" style="width: 80px;" />
+		<input type="text" class="txt" name="pson_tarih" id="pson_tarih" style="width: 80px;" /><p>
+		<input type="submit" name="pazar_rapor" id="pazar_rapor" value="Pazar Satiş Raporu" tabindex="-1"/>
+		</div>
+		<div class=element>
+		<input type="submit" name="entegre" id="entegre" value="test rapor" tabindex="-1"/>
+		</div>
+		<hr noshade size=2>
+		<div class=element>
+			</select><label>rapor listesi</label><br>
+			<select name="raporlist" id="raporlist" class="txt" style="margin-top: 5px;width: 230px;" > 
+			{% for rapor in raporlar %}<option>{{rapor}}</option>{% endfor %}
+		</div>
+		<div class=element>
+			<textarea id=paramsaha name=paramsaha value="" ondblclick=this.value='' style="font-size: 15px;;margin-top: 5px;width:240px;height: 110px;"></textarea>
+		</div>
+		<div class=element>
+			<input type="submit" name="psqlCalistir" id="psqlCalistir" value="calistir" tabindex="-1"/>
+			<input type="submit" name="rprLazerbas" id="rprLazerbas" value="lazer yazdır" tabindex="-1"/>
+		</div>
+	</div>
+	<div id='genelalan' class="genelalan" width="60" tabindex="-1">
+		 <input type="text" class="txt" name="mkod" id="mkod" hidden value={{mkod}} />
+		<div class=raporalan id=raporalan>
+		ilgili rapor alani	
+		</div>
+		<hr noshade size=1>
+	</div>
+</div>
+</body>
+</HTML>

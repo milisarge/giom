@@ -1,0 +1,122 @@
+<html>
+<head>
+
+<META http-equiv="content-type" contentType="text/html;">
+<script src="./static/jquery.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+<style type="text/css">
+body {
+	margin: 0px auto;
+	padding: 0px 0px;
+	font-family: calibri;
+}
+
+.container {
+	margin: 20px 0px 0px 20px;
+	width: 798px;
+}
+
+.satir {
+	margin: 2px auto;
+	padding: 0px;
+	width: 100%;
+	height: 26px;
+	background-color: rgba(100, 100, 100, 0.1);
+}
+
+#cari .label{
+	padding: 3px;
+	width: 50px;
+	float: left;
+}
+
+#cari input {
+	width: 700px;
+	float: left;
+}
+
+#aralik input{
+	width: 50px;
+	float: left;
+}
+#aralik .label {
+	padding: 2px;
+	width: 700px;
+	float: left;
+}
+
+#hata {
+	margin: 3px auto;
+	width: inherit;
+	float: left;
+	color: red;
+}
+
+.cariTablo {
+	margin: 0 auto;
+	padding: 0px;
+	width: 800px;
+	font-size: 11px;
+}
+
+.cariTablo>thead {
+	background-color: rgba(0, 100, 0, 0.5);
+	font-weight: bold;
+}
+
+.cariTablo tr:nth-child(odd) {
+	background-color: rgba(0, 100, 0, 0.2);
+	vertical-align: middle;
+	border: 1px solid #ffffff;
+	border-width: 0px 1px 1px 0px;
+	padding: 1px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #000000;
+}
+
+.cariTablo tr:nth-child(even) {
+	background-color: rgba(0, 200, 0, 0.3);
+	vertical-align: middle;
+	border: 1px solid #ffffff;
+	border-width: 0px 1px 1px 0px;
+	padding: 1px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #000000;
+}
+</style>
+
+
+</script>
+</head>
+<body>
+	<form action="{{ url_for('caropdetay2') }}" method="post">
+		<div class="container">
+			
+			<div class="satir">
+				<div id="hata"></div>
+			</div>
+			<div>
+				<table class="cariTablo">
+					<thead>
+						<td style="width: 20%;">CARI ISIM</td>
+						<td style="width: 60%;">VADE TARIHI</td>
+						<td style="width: 20%;">TUTAR</td>
+					</thead>
+					{% if carophar %} {% for satir in carophar %} 
+					<tr>
+						<td style="width: 8%;">{{satir[1]}}</td>
+						<td style="width: 8%;">{{satir[2]}}</td>
+						<td style="width: 8%; text-align: right;">{{'%.2f'|format(satir[3])}}</td>
+					</tr>
+					{% endfor %} {% endif %}
+				</table>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

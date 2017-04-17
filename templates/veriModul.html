@@ -1,0 +1,391 @@
+<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>VERİ</title>
+<meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./static/css/reset.css" />
+<script src="../static/jquery.js"></script>
+<script src="../static/js/jquery-ui.js"></script>
+<script src="./static/js/datetimepicker.js"></script>
+<script type="text/javascript"
+	src="./static/js/jquery.maskedinput.min.js"></script>
+<script src="../static/js/jquery.form.min.js"></script>
+<script src="../static/js/jquery.handsontable.full.js"></script>
+<script src="./static/js/jquery.blockUI.js"></script>
+<script src="./static/js/jquery.cookie.js"></script>
+<script src="./static/js/handsontable.full.js"></script>
+<script src="./static/js/ruleJS.all.full.js"></script>
+<script src="./static/js/handsontable.formula.js"></script>
+<script src="../static/js/hintbox.js"></script>
+<link rel="stylesheet" href="./static/css/hintbox.css" />
+<link rel="stylesheet" href="./static/css/handsontable.full.css" />
+<link rel="stylesheet" href="./static/js/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="./static/css/jquery.handsontable.full.css" />
+<script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
+<link rel="stylesheet"
+	href="{{url_for('static', filename='css/table2.css')}}" type="text/css"
+	id="" media="print, projection, screen">
+
+<style type="text/css">
+body {
+	margin: 0px auto;
+	padding: 0px 0px;
+	font-family: calibri;
+}
+.anasablon {
+	width: 1556px;
+	height: auto;
+	
+}
+.mheader {
+	font-family: Arial, Verdana;
+	text-shadow: 2px 2px 2px #ccc;
+	display: block;
+	float: left;
+	font-weight: bold;
+	padding-left: 10px;
+	text-align: left;
+	font-size: 15px;
+	width: 1300px;
+	height: 20px;
+}
+.formalan{
+	float:left;
+	width:330px;
+	height:500px;
+	border:#CCC solid 1px;
+	background-color:#669999 ;
+	margin-right: 10px;
+	margin-left: 4px;
+	font-family:monospace;
+	font-weight: bold;
+}
+.raporalan{
+	width:997px;
+	height:500px;
+	overflow: scroll;
+}
+.genelalan {
+	float: right;
+	width: 1035px;
+	height: 670;
+	background-color:#669999 ;
+}
+.operbutonlar{
+	width:auto; 
+	margin: 5 ;
+	font-family:monospace;
+	font-weight: bold;
+}
+.element{
+	width:360px; 
+	margin: 10 ;
+	float:center;
+	font-family:monospace;
+	font-weight: bold;
+}
+p{ 
+	margin:5px 0; 
+}
+hr {
+	top:5px; 
+	width: 100%;
+	clear: both;
+	margin: auto;
+}
+
+.mheader,.formalan,.raporalan{
+	margin: 3px;
+	padding: 15px;
+	background:#669999 ;
+	border: 1px solid #cccccc;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 2px 2px 2px #cccccc;
+	-webkit-box-shadow: 2px 2px 2px #cccccc;
+	box-shadow: 2px 2px 2px #cccccc;
+}
+</style>
+<script>
+	$(document).ready(function() {
+		
+		var yerleske = $('#etablo');
+		hetoku= new Handsontable(yerleske[0], {
+			//data: data,
+			minSpareRows: 1,
+			colHeaders: true,
+			rowHeaders: true,
+			contextMenu: true,
+			manualColumnResize: true,
+			formulas: true,
+			afterChange: function (change, source) {
+				$.ajax({
+					type: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify(change),
+					dataType: 'json',
+					url: '/etoKaydet?sablon='+$('#tablolist').val(),
+					success: function (e) {
+						console.log(e);
+					}
+				});
+			}
+		});
+		
+		
+		$('#calistir').on('click', function(event){
+			event.preventDefault();
+			$.ajax({
+				url : "/veriYstk?dosya="+$('#ayarlist').val()+"&sayfa="+$("#veriSayfalar").val(),
+			}).done(function(data) {
+				i=0;
+				var text="";
+				dosya=data.split("\n");
+				for (satir in dosya) {
+					text+=dosya[satir]+"<br>"
+					if(dosya[satir][0]!="+"){
+						text+="<hr noshade size=1>"
+					}
+				}
+				$("#raporalan").html(text);
+				
+			});
+		});
+		
+		$('#ayarlist').change(function(){
+			
+			$.ajax({
+				url : "/veriAyarAl?ini="+$('#ayarlist').val(),
+			}).done(function(data) {
+				$("#veriDosya").val(data[0]);
+				var sayfalar=[];
+				sayfalar=data[1];
+				var i=0;
+				$("#veriSayfalar").empty();
+				while(sayfalar[i]){
+					opt = new Option(sayfalar[i]);
+					$("#veriSayfalar").append(opt);
+					i++;
+				}
+				
+			});
+			
+		});
+		
+		$('#dbAktar').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/stkDbAktar",
+				type			: "POST",
+				success: function (data) {
+						if(data=='tamam'){
+							islemTamam("seçili veritabanı içe aktarıldı.kontrol ediniz.");
+						}else{
+							hataGoster(data);
+						}
+					}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#tablolist').click(function(){
+			
+			$.ajax({
+				url : "/jsonAl?sablon="+$('#tablolist').val(),
+			}).done(function(data) {
+				$('#raporalan').hide();
+				hetoku.loadData(data);
+			});
+			
+		});
+		
+		
+		$('#etoYstk').on('click', function(event){
+			event.preventDefault();
+			
+			$.ajax({
+				url: '/etoYstk?sablon='+$('#tablolist').val(),
+			}).done(function(data) {
+				islemTamam(data);
+			});
+		});
+		
+		$('#etkaydet').on('click', function(event){
+			event.preventDefault();
+			var yerleske = $('#etablo');
+			 $.ajax({
+					url: '/etKaydet?sablon='+$('#tablolist').val(),
+					contentType: 'application/json',
+					data: JSON.stringify(hetoku.getData()), // returns all cells' data
+					dataType: 'json',
+					type: 'POST',
+					success: function (res) {
+					  if (res == 'tamam') {
+						console.log('Data saved');
+					  }
+					  else {
+						console.log('Save error');
+					  }
+					},
+					error: function () {
+					  console.log('Save error');
+					}
+				  });
+		
+		});
+		
+		
+		
+	});
+	
+	function raporGetir(res, statusText, xhr, $form) {
+		//console.log(res);
+		if(res!='None'){
+			$("#raporalan").html(res);
+			$("#hareketrapor").tablesorter();
+		}
+	}
+	
+	function islemTamam(message) {
+		// TODO: hata mesajı dön
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#080', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff'
+            }
+        });
+	}
+	
+	function hataGoster(message) {
+		
+		console.log("HATA:" + message);
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#900', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff',
+                
+            }
+        });
+	}
+	
+</script>
+</head>
+
+<body bgcolor='silver' > 
+<div class=anasablon>
+	<div class="mheader" tabindex="-1">
+		<a href="/veriModul"><img src="veri.png" class="hover" hinttext="Veri" style="margin-right:120px;"></a> 
+		<a href="/stokModul"><img src="stok.png" class="hover" hinttext="Stok" style="margin-right:20px;"></a> 
+		<a href="/faturaModul"><img src="fatura.png" class="hover" hinttext="Fatura" style="margin-right:20px;"></a> 
+		<a href="/cariModul"><img src="cari.png" class="hover" hinttext="Cari" style="margin-right:20px;"></a> 
+		<a href="/siparisModul"><img src="spr.png" class="hover" hinttext="Sipariş" style="margin-right:20px;"></a> 
+		<a href="/sayimModul"><img src="pencil.png" class="hover" hinttext="Sayım" style="margin-right:20px;"></a> 
+		<a href="/raporModul"><img src="rapor.png" class="hover" hinttext="Rapor" style="margin-right:20px;"></a> 
+		<a href="/yetkiliModul"><img src="config.png" class="hover" hinttext="Yetkili" style="margin-right:20px;"></a> 
+		<a href="/altyapiModul"><img src="altyapi.png" class="hover" hinttext="Altyapı" style="margin-right:20px;"></a> 
+		<a href="/logModul"><img src="log.png" class="hover" hinttext="Log" style="margin-right:20px;"></a> 
+		<a href="/exit"><img src="cikis.png" class="hover" hinttext="ÇIKIŞ" style="margin-left:40px;"></a> 
+		<div class="kulblok">{{kullanici}}</div>
+	</div><br>
+	<div class=formalan>
+		
+		<form id=raporForm name=raporForm action="{{ url_for('veriModul') }}" method=post>
+		
+		
+		<div class=element>
+			<select name="ayarlist" id="ayarlist" class="txt" style="width: 150px;" > 
+			{% for dosya in dosyalar %}<option>{{dosya}}</option>{% endfor %}
+			</select><label>dosyalar</label>
+		</div>	
+		<div class=element>
+			<input type=text id=veriDosya name=veriDosya  value="" style="width: 150px;"/><label>veri dosyası</label>
+		</div>
+		<div class=element>
+			<select name="veriSayfalar" id="veriSayfalar" class="txt" style="width: 150px;" > 
+			</select><label>sayfalar</label>
+		</div>	
+		<div class=element>
+		<input type="submit" name="calistir" id="calistir" value="Çalıştır" tabindex="-1"/>
+		</div>
+		<input id="mod" name="mod"  hidden value="{{mod}}" />
+		<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
+		<hr noshade size=2>
+		<div class=element>
+			<select name="dblist" id="dblist" class="txt" style="width: 150px;" > 
+			{% for db in dbler %}<option>{{db}}</option>{% endfor %}
+			</select><label>stk veritabanları</label>
+		</div>	
+		<div class=element>
+		<input type="submit" name="dbAktar" id="dbAktar" value="vt içe aktar" tabindex="-1"/>
+		</div>	
+		<hr noshade size=1>
+		<div class=element>
+		</div>
+		<div class=element>
+			<label>tablo listesi</label><p>
+			<select name="tablolist" id="tablolist" class="txt" style="width: 150px;" > 
+			{% for tablo in tablolar %}<option>{{tablo}}</option>{% endfor %}
+			</select>
+		</div>	
+		
+		
+		</form>
+		
+		
+		
+	</div>
+	<div id='genelalan' class="genelalan" tabindex="-1">
+		<div class=raporalan id=raporalan>
+		ilgili rapor alani	
+		</div>
+		<div class=handsontable id=etablo>
+		<input type="submit" name="etkaydet" id="etkaydet" value="kaydet" tabindex="-1"/>
+		<input type="submit" name="etoYstk" id="etoYstk" value="stk yap" tabindex="-1"/>
+		</div>
+		<div id="hintbox"></div>
+		<hr noshade size=1>
+		<div id="fsb"></div>
+	</div>
+</div>
+</body>
+</HTML>

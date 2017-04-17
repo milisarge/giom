@@ -1,0 +1,258 @@
+<html>
+<head>
+<title>BANKA</title>
+<META http-equiv=content-type content=text/html;charset=windows-1254>
+<script src="./static/js/datetimepicker.js"></script>
+<script src="./static/jquery.js"></script>
+<script src="./static/js/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="./static/js/themes/smoothness/jquery-ui.css" />
+
+<link rel="stylesheet" href="./static/css/table.css" />
+
+<style type="text/css">
+body {
+	margin: 0px auto;
+	padding: 0px 0px;
+	font-family: calibri;
+}
+
+.container {
+	margin: 0 auto;
+	width: 330px;
+}
+
+.satir,.satir_link {
+	margin: 2px auto;
+	padding: 0px;
+	width: 100%;
+	height: 26px;
+	background-color: rgba(100, 100, 100, 0.1);
+}
+
+.satir_link {
+	height: 35px;
+}
+
+.satir>.label {
+	margin: 3px auto;
+	width: 130px;
+	float: left;
+}
+
+.satir>input {
+	width: 200px;
+	float: left;
+}
+
+.satir>input[type="submit"] {
+	float: right;
+	width: 75px;
+}
+
+.satir>input[type="checkbox"] {
+	float: right;
+	width: 75px;
+}
+
+.satir>input[type="image"] {
+	float: right;
+	width: 48px;
+	height: 48px;
+	border: #800517;
+	border-style: solid;
+	border-width: 3px;
+}
+
+.table_container {
+	margin: 0 auto;
+	width: 800px;
+	background-color: red;
+}
+</style>
+
+<SCRIPT language="JavaScript">
+<!--
+	function CheckLength(name) {
+		var xfisno = document.getElementById(name).value;
+		if (xfisno.length < 15)
+			alert('15 hane olmali');
+	};
+	function islemtetik() {
+		document.getElementById('tetikleme').click();
+		//location.href = "http://192.168.1.254:5000/banka";
+	}
+	function kcarikosec() {
+		var carikod = window.prompt("carikod", "");
+		var options = document.getElementById('kaynak').options;
+		for ( var i = 0, n = options.length; i < n; i++) {
+			if (options[i].value.split("@")[0] == carikod) {
+				document.getElementById("kaynak").selectedIndex = i;
+				break;
+			}
+		}
+	}
+	function hcarikosec() {
+		var carikod = window.prompt("carikod", "");
+		var options = document.getElementById('hedef').options;
+		for ( var i = 0, n = options.length; i < n; i++) {
+			if (options[i].value.split("@")[0] == carikod) {
+				document.getElementById("hedef").selectedIndex = i;
+				break;
+			}
+		}
+	}
+//-->
+</SCRIPT>
+<script type="text/javascript" src="./static/js/shortcut.js"></script>
+<script type="text/javascript"
+	src="./static/js/jquery.maskedinput.min.js"></script>
+<script>
+	shortcut.add("ctrl+s", function() {
+		$("#kaydet").click();
+	});
+	shortcut.add("ctrl+d", function() {
+		$("#kayitsil").click();
+	});
+</script>
+<script>
+	$(function() {
+		var names = [
+		             {% for secim in secimler %}
+		             	"{{secim}}",
+		             {% endfor %}
+		             ];
+		$( "#secim" ).autocomplete({
+			source: names,
+			delay: 0
+		});
+		
+		var bankalar = [
+		               {% for banka in bankalar %}
+		               		"{{banka}}",
+		               {% endfor %}
+		               ];
+		$( "#kaynak" ).autocomplete({
+			source: bankalar,
+			delay: 0
+		});
+		
+		var islemler = ["KASA", "CARI", "BANKA"];
+		$( "#islem" ).autocomplete({
+			source: islemler,
+			delay: 0
+		});
+		
+		
+		$('#tarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			minDate: new Date(2013, 0, 1),
+			maxDate: new Date(2013, 11, 31),
+		}).mask('99-99-9999');
+		// console.log( "{{tarih}}" );
+		$('#tarih').val("{{tarih}}");
+	});
+
+	
+	function printDiv(divName) {
+		var printContents = document.getElementById(divName).innerHTML;
+		var originalContents = document.body.innerHTML;
+
+		document.body.innerHTML = printContents;
+
+		window.print();
+
+		document.body.innerHTML = originalContents;
+	}
+</script>
+
+
+</head>
+<body>
+	<form action="{{ url_for('banka') }}" method=post>
+		<div class="container">
+			<div class="satir">{{bilgi}}</div>
+			<div class="satir">
+				<div class="label">KAYNAK BANKA:</div>
+				<input id="kaynak" name="kaynak" value="{{kaynakbanka}}" autofocus />
+			</div>
+			<div class="satir">
+				<div class="label">TARIH:</div>
+				<input id="tarih" name="tarih" type="text" >
+			</div>
+			<div class="satir">
+				<div class="label">HEDEF:</div>
+				<input id="secim" name="secim" value="{{gunsecim}}"
+					onchange="islemtetik()">
+			</div>
+			<div class="satir">
+				<div class="label">LOKAL KASA KOD:</div>
+				<input id="fisno" name="fisno" value="{{fisno}}" type="text"
+					maxlength="15" />
+			</div>
+			<div class="satir">
+				<div class="label">TUTAR:</div>
+				<input id="tutar" name="tutar" value="{{tutar}}" type="text"
+					maxlength="15" />
+			</div>
+			<div class="satir">
+				<div class="label">ACIKLAMA:</div>
+				<input id="aciklama" name="aciklama" value="{{aciklama}}"
+					type="text" maxlength="30" />
+			</div>
+			<div class="satir">
+				<input type="submit" name="komut" value="kaydet" /> <input
+					type="submit" name="komut" id="tetikleme" hidden value="tetikleme">
+			</div>
+			<div class="satir">
+				<input type="checkbox" name="masrafvarmi" {{bankacheck}} onchange="islemtetik()" style="background-color: #100000;">
+				<input type="text" id="masraftutar" name="masraftutar" value="{{otomasraf}}" style="float: left;">
+			</div>
+		</div>
+		<div class="table_container">
+			<table class="CSSTableGenerator">
+				{% if hesrapor %} {% for hes in hesrapor %}
+				<tr>
+					<td><input type="submit" name="refno" value="{{hes[0]}}"
+						onclick="return confirm('silinecek emin misin ? ');"></td>
+					<td>{{hes[1]}}</td>
+					<td>{{hes[2]}}</td>
+					<td>{{hes[3]}}</td>
+					<td>{{hes[4]}}</td>
+					<td>{{hes[5]}}</td>
+					<td>{{hes[6]}}</td>
+				</tr>
+				{% endfor %} {% endif %}
+			</table>
+		</div>
+
+	</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

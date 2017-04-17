@@ -1,0 +1,1 @@
+select * from kul_ayar

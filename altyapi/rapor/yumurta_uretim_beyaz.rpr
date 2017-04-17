@@ -1,0 +1,10 @@
+set @stok = 'b0640';
+set @cari = '38';
+set @yon = 'G';
+#sql
+SELECT stok_kodu, DATE_FORMAT( tarih, '%d-%m-%Y' ) AS tarihx, fisno, round(miktar,2) as miktar
+FROM sthar
+WHERE stok_kodu = @stok
+AND hedef = @cari
+AND ftip = @yon
+ORDER BY tarih

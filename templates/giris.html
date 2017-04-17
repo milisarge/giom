@@ -1,0 +1,25 @@
+
+
+ <!-- login.html -->
+  <!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 4.0 Transitional//EN">
+<html>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+  {% block body %}
+ <div class=page>
+  <h1>GİOM Giriş</h1>
+  {% if error %}<p class=error><strong>hata:</strong> {{ error }}{% endif %}
+  <div class=metanav>
+  <form action="{{ url_for('giris') }}" method=post>
+    <dl>
+      <dt>Yetkili:
+      <dd><input type=text name=username>
+      <dt>Sifre:
+      <dd><input type=password name=password>
+      <dd><input type=submit value=Login>
+    </dl>
+  </form>
+  </div>
+  {% endblock %}
+ </div>
+ </html>
+  

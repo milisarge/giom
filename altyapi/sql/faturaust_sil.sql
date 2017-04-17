@@ -1,0 +1,1 @@
+delete from fatura where inckeyno=@kimlik@;

@@ -1,0 +1,1 @@
+select substring(barkod1,4,4),stok_adi,round(satis_fiat1,2) from tblstsabit where barkod1 like '290%'

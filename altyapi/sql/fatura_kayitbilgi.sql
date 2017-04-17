@@ -1,0 +1,1 @@
+select kayityapankul,kayittarihi,duzeltmeyapankul,duzeltmetarihi from fatura where inckeyno='@fkod@'

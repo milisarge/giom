@@ -1,0 +1,4 @@
+UPDATE tblstsabit as A 
+INNER JOIN sthar AS B USING(STOK_KODU)
+SET A.SON_ALIMYER=B.HEDEF
+WHERE B.FISNO='@fisno@'  AND B.FINCKEYNO='@fkod@';

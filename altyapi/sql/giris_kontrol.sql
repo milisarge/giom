@@ -1,0 +1,1 @@
+select id from kullanici where isim='@isim@' and sifre='@sifre@'

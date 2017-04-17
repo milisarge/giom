@@ -1,0 +1,320 @@
+<html>
+<head>
+<title>KASA</title>
+<META http-equiv=content-type content=text/html;charset=windows-1254>
+<script src="./static/js/datetimepicker.js"></script>
+<script src="./static/jquery.js"></script>
+<script src="./static/js/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="./static/js/themes/smoothness/jquery-ui.css" />
+
+<link rel="stylesheet" href="./static/css/table.css" />
+
+<style type="text/css">
+body {
+	margin: 0px auto;
+	padding: 0px 0px;
+	font-family: calibri;
+}
+
+.container {
+	margin: 0 auto;
+	width: 663px;
+}
+
+.leftcoloum {
+	width: 330px;
+	float: left;
+}
+
+.rightcoloum {
+	width: 330px;
+	float: right;
+}
+
+.satir,.satir_link {
+	margin: 2px auto;
+	padding: 0px;
+	width: 100%;
+	height: 26px;
+	background-color: rgba(100, 100, 100, 0.1);
+}
+
+.satir_link {
+	height: 35px;
+}
+
+.satir>.label {
+	margin: 3px auto;
+	width: 130px;
+	float: left;
+}
+
+.satir>input {
+	width: 200px;
+	float: left;
+}
+
+.satir>input[type="submit"] {
+	float: right;
+	width: 75px;
+}
+
+.satir>input[type="image"] {
+	float: right;
+	width: 48px;
+	height: 48px;
+	border: #800517;
+	border-style: solid;
+	border-width: 3px;
+}
+.table_container {
+	width: 1400px;
+}
+</style>
+
+<SCRIPT language="JavaScript">
+<!--
+	function CheckLength(name) {
+		var xfisno = document.getElementById(name).value;
+		if (xfisno.length < 15)
+			alert('15 hane olmali');
+	};
+	function islemtetik() {
+		document.getElementById('tetikleme').click();
+		//location.href = "http://192.168.1.254:5000/kasa";
+	}
+	function kcarikosec() {
+		var carikod = window.prompt("carikod", "");
+		var options = document.getElementById('kaynak').options;
+		for ( var i = 0, n = options.length; i < n; i++) {
+			if (options[i].value.split("@")[0] == carikod) {
+				document.getElementById("kaynak").selectedIndex = i;
+				break;
+			}
+		}
+	}
+	function hcarikosec() {
+		var carikod = window.prompt("carikod", "");
+		var options = document.getElementById('hedef').options;
+		for ( var i = 0, n = options.length; i < n; i++) {
+			if (options[i].value.split("@")[0] == carikod) {
+				document.getElementById("hedef").selectedIndex = i;
+				break;
+			}
+		}
+	}
+//-->
+</SCRIPT>
+<script type="text/javascript" src="./static/js/shortcut.js"></script>
+<script type="text/javascript"
+	src="./static/js/jquery.maskedinput.min.js"></script>
+<script>
+	shortcut.add("ctrl+s", function() {
+		$("#kaydet").click();
+	});
+	shortcut.add("ctrl+d", function() {
+		$("#kayitsil").click();
+	});
+</script>
+<script>
+	$(function() {
+		var names = [
+		             {% for secim in secimler %}
+		             	"{{secim}}",
+		             {% endfor %}
+		             ];
+		$( "#secim" ).autocomplete({
+			source: names,
+			delay: 0
+		});
+		
+		var kasalar = [
+		               {% for kasa in kasalar %}
+		               		"{{kasa}}",
+		               {% endfor %}
+		               ];
+		$( "#kaynak" ).autocomplete({
+			source: kasalar,
+			delay: 0
+		});
+		
+		var islemler = ["KASA", "CARI", "BANKA"];
+		$( "#islem" ).autocomplete({
+			source: islemler,
+			delay: 0
+		});
+		
+		
+		$('#tarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			minDate: new Date(2013, 0, 1),
+			maxDate: new Date(2013, 11, 31),
+		}).mask('99-99-9999');
+		// console.log( "{{tarih}}" );
+		$('#tarih').val("{{tarih}}");
+	});
+
+	
+	function printDiv(divName) {
+		var printContents = document.getElementById(divName).innerHTML;
+		var originalContents = document.body.innerHTML;
+
+		document.body.innerHTML = printContents;
+
+		window.print();
+
+		document.body.innerHTML = originalContents;
+	}
+</script>
+
+
+</head>
+<body>
+	<form action="{{ url_for('kasa') }}" method=post>
+		<div class="container">
+		<div class="satir" style="width: 663px;">{{bilgi}}</div>
+		<div class="leftcoloum">
+			
+			<div class="satir">
+				<div class="label">KAYNAK KASA:</div>
+				<input id="kaynak" name="kaynak" value="{{kaynakkasa}}"
+					onchange="islemtetik()" autofocus />
+			</div>
+			<div class="satir">
+				<div class="label">ISLEM TIPI:</div>
+				<select type="text" id="islem" name="islem" onchange="islemtetik()">
+					<option selected="selected">{{guncislem}}</option>
+					<option>CARI</option>
+					<option>BANKA</option>
+					<option>KASA</option>
+				</select>
+			</div>
+			<div class="satir">
+				<div class="label">TARIH:</div>
+				<input id="tarih" name="tarih" type="text" onchange="islemtetik()">
+			</div>
+			<div class="satir">
+				<div class="label">SECIM:</div>
+				<input id="secim" name="secim" value="{{gunsecim}}" onchange="islemtetik()"/>
+			</div>
+			<div class="satir">
+				<div class="label">LOKAL KASA KOD:</div>
+				<input id="fisno" name="fisno" value="{{fisno}}" type="text"
+					maxlength="25" />
+			</div>
+			<div class="satir">
+				<div class="label">TUTAR:</div>
+				<input id="tutar" name="tutar" value="{{tutar}}" type="text"
+					maxlength="15" />
+			</div>
+			<div class="satir">
+				<div class="label">ACIKLAMA:</div>
+				<input id="aciklama" name="aciklama" value=""
+					type="text" maxlength="30" />
+			</div>
+			<div class="satir">
+				<input type="submit" name="komut" value="kaydet" /> <input
+					type="submit" name="komut" id="tetikleme" hidden value="tetikleme">
+			</div>
+			</div>
+			<div class="rightcoloum">
+			<div class="satir">
+				<div class="label">MUHATAP:</div>
+				<input id="makbuznot" name="makbuznot" type="text" maxlength="30" />
+			</div>
+			<div class="satir">
+				<div class="label">KASIYER:</div>
+				<input id="makbuznot3" name="makbuznot3" type="text" maxlength="30" />
+			</div>
+			<div class="satir" height="48">
+				<input type="image" name="komut" id="yazdirvekaydet" value="yazdirvekaydet" src="./static/saveprint.jpg" width="32" height="32" border="1"/>
+			</div>
+			<div class="satir">
+				<div class="label"> </div>
+			</div>
+			<div class="satir">
+				<input type="submit" name="komut" id="yazdir" value="yazdir" />
+			</div>
+			<div class="satir">
+				<div class="label">SILINECEK:</div>
+				<div class="label">{{ksira}}</div>
+			</div>
+			<div class="satir">
+				<input type="submit" name="komut" id="kayitsil" value="kayitsil"
+					onclick="return confirm('Kayit Kalici Olarak Silinsin mi ?');">
+			</div>
+			</div>
+		</div>
+		<div class="table_container">
+			<table class="CSSTableGenerator" style="width: 50%;">
+				{% if kasarapor %} {% for kp in kasarapor %}
+				<tr>
+					<td><input type="submit" name="ksira" value="{{kp[0]}}"></td>
+					<td>{{kp[1]}}</td>
+					<td>{{kp[3]}}</td>
+					<td><a href="/carihar?tip={{kp[8]}}&kod={{kp[7]}}" onclick="window.open(this.href,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=900,height=400'); return false;">{{kp[4]}}</a></td>
+					<td>{{kp[5]}}</td>
+					<td>{{kp[6]}}</td>
+				</tr>
+				{% endfor %} {% endif %}
+				<tfoot>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>TOPLAM</td>
+					<td></td>
+				</tfoot>
+			</table>
+			<table class="CSSTableGenerator" style="width: 50%;">
+				{% if kasarapor2 %} {% for kp2 in kasarapor2 %}
+				<tr>
+					<td><input type="submit" name="ksira" value="{{kp2[0]}}"></td>
+					<td>{{kp2[1]}}</td>
+					<td>{{kp2[3]}}</td>
+					<td><a href="/carihar?tip={{kp2[8]}}&kod={{kp2[7]}}" onclick="window.open(this.href,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=900,height=400'); return false;">{{kp2[4]}}</a></td>
+					<td>{{kp2[5]}}</td>
+					<td>{{kp2[6]}}</td>
+				</tr>
+				{% endfor %} {% endif %}
+				<tfoot>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>TOPLAM</td>
+					<td></td>
+				</tfoot>
+			</table>
+		</div>
+	</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

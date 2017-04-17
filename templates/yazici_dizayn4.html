@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<title>GİOM - FATURA ÖNİZLEME</title>
+<style>
+
+div.kutu {
+	position: absolute;
+	font-family: "Helvetica Neue";
+	line-height:90%;
+	font-size: 12px;
+}
+
+#fatura_hedef {
+	top: 160px;
+	left: 50px;
+	width: 600px;
+	height: 35px;
+}
+
+#fatura_adres {
+	top: 185px;
+	left: 50px;
+	width: 250px;
+	height: 45px;
+}
+#fatura_vdaire_vno {
+	top: 280px;
+	left: 110px;
+	width: 350px;
+	height: 15px;
+}
+#fatura_tarih {
+	top: 270px;
+	left: 1020px;
+}
+#fatura_saat {
+	top: 295px;
+	left: 1020px;
+}
+#kalemler {
+	top: 357px;
+	left: 0px;
+	width: 1070px;
+	font-size: 12px;
+	font-family: calibri, verdana;
+}
+#fatura_tutaryaziyla {
+	top: 885px;
+	left: 45px;
+	font-size: 14px;
+}
+#fatura_merkezsicilno {
+	top: 405px;
+	left: 30px;
+}
+#fatura_subesicilno {
+	top: 420px;
+	left: 30px;
+}
+#fatura_kaynakwebadresi {
+	top: 435px;
+	left: 30px;
+}
+
+#fatura_bruttutar {
+	top: 375px;
+	left: 1020px;
+}
+#fatura_kdv1 {
+	top: 867px;
+	left: 970px;
+}
+#fatura_kdv8 {
+	top: 891px;
+	left: 970px;
+}
+#fatura_kdv18 {
+	top: 911px;
+	left: 972px;
+}
+#label_kdv1 {
+	top: 867px;
+	left: 930px;
+}
+#label_kdv8 {
+	top: 891px;
+	left: 930px;
+}
+#label_kdv18 {
+	top: 911px;
+	left: 930px;
+}
+#fatura_kdvtop {
+	top: 905px;
+	left: 1060px;
+}
+#fatura_kdvhtoplam {
+	top: 871px;
+	left: 1060px;
+}
+#fatura_gtoplam {
+	top: 935px;
+	left: 1060px;
+}
+</style>
+</head>
+<body>
+{% for fatura in faturalar %}
+{% for sayfa in fatura.sayfayaz %}
+<div style="position: relative; height: 1019px; width: 550px; ">
+<div class="kutu" id="fatura_hedef"><span>{{fatura.hedef}}</span></div>
+<div class="kutu" id="fatura_adres"><span>{{fatura.adres}}</span></div>
+<div class="kutu" id="fatura_vdaire_vno"><span>{{fatura.vdaire}}/{{fatura.vergino}}</span></div>
+<div class="kutu" id="fatura_tarih"><span>{{fatura.tarih}}</span></div>
+<div class="kutu" id="fatura_saat"><span>{{fatura.saat}}</span></div>
+<div class="kutu" id="kalemler">
+	<table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="0">
+		<tbody>
+		{% for urun in sayfa %}
+			<tr>
+				<td style="vertical-align: middle; width: 25px; height: 15px;">{{urun.kdv}}</td>
+				<td style="vertical-align: middle; width: 300px; height: 15px;padding-left: 0px;">{{urun.ad}}</td>
+				<td style="vertical-align: middle; text-align: right; width: 46px; height: 15px; padding-right: 80px;">{{urun.miktar}}</td>
+				<td style="vertical-align: middle; width: 40px; height: 15px;">{{urun.birim}}</td>
+				<td style="vertical-align: middle; text-align: right; width: 40px; height: 15px;">{{urun.brfiyat}}</td>
+				<td style="vertical-align: middle; text-align: right; width: 60px; height: 15px;padding-left: 40px;">{{urun.tutar}}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{% if loop.last %}
+<div class="kutu" id="fatura_tutaryaziyla"><span>{{fatura.tutaryaziyla}}</span></div>
+<div class="kutu"  id="fatura_bruttutar"><span>{{fatura.bruttutar}}</span></div>
+{% if fatura.kdv1 != "0.00" %}
+<div class="kutu"  id="fatura_kdv1"><span>{{fatura.kdv1}}</span></div>
+{% endif %}
+{% if fatura.kdv8 != "0.00" %}
+<div class="kutu"  id="fatura_kdv8"><span>{{fatura.kdv8}}</span></div>
+{% endif %}
+{% if fatura.kdv18 != "0.00" %}
+<div class="kutu"  id="fatura_kdv18"><span>{{fatura.kdv18}}</span></div>
+{% endif %}
+{% if fatura.kdv1 != "0.00" %}
+<div class="kutu"  id="label_kdv1"><span>%1</span></div>
+{% endif %}
+{% if fatura.kdv8 != "0.00" %}
+<div class="kutu"  id="label_kdv8"><span>%8</span></div>
+{% endif %}
+{% if fatura.kdv18 != "0.00" %}
+<div class="kutu"  id="label_kdv18"><span>%18</span></div>
+{% endif %}
+<div class="kutu"  id="fatura_kdvtop"><span>{{fatura.kdvtop}}</span></div>
+<div class="kutu"  id="fatura_kdvhtoplam"><span>{{fatura.kdvsiztutar}}</span></div>
+<div class="kutu"  id="fatura_gtoplam"><span>{{fatura.gtoplam}}</span></div>
+{% endif %}
+</div>
+{% endfor %}
+{% endfor %}
+</body>
+</html>

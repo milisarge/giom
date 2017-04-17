@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+
+	<table><tr><td>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>GIOM GRAFIK RAPOR MODULU</title>
+
+		<script type="text/javascript" src="./static/jquery.js"></script>
+		<script src="./static/jsg/highcharts.js"></script>
+		<script src="./static/jsg/modules/exporting.js"></script>
+	
+		<script type="text/javascript">
+
+
+$(function () {	
+		
+		var array = new Array();
+		for (var i=1; i <document.grf.kaynak.length; ++i){
+			var str = document.getElementById("kaynak").options[i].text;
+			array.push(parseFloat(str));
+		}
+		
+		var arraytrh = new Array();
+		for (var i=1; i <document.grf.kaynaktrh.length; ++i){
+			var str = document.getElementById("kaynaktrh").options[i].text;
+			arraytrh.push(str);
+		}
+		
+		var arraybf = new Array();
+		for (var i=1; i <document.grf.kaynakbf.length; ++i){
+			var str = document.getElementById("kaynakbf").options[i].text;
+			arraybf.push(parseFloat(str));
+		}
+	
+        $('#container').highcharts({
+            chart: {
+                type: 'line',
+                marginRight: 130,
+                marginBottom: 25
+            },
+            title: {
+                text: 'AYLIK HAREKET',
+                x: -20 //center
+            },
+            subtitle: {
+                text: "{{stokad}}",
+                x: -20
+            },
+            xAxis: {
+                categories: arraytrh//[]
+            },
+            yAxis: {
+                title: {
+                    text: 'SATIS MIKTARI'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -10,
+                y: 100,
+                borderWidth: 0
+            },
+            series: [ {
+                name: "{{stkod}}",
+                data: array//document.forms["stokhrk"]["arama"].value
+            },{
+                name: "fiyat",
+                data: arraybf//document.forms["stokhrk"]["arama"].value
+            }]
+        });
+    });
+    
+
+		</script>
+		
+	
+	</td></tr></table>
+	<body>
+
+<form name=grf action="{{ url_for('grafik') }}" method=get>
+<select  type=text id=kaynak name=kaynak width="300" style="visibility:hidden;" style="width: 300px">
+  {% for satmik in satmikler %}
+   <option>{{satmik}}</option>
+  {% endfor %}
+  </select>
+<select  type=text id=kaynaktrh name=kaynaktrh width="300" style="visibility:hidden;" style="width: 300px">
+  {% for trh in tarihler %}
+   <option>{{trh}}</option>
+  {% endfor %}
+  </select>
+<select  type=text id=kaynakbf name=kaynakbf width="300" style="visibility:hidden;" style="width: 300px">
+  {% for bf in bfler %}
+   <option>{{bf}}</option>
+  {% endfor %}
+  </select>
+ </form>
+
+<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+<p>
+<a href="../"><img src="./static/ana.png" border="0"></a>
+<a href="../sbk"><img src="./static/info.png" border="0"></a>
+<a href="../exit"><img src="./static/close.png" border="0"></a><br>
+	</body>
+</html>

@@ -1,0 +1,1 @@
+select islem_turu from fatura where inckeyno='@fkod@'

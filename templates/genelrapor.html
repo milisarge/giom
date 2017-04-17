@@ -1,0 +1,160 @@
+<html>
+<head>
+<title>RAPOR</title>
+<META http-equiv="content-type" contentType="text/html; charset=UTF-8">
+<script src="{{url_for('static', filename='jquery.min.js')}}"></script>
+<script src="./static/js/datetimepicker.js"></script>
+<script src="./static/jquery.js"></script>
+<script src="./static/js/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="./static/js/themes/smoothness/jquery-ui.css" />
+<script
+	src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
+<link rel="stylesheet"
+	href="{{url_for('static', filename='css/table2.css')}}" type="text/css"
+	id="" media="print, projection, screen">
+
+<style type="text/css">
+body {
+	margin: 0px auto;
+	padding: 0px 0px;
+	font-family: calibri;
+}
+</style>
+
+<script>
+//add parser through the tablesorter addParser method 
+$.tablesorter.addParser({ 
+    // set a unique id 
+    id: 'kisaTarih', 
+    is: function(s) { 
+        // return false so this parser is not auto detected 
+        return false; 
+    }, 
+    format: function(s) { 
+        // format your data for normalization
+        gunAyYil = s.split(".");
+        tarih = new Date(gunAyYil[2], gunAyYil[1], gunAyYil[0]);
+        console.log(tarih.getTime());
+        return tarih.getTime();
+    }, 
+    // set type, either numeric or text 
+    type: 'digit' 
+}); 
+
+$(document).ready(function() {
+	$("table").tablesorter({
+	    headers: { 
+	    	5: {
+	    		sorter: 'kisaTarih'
+	    	},
+			6: {
+	    		sorter: 'kisaTarih'
+	    	}
+		},
+		// enable debug mode 
+        debug: true
+	});
+});
+	$(function() {
+		$('#tarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			minDate: new Date(2013, 0, 1),
+			maxDate: new Date(2013, 11, 31),
+		}).mask('99-99-9999');
+		// console.log( "{{tarih}}" );
+		$('#tarih').val("{{tarih}}");
+		});
+</script>
+</head>
+<body>
+	<form action="{{ url_for('genelrapor') }}" method="post">
+		<input type="submit" id="guncelgoster" name="guncelgoster" value="rapor-1"> SON 7 GÜNDE İŞLENEN FATURALAR</input><BR>
+		TARIH:
+		<input id="tarih" name="tarih" type="text" value={{tarih}} >
+		<input type="submit" id="guncelgoster" name="guncelgoster"value="rapor-2"> VADESİ GEÇMİŞ BORÇLARI GÖSTER</input>
+			
+	</form>
+	
+	{{raporsecim}}
+	<div>
+	
+		<table class="tablesorter">
+			{% if raporsecim in ['rapor-1'] %}
+			<thead>
+				<tr>
+					<th style="width: 5%;">KAYITÇI</th>
+					<th style="width: 10%;">KAYIT TARİHİ</th>
+					<th style="width: 8%;">FATURA NO</th>
+					<th style="width: 44%;">CARİ İSİM</th>
+					<th style="width: 8%;">TUTAR</th>
+					<th style="width: 6%;">FATURA TARİHİ</th>
+					<th style="width: 6%;">VADE TARİHİ</th>
+					<th style="width: 10%;">DÜZELTME TARİHİ</th>
+				<tr>
+			</thead>
+			<tbody>
+				{% if rapor %} {% for satir in rapor %}
+				<tr>
+					<td style="width: 5%;">{{satir[1]}}</td>
+					<td style="width: 10%;">{{satir[2]}}</td>
+					<td style="width: 8%;"><a href="{{ url_for('faturaGoster') }}?belgeNo={{satir[0]}}&cariKod={{satir[8]}}&harYonu=G">{{satir[0]}}</a></td>
+					<td style="width: 44%;">{{satir[3]}}</td>
+					<td style="width: 8%; text-align: right;">{{'%.2f'|format(satir[4])}}</td>
+					<td style="width: 6%;">{{satir[5]}}</td>
+					<td style="width: 6%;">{{satir[6]}}</td>
+					<td style="width: 10%;">{{satir[7]}}</td>
+				</tr>
+				{% endfor %} {% endif %}
+			</tbody>
+			{% endif %}
+			{% if raporsecim in ['rapor-2']%}
+			<thead>
+				<tr>
+					<th style="width: 44%;">CARİ İSİM</th>
+					<th style="width: 10%;">BAKİYE</th>
+				<tr>
+			</thead>
+			<tbody>
+				{% if rapor %} {% for satir in rapor %}
+				<tr>
+					<td style="width: 44%;"><a href="{{ url_for('caropdetay')}}?tarih={{tarih}}&caribas={{satir[0]}}&carison={{satir[0]}}">{{satir[1]}}</a></td>
+					<td style="width: 10%;">{{satir[2]}}</td>
+
+				</tr>
+				{% endfor %} {% endif %}
+			</tbody>
+			{% endif %}
+			
+		</table>
+	</div>
+	
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

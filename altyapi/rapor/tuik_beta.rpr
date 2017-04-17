@@ -1,0 +1,10 @@
+set @merkez='28';
+set @stkod1='b0614';
+set @stkod2='b0604';
+set @stkod3='b0602';
+set @stkod4='b0601';
+set @kgdeger=2;
+set @ay="07";
+set @yon='G';
+#sql
+select b.stok_kodu,a.stok_adi,sum(round(b.miktar,2)) as miktar,sum(round(b.miktar*a.birim_agirlik)) as agirlik,b.hedef from sthar as b inner join tblstsabit as a on a.stok_kodu=b.stok_kodu where ftip=@yon and kaynak=@merkez and b.stok_kodu in (@stkod1,@stkod2,@stkod3,@stkod4) and hedef in ('10') and month(tarih)=@ay group by stok_kodu

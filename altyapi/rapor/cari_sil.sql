@@ -1,0 +1,1 @@
+delete from tblcasabit where cari_kod='@kod@';

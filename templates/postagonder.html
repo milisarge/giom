@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html>
+<head>
+<title>Fatura Postalama</title>
+
+</head>
+<body>
+<script>
+function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+	 //Posta:<input name="postaad" maxlength="50" value="gonderen@gmail.com" type="text"/><br/>
+	//Sifre: <input name="postasfr" maxlength="50" value="" type="password"/><br/>
+	 
+}
+
+</script>
+
+<H3>OTOMATiK BİLGİLENDİRME SERVİSİ</H3>
+
+<div class="input">
+<form action="/postagonder" enctype="multipart/form-data" method="post">
+<div>
+Kime:<input name="kime" maxlength="50" value={{kposta}} style="width: 190px;" type="text"/><br/>
+Kend:<input name="kendi" maxlength="50" value={{kendi}} style="width: 190px;" type="text"/><br/>
+Konu:<input name="konu" maxlength="80" value="{{konu}}" type="text"/><br/>
+Icerik:<textarea rows="5" cols="25" name='icerik'></textarea><br/> 
+<input name="fkod" id="fkod" hidden value={{fkod}} type="text"/>
+<input name="modul" id="modul" hidden value={{modul}} type="text"/>
+<input type="submit" name="komut" value="postala"/>
+<input type="submit" name="komut" value="listesiz postala"/><br>
+</br>
+<a href="../"><img src="./static/ana.png" border="0"></a>
+  <a href="../faturaModul"><img src="./static/kaydet.png" border="0"></a>
+  <a href="../exit"><img src="./static/close.png" border="0"></a><br>
+ 
+</div>
+</form>
+</div></body></html>

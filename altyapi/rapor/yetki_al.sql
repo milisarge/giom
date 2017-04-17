@@ -1,0 +1,1 @@
+select yetki_duzey from kullanici where id='@id@'

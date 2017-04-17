@@ -1,0 +1,1 @@
+SELECT max(tarih) FROM sthar where ((hedef='SAYIM_MODULU' and kaynak='@merkez@') or (kaynak='SAYIM_MODULU' and  hedef='@merkez@')) and stok_kodu='@stokod@' order by tarih

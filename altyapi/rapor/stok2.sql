@@ -1,0 +1,1 @@
+select * from tblstsabit where stok_adi='@stkad' limit 1

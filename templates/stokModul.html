@@ -1,0 +1,1060 @@
+<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>STOK</title>
+<meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./static/css/reset.css" />
+<script src="../static/jquery.js"></script>
+<script src="../static/js/jquery-ui.js"></script>
+<script src="./static/js/datetimepicker.js"></script>
+<script type="text/javascript" src="./static/js/jquery.maskedinput.min.js"></script>
+<script src="../static/js/jquery.form.min.js"></script>
+<script src="../static/js/jquery.handsontable.full.js"></script>
+<script src="../static/js/jquery.fileDownload.js"></script>
+<script src="./static/js/shortcut.js"></script>
+<script src="./static/js/jquery.cookie.js"></script>
+<script src="../static/js/hintbox.js"></script>
+<script src="../static/js/jquery-barcode-last.min.js"></script>
+<link rel="stylesheet" href="./static/css/hintbox.css" />
+<link rel="stylesheet" href="./static/js/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="./static/css/jquery.handsontable.full.css" />
+<script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
+<script src="./static/js/jquery.blockUI.js"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='css/table2.css')}}" type="text/css" id="" media="print, projection, screen">
+
+<style type="text/css">
+body {
+	margin: 0px auto;
+	padding: 0px 0px;
+	font-family:monospace;
+	font-weight: bold;
+}
+.anasablon {
+	width: 1556px;
+	height: auto;
+	
+}
+.mheader {
+	font-family: Arial, Verdana;
+	text-shadow: 2px 2px 2px #ccc;
+	display: block;
+	float: left;
+	font-weight: bold;
+	padding-left: 10px;
+	text-align: left;
+	font-size: 15px;
+	width: 1530px;
+	height: 20px;
+}
+.formalan{
+	float:left;
+	width:395px;
+	height:850px;
+	border:#CCC solid 1px;
+	background-color:#996600 ;
+	margin-right: 10px;
+	margin-left: 4px;
+	font-family:monospace;
+	font-weight: bold;
+}
+.raporalan{
+	float:right;
+	width:1050px;
+	height:700px;
+	border:#Cf0 solid 1px;
+	background-color:solid ;
+	margin-right: 10px;
+	margin-left: 4px;
+	font-family:monospace;
+	font-weight: bold;
+	overflow: scroll;
+}
+.operbutonlar{
+	width:auto; 
+	margin: 5 ;
+	font-family:monospace;
+	font-weight: bold;
+}
+.element{
+	width:auto; 
+	margin: 10 ;
+	float:left;
+	font-family:monospace;
+	font-weight: bold;
+}
+.dialog-form{
+	float:left;
+	width:auto;
+	height:auto;
+	border:#CCC solid 1px;
+	background-color:#996600 ;
+	margin-right: 10px;
+	margin-left: 4px;
+	font-family:monospace;
+	font-weight: bold;
+}
+
+p{ 
+    margin:5px 0; 
+}
+
+.mheader,.formalan,.raporalan{
+	margin: 3px;
+	padding: 15px;
+	background: #669999 ;
+	border: 1px solid #cccccc;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 2px 2px 2px #cccccc;
+	-webkit-box-shadow: 2px 2px 2px #cccccc;
+	box-shadow: 2px 2px 2px #cccccc;
+}
+
+</style>
+<script>
+	
+	var stoklar=[];
+	var stix = 0;
+	
+	$(document).ready(function() {
+		
+		shortcut.add("ctrl+s", function() {
+			$('#stokKaydet').click();
+	    }); 
+		
+		//stok adindan arama
+		$("#ad").autocomplete({
+			source : "/addanStokAra",
+			type: "POST",
+			minLength : 3,
+			remoteDataType : 'json',
+			autoFill : true,
+			//select : secilenStokuGetir
+		});
+		
+		//cari adindan arama
+		$("#gozcari").autocomplete({
+			source : "/cariBul",
+			type: "POST",
+			minLength : 3,
+			remoteDataType : 'json',
+			autoFill : true,
+			//select : secilenCariGetir
+		});
+		$("#poscari").autocomplete({
+			source : "/cariBul",
+			type: "POST",
+			minLength : 3,
+			remoteDataType : 'json',
+			autoFill : true,
+			//select : secilenCariGetir
+		});
+		
+		$('#kod').keypress(function(event){return event.keyCode != 13;});
+		$('#ad').keypress(function(event){return event.keyCode != 13;});
+		$('#arama').keypress(function(event){return event.keyCode != 13;});
+		//$('#stokGozlem').keypress(function(event){return event.keyCode != 13;});
+		//$('#stokgetir').keypress(function(event){return event.keyCode != 13;});
+		//$('#tarih_reset').keypress(function(event){return event.keyCode != 13;});
+		//$('#stokKaydet').keypress(function(event){return event.keyCode != 13;});
+		/*$('#sat3fiat').keypress(function(event){return event.keyCode != 13;});
+		$('#sat1fiat').keypress(function(event){return event.keyCode != 13;});
+		$('#sat2fiat').keypress(function(event){return event.keyCode != 13;});
+		$('#barkod1').keypress(function(event){return event.keyCode != 13;});
+		$('#barkod2').keypress(function(event){return event.keyCode != 13;});
+		$('#barkod3').keypress(function(event){return event.keyCode != 13;});
+		$('#alkdv').keypress(function(event){return event.keyCode != 13;});
+		$('#satkdv').keypress(function(event){return event.keyCode != 13;});
+		$('#al1fiat').keypress(function(event){return event.keyCode != 13;});*/
+		
+		$('#kod').keypress(function(event){
+			if(event.keyCode ==13 || event.keyCode ==9){
+				$.ajax({
+					url : "/stokNesneGetir?kriter=kod&stokod=" + $('#kod').val(),
+				}).done(function(data) {
+					if(data && data !=""){
+						$('#bilgi').html("");
+						stokBilgiDoldur(data);
+					}else{
+						errorHandler("stok bulunamadı!");
+						stokBilgiBosalt();
+					}
+				});
+			}
+		});
+		
+		$('#ad').keypress(function(event){
+			if(event.keyCode ==13 || event.keyCode ==9){
+				var stokad=$('#ad').val();
+				stokad=stokad.replace(/%/g , "%25");
+				stokad=stokad.replace(/&/g , "%26");
+				stokad=stokad.replace('+','%2B');
+				$.ajax({
+					url : "/stokNesneGetir?kriter=ad&stokad=" + stokad,
+				}).done(function(data) {
+					if(data && data !=""){
+						$('#bilgi').html("");
+						stokBilgiDoldur(data);
+					}else{
+						errorHandler("stok bulunamadı!");
+						stokBilgiBosalt();
+					}
+				});
+			}
+		});
+		/*
+		$('#ad').on('blur', function(event){
+			stokGozlemle();
+		});
+		*/
+		
+		$('#sthTarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			defaultDate: +7,
+			minDate: new Date(2014, 0, 1),
+			maxDate: new Date(2015, 11, 31),
+		}).mask('99-99-9999');
+		
+		//guncel tarih ayarlama
+		var d = new Date();
+		var month = d.getMonth()+1;
+		var day = d.getDate();
+		var output = (day<10 ? '0' : '') + day + '-' +(month<10 ? '0' : '') + month + '-' + d.getFullYear() ;
+		$('#sthTarih').val(output);
+		
+		$('#sthMiktar').on('blur', function(event){
+			if( $("#kod").val() && $("#sthMiktar").val() && $("#sthTarih").val() && $("#gozcari").val()  && $("#sthFisno").val()) {
+				var opsth = {
+				url: "/sthEkle",
+				type: "post",
+				target:"#bilgi",
+				dataType: "json",
+				success : hareketGozlemDonus
+				};
+				$('#stokModulform').ajaxSubmit(opsth);
+			} else {
+				errorHandler("boş sahalar var!");
+			}
+			
+		});
+		
+		kar_oranlari();
+		
+		
+		$('#stokGozlem').on('click', function(event){
+			event.preventDefault();
+			$('#shgun').val("-1")
+			stokGozlemle();
+		});
+		
+		$('#stokGozlem10').on('click', function(event){
+			event.preventDefault();
+			$('#shgun').val("10")
+			stokGozlemle();
+		});
+		$('#stokGozlem20').on('click', function(event){
+			event.preventDefault();
+			$('#shgun').val("20")
+			stokGozlemle();
+		});
+		$('#stokGozlem30').on('click', function(event){
+			event.preventDefault();
+			$('#shgun').val("30")
+			stokGozlemle();
+		});
+		$('#stokGozlem60').on('click', function(event){
+			event.preventDefault();
+			$('#shgun').val("60")
+			stokGozlemle();
+		});
+		$('#stokGozlem90').on('click', function(event){
+			event.preventDefault();
+			$('#shgun').val("90")
+			stokGozlemle();
+		});
+		
+		$('#stokKaydet').on('click', function(event){
+			event.preventDefault();
+			var opstokkaydet = {
+					url: "/stokKaydet",
+					type: "POST",
+					DataType : 'json',
+					//stok icin sahalarin kontrolu
+					beforeSubmit : stokKayitKontrol,
+					//success : fatuKayitDonus
+					success: function (data, status) {
+						succesHandler(data);
+					}
+			};
+			$('#stokModulform').ajaxSubmit(opstokkaydet);
+		});
+		
+		$('#stokSil').on('click', function(event){
+			event.preventDefault();
+			$.ajax({
+				url : "/stokSil?kod=" + $('#kod').val(),
+			}).done(function(data) {
+				succesHandler(data);
+			});
+			
+		});
+		
+		$("#bilgi").click(function(event){
+		    event = event || window.event;
+	         if(event.target.id !='sisLink')
+	         {
+	            event.preventDefault(); 
+	         }
+			var tar;
+		    if (event.target) targ = event.target;
+		    else if (event.srcElement) targ = event.srcElement;
+		    if (targ.nodeType == 3) // defeat Safari bug
+		        targ = targ.parentNode;
+			console.log(targ.id);
+			var islem=targ.id.split("@");
+			var olay=islem[0];
+			var islem_no=islem[1];
+		    if(olay == "sth_yukle"){
+				errorHandler("yapımda");
+			}
+			if(olay == "sth_sil"){		
+				$.ajax({
+					url : "/sthSil2?sthkod="+islem_no,
+				}).done(function(data) {
+					console.log(data);
+					stokGozlemle();
+					succesHandler(data);
+				}); 
+			}
+			
+		});
+		
+		$('#arama').on('blur', function(event){
+			event.preventDefault();
+			console.log("sdsss");
+			var opgetir = {
+				url: "/stokSorgu",
+				target:"#bilgi",
+				DataType : 'json',
+				type: "POST",	
+				success: hareketGozlemDonus
+			};
+			$('#stokModulform').ajaxSubmit(opgetir);
+			
+		});
+		
+		
+		$('#stokGetir').on('click', function(event){
+			event.preventDefault();
+			var opgetir = {
+					url: "/stokSorgu2",
+					DataType : 'json',
+					type: "POST",	
+					success: sorguDonus
+			};
+			$('#stokModulform').ajaxSubmit(opgetir);
+		});
+		
+		$('#stokVirman').on('click', function(event){
+			event.preventDefault();
+			var cevb = confirm('virman?');
+			if(cevb){
+				var opgetir = {
+						url: "/stokVirman",
+						//target:"#hareketGozlem",
+						DataType : 'json',
+						type: "POST",	
+						success: function (data, status) {
+							
+							succesHandler(data);
+						}
+				};
+				$('#stokModulform').ajaxSubmit(opgetir);
+			}
+		});
+		
+		$( "#dialog-form" ).dialog({
+			dialogClass: "no-close",
+			buttons: [
+			{
+				text: "TAMAM",
+				click: function() {
+					$( this ).dialog( "close" );
+				}
+			},
+			{
+				text: "POSTALA",
+				click: function() {
+					$('#kod').val("test");
+				}
+			}
+			]
+		});
+		
+		$('#ileri').on('click', function(event){	
+			event.preventDefault();
+			stix=parseInt($.cookie('stix'));
+			console.log(stix);
+			$.cookie('stix',stix+1);
+			
+			diziStokGetir(stix+1);
+		});
+		
+		$('#geri').on('click', function(event){	
+			event.preventDefault();
+			stix=parseInt($.cookie('stix'));
+			console.log(stix);
+			$.cookie('stix',stix-1);
+			diziStokGetir(stix-1);	
+		});
+		
+		$('#reset').on('click', function(event){	
+			event.preventDefault();
+			$.cookie('stix',-1);
+		});
+		
+		$('#barkodres').on('click', function(event){	
+			event.preventDefault();
+			$("#barkodyer").barcode($("#barkod1").val(), "ean13",{barWidth:2, barHeight:25,output:'bmp'}); 
+		});
+		
+		$('#etiketbas').on('click', function(event){
+			event.preventDefault();
+			var opgetir = {
+				url: "/etkYazdirKontrol",
+				DataType : 'json',
+				type: "POST",	
+				success: function (data) {
+					if (data=="yok"){
+						etiketBas();
+					}else{
+						etiketBasOnay();
+					}
+				}
+			};
+			$('#stokModulform').ajaxSubmit(opgetir);
+		});
+		
+		$('#trzdata').on('click', function(event){
+			event.preventDefault();
+			$.ajax({
+				url : "/teraziDataAl",
+				type: "POST",	
+			}).done(function(data) {
+				succesHandler(data);
+			}); 
+			window.open("/static/kamusal/terazi_data.xls",'_blank');
+		});
+		
+		$( "input[name^='barkod']" ).on('dblclick', function(event){	
+			event.preventDefault();
+			$.ajax({
+				url : "/barkodTamamla?barkod=" +$('#'+event.target.id).val(),
+			}).done(function(data) {
+				if (data!="hata"){
+					 $('#'+event.target.id).val(data);
+				}else{
+					errorHandler(data);
+				}
+			});
+		});
+		
+		$('#posAktar').on('click', function(event){
+			event.preventDefault();
+			succesHandler("pos dosyası aktarılıyor......");
+			$.ajax({
+				url : "/posAktar?posdosya=" + $('#posdosya').val()+"&poscari="+$('#poscari').val()+"&merkez="+$('#gozcari').val(),
+			}).done(function(data) {
+				if(data =="tamam"){
+					succesHandler(data);
+					
+				}else{
+					errorHandler(data);
+				}
+			});
+		});
+		
+		$('#zRapor').on('click', function(event){
+			event.preventDefault();
+			var opgetir = {
+				url: "/zRaporla",
+				target:"#bilgi",
+				DataType : 'json',
+				type: "POST",	
+				success: hareketGozlemDonus
+			};
+			$('#stokModulform').ajaxSubmit(opgetir);
+			/*
+			succesHandler("z rapor olusturuluyor...");
+			$.ajax({
+				url : "/zRaporla?posdosya=" + $('#posdosya').val(),
+			}).done(function(data) {
+				if(data && data !=""){
+					succesHandler(data);
+					
+				}else{
+					errorHandler("pos dosyasında sorun var");
+				}
+			});
+			*/
+			
+		});
+		
+		$('#posGonder').on('click', function(event){
+			event.preventDefault();
+			//$('#bilgi').html("pos stok listesi olusturuluyor.....");
+			$.ajax({
+					url : "/posGonder?kriter=" + $('#kriter').val()+"&arama="+$('#arama').val(),
+			}).done(function(data) {
+				if(data && data !=""){
+					//succesHandler(data);
+					window.open("/static/gncpluf.gtf",'_blank');
+					$.ajax({
+						url : "/posdossil",
+					}).done(function(data) {
+						succesHandler(data);
+					});
+				}else{
+					errorHandler("pos stok listesinde sorun var!");
+				}
+			});
+		});
+		
+		$('#posYukle').on('click', function(event){
+			event.preventDefault();
+			var opgetir = {
+				url: "/posYukle",
+				DataType : 'json',
+				type: "POST",	
+				success: function (data, status) {
+					$("#posdosya").empty();
+					for(row in data) {
+						tempOpt = new Option(data[row]);
+						$("#posdosya").append(tempOpt);
+					}
+					succesHandler("dosyanız yüklendi.")
+				}
+			};
+			$('#stokModulform').ajaxSubmit(opgetir);
+		});
+		
+		$('#posDosyaal').on('click', function(event){
+			event.preventDefault();
+			window.open("/static/gncpluf.gtf",'_blank');
+		});
+		
+		$('#otopos').on('click', function(event){
+			event.preventDefault();
+			window.open('http://192.168.1.34:6006/posAt', '_blank');
+		});
+	
+	});
+	
+	function stokKayitKontrol(formData, jqForm, options) {
+		
+		var bosKontrol=true;
+		var hata="";
+		if($('#kod').val() == ""){
+			bosKontrol=false;
+			hata="stok kodu bos olamaz!";
+		}
+		if($('#grupkod').val() == ""){
+			bosKontrol=false;
+			hata="grup kodu bos olamaz!";
+		}
+		if(/^[0-9,]+(\.\d{0,3})?$/.test($('#satis_fiat3').val())==false){
+			bosKontrol=false;
+			hata="sat3fiat dekimal olmali!";
+		}
+		if(/^[0-9,]+(\.\d{0,3})?$/.test($('#satis_fiat2').val())==false){
+			bosKontrol=false;
+			hata="satis1 fiat dekimal olmali!";
+		}
+		
+		if(/^[0-9,]+(\.\d{0,3})?$/.test($('#satis_fiat1').val())==false){
+			bosKontrol=false;
+			hata="satis2 fiat dekimal olmali!";
+		}
+		if(/^[0-9,]+(\.\d{0,3})?$/.test($('#alkdv').val())==false){
+			bosKontrol=false;
+			hata="alis kdv orani dekimal olmali!";
+		}
+		if(/^[0-9,]+(\.\d{0,3})?$/.test($('#satkdv').val())==false){
+			bosKontrol=false;
+			hata="satis kdv orani dekimal olmali!";
+		}
+		
+		
+		if(bosKontrol==false){
+			errorHandler(hata);
+		}
+		return bosKontrol;
+		
+	};
+	
+	function secilenStokuGetir() {
+		$.ajax({
+			url : "/stokNesneGetir?kriter=ad&stokad=" + $('#ad').val(),
+		}).done(function(data) {
+			stokBilgiDoldur(data);
+			//$("#stkMiktar").focus();
+		});
+	}
+	
+	function stokGozlemle(){
+		var opsgozlem = {
+			url: "/sHareketGozlem?stokod="+$("#kod").val()+"&kaynak="+$("#gozcari").val()+"&shgun="+$("#shgun").val(),
+			target:"#bilgi",
+			DataType : 'json',
+			type: "POST",	
+			success: hareketGozlemDonus
+		};
+		$('#stokModulform').ajaxSubmit(opsgozlem);
+	}
+	
+	function stokBilgiDoldur(data){
+		$("#kod").val(data.kod);
+		$("#ad").val(data.isim);
+		$("#satis_fiat1").val(data.satis_fiat1);
+		$("#satis_fiat2").val(data.satis_fiat2);
+		$("#satis_fiat3").val(data.satis_fiat3);
+		$("#al1fiat").val(data.alis_fiat1);
+		$("#al2fiat").val(data.alis_fiat2);
+		$("#al3fiat").val(data.alis_fiat3);
+		$("#barkod1").val(data.barkod1);
+		$("#barkod2").val(data.barkod2);
+		$("#barkod3").val(data.barkod3);
+		$("#barkod4").val(data.barkod4);
+		$("#barkod5").val(data.barkod5);
+		$("#barkod6").val(data.barkod6);
+		$("#alkdv").val(data.aliskdv);
+		$("#satkdv").val(data.satiskdv);
+		$("#olcubr1").val(data.olcubr1);
+		$("#olcubr2").val(data.olcubr2);
+		$("#birimag").val(data.birimag);
+		$("#pkadet").val(data.payda);
+		$("#grupkod").val(data.grupkod);
+		$("#kod1").val(data.kod1);
+		$("#kod2").val(data.kod2);
+		$("#kod3").val(data.kod3);
+		$("#kod4").val(data.kod4);
+		$("#kod5").val(data.kod5);
+		$("#satici_kodu").val(data.saticikodu);
+		kar_oranlari();
+	}
+	
+	function stokBilgiBosalt(){
+		$("#kod").val("");
+		$("#ad").val("");
+		$("#satis_fiat3").val("");
+		$("#satis_fiat2").val("");
+		$("#satis_fiat1").val("");
+		$("#al1fiat").val("");
+		$("#al2fiat").val("");
+		$("#al3fiat").val("");
+		$("#barkod1").val("");
+		$("#barkod2").val("");
+		$("#barkod3").val("");
+		$("#barkod4").val("");
+		$("#barkod5").val("");
+		$("#barkod6").val("");
+		$("#alkdv").val("");
+		$("#satkdv").val("");
+		$("#olcubr1").val("");
+		$("#olcubr2").val("");
+		$("#birimag").val("");
+		$("#pkadet").val("");
+		$("#grupkod").val("");
+		$("#kod1").val("");
+		$("#kod2").val("");
+		$("#kod3").val("");
+		$("#kod4").val("");
+		$("#kod5").val("");
+		$("#satici_kodu").val("");
+	}
+	
+	function hareketGozlemDonus(res,statusText,xhr,$form){
+		if(res!='None'){
+			$("#bilgi").html(res);
+			$("#hareketrapor").tablesorter();
+		}
+	}
+	
+	function sorguDonus(res,statusText,xhr,$form){
+		console.log(res);
+		stokListHazirla(res);
+	}
+	
+	function stokListHazirla(dizi){
+		console.log(dizi);
+		if(dizi!='None'){
+			var sorgu=[];
+			sorgu=dizi;
+			var durma=true;
+			var say=0;
+			var stkod="";
+			$.cookie('stix',-1 );
+			stoklar=new Array;
+			
+			while(sorgu[say]){
+				stkod=sorgu[say];
+				
+				stoklar.push(stkod);
+				say=say+1;	
+				$.cookie('stoklar',stoklar );
+			}
+			console.log("gelen stok sayi:"+say);
+		}
+		
+	}
+	
+	function diziStokGetir(stix){
+		var stokodlar=$.cookie('stoklar').split(',')
+		//var stokod=stokodlar[$.cookie('stix')];
+		var stokod=stokodlar[stix];
+		$.ajax({
+			url : "/stokNesneGetir?kriter=kod&stokod=" + stokod,
+		}).done(function(data) {
+			if(data && data !=""){
+					$('#bilgi').html("");
+					stokBilgiDoldur(data);
+					//stokBakiyeBilgi();
+			}else{
+					$('#bilgi').html("stok bulunamadi.");
+					stokBilgiBosalt();
+			}
+		});
+
+	}
+	
+	function kar_oranlari(){
+		$('#ykar1').val($('#satis_fiat3').val()*1.25);
+		$('#ykar2').val($('#satis_fiat3').val()*1.33);
+		$('#ykar3').val($('#satis_fiat3').val()*1.40);
+		$('#ykar4').val($('#satis_fiat3').val()*1.50);
+		$('#ykar').val(($('#satis_fiat1').val()/$('#satis_fiat3').val()-1)*100);
+	}
+	
+	function etiketBas(){
+		var opgetir = {
+			url: "/etkYazdir",
+			DataType : 'json',
+			type: "POST",	
+			success: function (data, status) {
+				succesHandler(data);
+			}
+		};
+		$('#stokModulform').ajaxSubmit(opgetir);
+	}
+	
+	
+	function etiketBasOnay(){
+		msj="etiket daha önce basılmış,yine basılsın mı?"
+			return $("<div class='dialog' title='" + "Etiket Basım Bilgi" + "'><p>" +msj+ "</p></div>")
+			.dialog({
+				modal: true,
+				buttons: {
+					"onayla": function() {
+						etiketBas();
+						$( this ).dialog( "close" );
+					},
+					"iptal": function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			});		
+	}
+	
+	function errorHandler(message) {
+		// TODO: hata mesajı dön
+		console.log("HATA:" + message);
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#900', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff',
+                
+            }
+        });
+	}
+	
+	function succesHandler(message) {
+		// TODO: hata mesajı dön
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#080', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff'
+            }
+        });
+	}
+	
+	function aramakon()
+	{
+		var arama=document.forms["stokModul"]["arama"].value;
+		if (arama==null || arama=="")
+		{alert("arama bos olamaz");return false;}
+	}
+	
+</script>
+</head>
+
+<body bgcolor='silver' > 
+<form id=stokModulform name=stokModul action="{{ url_for('stokModul') }}" method=post enctype="multipart/form-data">
+<div class=anasablon>
+	<div class="mheader" tabindex="-1">
+		<a href="/stokModul"><img src="stok.png" class="hover" hinttext="Stok" style="margin-right:120px;"></a> 
+		<a href="/faturaModul"><img src="fatura.png" class="hover" hinttext="Fatura" style="margin-right:20px;"></a> 
+		<a href="/cariModul"><img src="cari.png" class="hover" hinttext="Cari" style="margin-right:20px;"></a> 
+		<a href="/siparisModul"><img src="spr.png" class="hover" hinttext="Sipariş" style="margin-right:20px;"></a> 
+		<a href="/sayimModul"><img src="pencil.png" class="hover" hinttext="Sayım" style="margin-right:20px;"></a> 
+		<a href="/raporModul"><img src="rapor.png" class="hover" hinttext="Rapor" style="margin-right:20px;"></a> 
+		<a href="/veriModul"><img src="veri.png" class="hover" hinttext="Veri" style="margin-right:20px;"></a> 
+		<a href="/altyapiModul"><img src="altyapi.png" class="hover" hinttext="Altyapı" style="margin-right:20px;"></a> 
+		<a href="/logModul"><img src="log.png" class="hover" hinttext="Log" style="margin-right:20px;"></a> 
+		<a href="/yetkiliModul"><img src="config.png" class="hover" hinttext="Yetkili" style="margin-right:20px;"></a> 
+		<a href="/exit"><img src="cikis.png" class="hover" hinttext="ÇIKIŞ" style="margin-left:40px;"></a> 
+	
+		<div class="kulblok">{{kullanici}}</div>
+	</div><br>
+	<div class=formalan>
+	
+		<table  border=1  align=left>
+		<tr>
+		<td><input type="submit" name="stokGozlem" id="stokGozlem" value="hareket" style="margin-left: 0px; " /></td>
+		<td><input type=text id=gozcari name=gozcari value={{merkez_nokta}} ondblclick=this.value='' width="60" style="width:60px" >
+		<input type="submit" name="stokGozlem10" id="stokGozlem10" value="10G" style="margin-left: 0px; " />
+		<input type="submit" name="stokGozlem20" id="stokGozlem20" value="20G" style="margin-left: 0px; " />
+		<input type="submit" name="stokGozlem30" id="stokGozlem30" value="1A" style="margin-left: 0px; " />
+		<input type="submit" name="stokGozlem60" id="stokGozlem60" value="2A" style="margin-left: 0px; " />
+		<input type="submit" name="stokGozlem90" id="stokGozlem90" value="3A" style="margin-left: 0px; " /></td>
+		<input type="text" class="txt"name="shgun" id="shgun" hidden value='-1' style="margin-right: 5px; width: 70px;"/>
+		</tr>
+		<tr><td><hr noshade size=2></td><td><hr noshade size=2></td></tr>
+		<tr>
+		<td>KOD:</td>
+		<td><input type=text id=kod name=kod value="{{stok.kod}}" ondblclick=this.value='' width="100" style="width:100px"></td>
+		</tr>
+		<tr>
+		<td>ISIM:</td>
+		<td><input type=text id=ad name=ad value="{{stok.isim}}" ondblclick=this.value='' width="325" style="width: 325px"></td>
+		</tr>
+		<tr><td><hr noshade size=2></td><td><hr noshade size=2></td></tr>
+		<tr>
+		<td>ALKDV:</td>
+		<td>
+		<input type=text id=alkdv name=alkdv value="{{stok.alis_kdv_kodu}}" width="50" style="width: 50px">
+		SAT_KDV:<input type=text id=satkdv name=satkdv value="{{stok.kdv_orani}}"   width="50" style="width: 50px">
+		KOLİ AD:<input type=text id=pkadet name=pkadet value="{{stok.payda}}"   width="50" style="width: 50px">
+		</td>
+		</tr>
+		<tr><td><hr noshade size=2></td><td><hr noshade size=2></td></tr>
+		<tr>
+		<td>BR1:</td>
+		<td><input type=text id=olcubr1 name=olcubr1 value="{{stok.olcu_br1}}"  width="50" style="width: 50px">
+		BIRIM2       :<input type=text id=olcubr2 name=olcubr2 value="{{stok.olcu_br2}}"  width="50" style="width: 50px">
+		BR.AGIR:<input type=text id=birimag name=birimag value="{{stok.birim_agirlik}}" width="50" style="width: 50px">
+		</td>
+		</tr>
+		<tr><td><hr noshade size=2></td><td><hr noshade size=2></td></tr>
+		<tr>
+		<td>GIRISF1:</td>
+		<td>
+		<input type=text id=al1fiat name=al1fiat value="{{stok.alis_fiat1}}" width="50" style="width: 50px">
+		GIRISF2:<input type=text id=al2fiat name=al2fiat value="{{stok.alis_fiat2}}" width="50" style="width: 50px">
+		GIRISF3:<input type=text id=al3fiat name=al3fiat value="{{stok.alis_fiat3}}" width="50" style="width: 50px">
+		</td></tr>
+		<tr><td><hr noshade size=2></td><td><hr noshade size=2></td></tr>
+		<tr>
+		<td>CIKISF1:</td>
+		<td>
+		<input type=text id=satis_fiat1 name=satis_fiat1 value="{{stok.satis_fiat1}}" width="50" style="width: 50px">
+		CIKISF2:<input type=text id=satis_fiat2 name=satis_fiat2 value="{{stok.satis_fiat2}}" width="50" style="width: 50px">
+		CIKISF3:<input type=text id=satis_fiat3 name=satis_fiat3 value="{{stok.satis_fiat3}}" width="50" style="width: 50px">
+		</td></tr>
+		<tr><td><hr noshade size=2></td><td><hr noshade size=2></td></tr>
+
+
+		<table>
+		<tr>
+		<td>%25</td><td>%33</td><td>%40</td><td>%50</td>
+		</tr>
+		<tr>
+		<td><input type=text id=ykar1 name=ykar1 width="40" style="width:40px"></td>
+		<td><input type=text id=ykar2 name=ykar2 width="40" style="width:40px"></td>
+		<td><input type=text id=ykar3 name=ykar3 width="40" style="width:40px"></td>
+		<td><input type=text id=ykar4 name=ykar4 width="40" style="width:40px"></td>
+		<td> şimdiki kar oranı</td>
+		<td><input type=text id=ykar name=ykar width="40" style="width:40px"></td>
+		</tr>
+		</table>
+
+
+
+		<tr><td><hr noshade size=2></td><td><hr noshade size=2></td></tr>
+		<tr>
+		<td>BARKOD1:</td>
+		<td><input type=text id=barkod1 name=barkod1 value="{{stok.barkod1}}" width="120" style="width: 120px">
+		BARKOD2:<input type=text id=barkod2 name=barkod2 value="{{stok.barkod2}}" width="120" style="width: 120px">
+		</td></tr>
+		<tr>
+		<td>BARKOD3:</td>
+		<td><input type=text id=barkod3 name=barkod3 value="{{stok.barkod3}}" width="120" style="width: 120px">
+		BARKOD4:<input type=text id=barkod4 name=barkod4 value="{{stok.barkod4}}" width="120" style="width: 120px">
+		</td></tr>
+		<tr>
+		<td>BARKOD5:</td>
+		<td><input type=text id=barkod5 name=barkod5 value="{{stok.barkod5}}" width="120" style="width: 120px">
+		BARKOD6:<input type=text id=barkod6 name=barkod6 value="{{stok.barkod6}}" width="120" style="width: 120px">
+		</td></tr>
+		<tr><td><hr noshade size=2></td><td><hr noshade size=2></td></tr>
+		<tr>
+		<td>GKOD:</td>
+		<td><input type=text id=grupkod name=grupkod value="{{stok.grup_kodu}}" width="40" style="width: 40px">
+		KOD1:<input type=text id=kod1 name=kod1 value="{{stok.kod_1}}" width="40" style="width: 40px">
+		KOD2:<input type=text id=kod2 name=kod2 value="{{stok.kod_2}}" width="40" style="width: 40px">
+		</td></tr>
+		<tr>
+		<td>KOD3:</td>
+		<td><input type=text id=kod3 name=kod3 value="{{stok.kod_3}}" width="40" style="width: 40px">
+		KOD4:<input type=text id=kod4 name=kod4 value="{{stok.kod_4}}" width="40" style="width: 40px;margin-left:7px">
+		KOD5:<input type=text id=kod5 name=kod5 value="{{stok.kod_5}}" width="40" style="width: 40px;margin-left:0px">
+		</td></tr>
+		<p>
+		<tr>
+		<td>SATICI KODU:</td>
+		<td><input type=text id=satici_kodu name=satici_kodu value="{{stok.satici_kodu}}" style="width:70px;margin-left:0px">
+		</td></tr>
+		<tr>
+		<td>SON ALIMYER:</td>
+		<td><input type=text id=son_alimyer name=son_alimyer value="{{stok.son_alimyer}}" style="width:60px;margin-left:0px">
+		</td></tr>
+		<hr noshade size=2>
+		<tr>
+		<td>
+		</br>
+		</td>
+		</tr>
+		</table>
+		<div class=operbutonlar>
+			<div class=element>
+			<input type="submit" name="stokKaydet" id="stokKaydet" value="kaydet">
+			<input type="submit" name="stokSil" id="stokSil" value="sil">
+			 <input type=submit id="reset" name="reset" value="basa don" >
+		     <input type=submit id="geri" name="geri" value="geri" >
+			 <input type=submit id="ileri" name="ileri" value="ileri" ><p>
+			 <input type="submit" name="stokKodDegistir" id="stokKodDegistir" value="kod değiştir" />
+			 <input type="submit" name="barkodres" id="barkodres" value="barkod1 resim" />
+			 <input type="submit" name="trzdata" id="trzdata" value="terazi data" /><p>
+			 <label>yazıcı kodu</label>
+			<select id="yazicikod" name="yazicikod">
+				<option>1</option>
+				<option>2</option>
+			</select>
+			 <input type="submit" name="etiketbas" id="etiketbas" value="etiket bas" />
+			 <hr noshade size=2>
+			</div>
+			<p>
+			<div class=element>
+				<input type=file title="dosya sec" id=pos_dosya name=pos_dosya>
+				<input type=submit id=posYukle name=posYukle value=yukle>
+			</div>
+			<p>
+			<div class=element>
+			<input type=file title="dosya sec" id=posdosyayuk name=posdosyayuk hidden=True>
+			<input type=text id=poscari name=poscari value={{poscari}} ondblclick=this.value='' style="margin-center; width:50px;">
+			<select name="posdosya" id="posdosya" class="txt" style="width: 150px;" > 
+			{% for pdosya in pdosyalar %}<option>{{pdosya}}</option>{% endfor %}
+			</select><label>gtf dosyalar</label>
+			<input type="submit" name="posAktar" id="posAktar" class="button gray medium" value="Pos->Stk" style="margin-center: 10px; margin-top: 7px;"/>
+			<input type="submit" name="zRapor" id="zRapor" class="button gray medium" value="z raporla" style="margin-center: 10px; margin-top: 7px;"/>
+			</div>
+			<p>
+			<div class=element>
+			<label>kriter ve aranan giriniz.Bos olursa kamu stok</label>
+			<input type="submit" name="posGonder" id="posGonder" class="button gray medium" value="PosGonder" style="margin-center: 80px; margin-top: 7px;"/>
+			<input type="submit" name="posDosyaal" id="posDosyaal" class="button gray medium" value="Pos Ürün Dosyası" style="margin-center: 80px; margin-top: 7px;"/>
+			<input type="submit" name="otopos" id="otopos" class="button gray medium" value="otopos" style="margin-center: 80px; margin-top: 7px;"/>
+			
+			</div>
+		</div>
+	</div>
+
+	<div class=raporalan>	
+		<div class=operbutonlar>	
+			<dl>
+			<dt>kriter:<select  type=text id=kriter name=kriter value="{{kriter}}" >
+			<option>{{kriter}}</option>
+			<option>STOK_KODU</option>
+			<option>STOK_ADI</option>
+			<option>KOD_1</option>
+			<option>KOD_2</option>
+			<option>KOD_3</option>
+			<option>SATICI_KODU</option>
+			<option>BARKOD1</option>
+			<option>BARKOD2</option>
+			<option>BARKOD3</option>
+			</select>
+			aranan<input type=text id=arama name=arama value="{{arama}}" >
+			<!-- <input type=submit id="stokSorgu" name="stokSorgu" value="stok sorgulama" > -->
+			<input type=submit id="stokGetir" name="stokGetir" value="stok listesi al" >
+			<input type=text id=fkod name=fkod value="{{fkod}}"  ondblclick=this.value='' style="width:50px;">
+			</dl>
+			<hr noshade size="1">
+			<label>Tarih:</label> <input type="text" class="txt"name="sthTarih" id="sthTarih" style="margin-right: 5px; width: 120px;"/>
+			<label>Fişno:</label> <input type="text" class="txt"name="sthFisno" id="sthFisno" style="margin-right: 5px; width: 100px;"/>
+			<label>Miktar:</label> <input type="text" class="txt"name="sthMiktar" id="sthMiktar" style="margin-right: 5px; width: 70px;"/>
+			<hr noshade size="1">
+			<div id="bilgi"></div>
+			<p>
+
+			<div id="hintbox"></div>
+		</div>
+	</div> 
+	<div id="barkodyer"></div>
+</div>	
+</form>
+</body>
+</HTML>

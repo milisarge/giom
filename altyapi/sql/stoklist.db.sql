@@ -1,0 +1,5 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE stoklist(sira INTEGER PRIMARY KEY AUTOINCREMENT,stkod TEXT,stkad TEXT,miktar REAL,bf REAL,tutar REAL,stoklistno INT);
+CREATE TABLE stoklistgcc(sira INTEGER PRIMARY KEY AUTOINCREMENT,stkod TEXT,stkad TEXT,miktar REAL,bf REAL,tutar REAL,stoklistno INT);
+COMMIT;

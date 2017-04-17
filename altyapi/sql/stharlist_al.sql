@@ -1,0 +1,1 @@
+SELECT * FROM stoklist where stoklistno='@stoklistno'

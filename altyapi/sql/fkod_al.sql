@@ -1,0 +1,1 @@
+select inckeyno from fatura where fno='@fisno@' and kaynak='@merkez@'

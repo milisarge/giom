@@ -1,0 +1,1 @@
+select cari_kod,cari_isim,cari_tip,grup_kodu,rapor_kodu1,vergi_numarasi,vergi_dairesi from tblcasabit where @kriter@ like '%@aranan@%'

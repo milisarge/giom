@@ -1,0 +1,1 @@
+select * from tblcasabit where cari_isim='@cariad'

@@ -1,0 +1,192 @@
+<html>
+<head>
+<title>CARİ YAŞLANDIRMA DETAY</title>
+<META http-equiv="content-type" contentType="text/html; charset=UTF-8">
+<script src="./static/jquery.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+<style type="text/css">
+body {
+	margin: 0px auto;
+	padding: 0px 0px;
+	font-family: calibri;
+}
+
+.container {
+	margin: 20px 0px 0px 20px;
+	width: 798px;
+}
+
+.satir {
+	margin: 2px auto;
+	padding: 0px;
+	width: 100%;
+	height: 26px;
+	background-color: rgba(100, 100, 100, 0.1);
+}
+
+#cari .label{
+	padding: 3px;
+	width: 50px;
+	float: left;
+}
+
+#cari input {
+	width: 700px;
+	float: left;
+}
+
+#aralik input{
+	width: 50px;
+	float: left;
+}
+#aralik .label {
+	padding: 2px;
+	width: 700px;
+	float: left;
+}
+
+#hata {
+	margin: 3px auto;
+	width: inherit;
+	float: left;
+	color: red;
+}
+
+.cariTablo {
+	margin: 0 auto;
+	padding: 0px;
+	width: 800px;
+	font-size: 11px;
+}
+
+.cariTablo>thead {
+	background-color: rgba(0, 100, 0, 0.5);
+	font-weight: bold;
+}
+
+.cariTablo tr:nth-child(odd) {
+	background-color: rgba(0, 100, 0, 0.2);
+	vertical-align: middle;
+	border: 1px solid #ffffff;
+	border-width: 0px 1px 1px 0px;
+	padding: 1px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #000000;
+}
+
+.cariTablo tr:nth-child(even) {
+	background-color: rgba(0, 200, 0, 0.3);
+	vertical-align: middle;
+	border: 1px solid #ffffff;
+	border-width: 0px 1px 1px 0px;
+	padding: 1px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #000000;
+}
+</style>
+
+<script>
+var names = "";
+
+
+$(function() {
+	names = [{% for cari in cariler %}
+             	"{{cari}}",
+             {% endfor %}
+             ];
+	$('[name="cari_box"]' ).autocomplete({
+		source: names,
+		delay: 0
+	});
+	
+	$('#hata').val("");
+	
+	var params = parseQueryString();
+	
+	if(params["tip"] == "C") {
+		var cari_name = searchStringInArray("@" + params["kod"], names);
+		console.log(cari_name);
+		$('[name="cari_box"]').val(cari_name);
+		var satirlar = document.getElementsByClassName('satir');
+
+		for(i=0; i<satirlar.length; i++) {
+			satirlar[i].style.visibility = "hidden";
+			console.log(satirlar[i].style.visibility);
+		}
+		
+		document.getElementById('submit_box').click();
+	};
+});
+
+
+function gonder() {
+	var cariAd = $('[name="cari_box"]').val();
+	if( cariAd != "") {
+		if( names.indexOf( cariAd ) != -1 ) {
+			$('#hata').val("");
+			document.getElementById('submit_box').click();
+		} else {
+			$('#hata').html("Lütfen Listedeki Carilerden Birini Seçiniz!");
+		}
+	} else {
+		$('#hata').html("Alanı Boş Geçemezsiniz!");
+	}
+};
+
+function searchStringInArray (str, strArray) {
+    for (var j=0; j<strArray.length; j++) {
+        if (strArray[j].match(str)) return strArray[j];
+    }
+    return -1;
+};
+
+parseQueryString = function() {
+
+    var str = window.location.search;
+    var objURL = {};
+
+    str.replace(
+    	new RegExp( "([^?=&]+)(=([^&]*))?", "g" ),
+    	function( $0, $1, $2, $3 ){
+    		objURL[ $1 ] = $3;
+    	}
+    );
+    return objURL;
+};
+</script>
+</head>
+<body>
+	<form action="{{ url_for('caropdetay') }}" method="post">
+		<div class="container">
+			tarih<input id="tarih" name="tarih" type="text" value={{tarih}} ><br>
+			cari kod<input id="cari" name="cari" type="text" value={{cari}} >
+			<input type="submit" id="komut" name="komut"value="goster">YAŞLANDIRMALI CARİ BORÇ DÖKÜM</input>
+			<div>
+				<table class="cariTablo">
+					<thead>
+						<td style="width: 45%;">CARI ISIM</td>
+						<td style="width: 15%;">FATURA TARIHI</td>
+						<td style="width: 15%;">VADE TARIHI</td>
+						<td style="width: 15%;">TUTAR</td>
+						<td style="width: 10%;">GUN</td>
+					</thead>
+					{% if carophar %} {% for satir in carophar %} 
+					<tr>
+						<td style="width: 45%;">{{satir[2]}}</td>
+						<td style="width: 15%;">{{satir[0]}}</td>
+						<td style="width: 15%;">{{satir[3]}}</td>
+						<td style="width: 15%; text-align: right;">{{'%.2f'|format(satir[4])}}</td>
+						<td style="width: 10%;">{{satir[5]}}</td>
+					</tr>
+					{% endfor %} {% endif %}
+				</table>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

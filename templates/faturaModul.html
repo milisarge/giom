@@ -1,0 +1,2100 @@
+<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>FATURA</title>
+<meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./static/css/reset.css" />
+<script src="../static/jquery.js"></script>
+<script src="../static/js/jquery-ui.js"></script>
+<script src="./static/js/datetimepicker.js"></script>
+<script type="text/javascript" src="./static/js/jquery.maskedinput.min.js"></script>
+<script src="../static/js/jquery.form.min.js"></script>
+<script src="../static/js/jquery.handsontable.full.js"></script>
+<script src="../static/js/jQueryRotate.js"></script>
+<script src="./static/js/shortcut.js"></script>
+<script src="../static/js/jcarousellite.js"></script>
+<script src="../static/js/jquery.jcryption.3.0.1.js"></script>
+<script src="../static/js/hintbox.js"></script>
+<link rel="stylesheet" href="./static/css/hintbox.css" />
+<link rel="stylesheet" href="./static/js/themes/smoothness/jquery-ui.css" />
+<script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
+<script src="./static/js/jquery.blockUI.js"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='css/table2.css')}}" type="text/css" id="" media="print, projection, screen">
+<style type="text/css">
+
+#kayan_alan {
+	font-family: Arial, Verdana;
+	font-weight: bold;
+	text-align: center;
+	font-size: 15px;
+	height: 50px;
+	width: 600px;
+	margin:10px 0px 0px 0px;
+}
+
+#kayan_alan ul {list-style: none}
+#kayan_alan li {border-bottom-style:ridge;border-width:thin;cursor:pointer;width:250px;padding-top:5px;max-height:25px;padding-left:4px;}
+#kayan_alan li:hover {color:red;}
+
+    
+  
+.stkHeader {
+	font-family: Arial, Verdana;
+	text-shadow: 2px 2px 2px #AAA;
+	display: block;
+	float: left;
+	font-weight: bold;
+	padding-left: 10px;
+	text-align: center;
+	font-size: 22px;
+	width: 1520px;
+	height: 35px;
+}
+
+.pageContainer {
+	width: 1556px;
+	height: auto;
+}
+
+.stkHeader,.stkContainer,.stkHareket,.stkFatura, .infoCenter,.seckeYeri {
+	margin: 1px;
+	padding: 15px;
+	background:#669999;
+	border: 1px solid #DDDDDD;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 2px 2px 2px #DDDDDD;
+	-webkit-box-shadow: 2px 2px 2px #DDDDDD;
+	box-shadow: 4px 4px 4px #DDDDDD;
+}
+
+.infoCenter {
+	float: right;
+	width: 1043px;
+	height: 318px;
+}
+
+.stkContainer {
+	float: right;
+	width: 1043px;
+	height: 750px;
+}
+
+#stkTablo {
+	width: 1043px;
+	height: 670;
+	overflow: scroll;
+}
+
+
+#stkBaslik {
+	font-family: Arial, Verdana;
+	text-shadow: 2px 2px 2px #ccc;
+	font-weight: bold;
+	padding-left: 10px;
+	text-align: left;
+	font-size: 20px;
+	height: 5px;
+}
+
+.stkHareket {
+	float: left;
+	width: 320px;
+	height:750px;
+}
+
+.stkFatura {
+	float: left;
+	width: 340px;
+	height:auto;
+}
+
+.seckeYeri {
+	float: left;
+	width: 90px;
+	height:750px;
+}
+
+hr {
+	width: 100%;
+	margin: 10px 0px 10px 0px;
+	clear: both;
+	color: #111;
+}
+
+td {
+ white-space: nowrap;
+}
+
+.anasablon {
+	width: auto;
+	height: auto;
+	
+}
+
+.kulblok {
+	font-size: 16px;
+	display: block;
+	margin-bottom: 2px;
+	float: right;
+}
+
+.formblock {
+	display: block;
+	margin-bottom: 2px;
+	float: left;
+}
+
+.formblock label {
+	margin-left: 2px;
+	display: block;
+	font-style: italic;
+	font-weight: bold;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 12px;
+	color: black;
+}
+
+.formblock select {
+	padding: 1px 0px 1px 0px;
+	font-size: 12px;
+	font-family: Arial, Tahoma, sans-serif;
+	color: #666;
+	width: 90px;
+}
+
+.stkIslem {
+	padding-left:1px;
+	width: auto;
+	height:auto;
+}
+.row {
+	display: block;
+	min-height: 20px;
+	position: relative;
+}
+.row .left {
+	width: 100px;
+	float: left;
+	padding: 1px 0px 0px 2px;
+	min-height: 24px;
+	font-size: 12px;
+	font-style: italic;
+	font-weight: bold;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	color: black;
+}
+.row .right {
+	width: 200px;
+	float: left;
+	padding-left: 0px;
+	min-height: 24px;
+	text-align: left;
+}
+
+.row .clear {
+	float: none;
+	clear: both;
+	height: 0px;
+}
+
+.right input[type='text'] {
+	width: 200px;
+}
+.right input[type='checkbox'] {
+	width: 100px;
+}
+.right select {
+	padding: 1px 0px 1px 6px;
+	width: 100px;
+	margin-right: 10px;
+	font-size: 12px;
+	font-family: Arial, Tahoma, sans-serif;
+	color: #111;
+ }
+
+.left span {
+	position: absolute;
+	bottom: 8px;
+}
+
+.button {
+	display: inline-block;
+	zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+	*display: inline;
+	vertical-align: baseline;
+	margin: 0 2px;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+}
+
+.button:hover {
+	text-decoration: none;
+}
+
+.button:active {
+	position: relative;
+	top: 1px;
+}
+
+.medium {
+	font-size: 12px;
+	padding: .32em 1.1em .32em;
+}
+
+.small {
+	font-size: 11px;
+	padding: .3em 1em .3em;
+}
+/* gray */
+.gray {
+	color:black;
+	font-weight: bold;
+	border: solid 1px #555;
+	background: #6e6e6e;
+	background: -webkit-gradient(linear, left top, left bottom, from(#888),
+		to(#575757));
+	background: -moz-linear-gradient(top, #888, #575757);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888',
+		endColorstr='#575757');
+}
+
+.gray:hover {
+	background: #616161;
+	background: -webkit-gradient(linear, left top, left bottom, from(#757575),
+		to(#4b4b4b));
+	background: -moz-linear-gradient(top, #757575, #4b4b4b);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#757575',
+		endColorstr='#4b4b4b');
+}
+
+.gray:active {
+	color: #afafaf;
+	background: -webkit-gradient(linear, left top, left bottom, from(#575757),
+		to(#888));
+	background: -moz-linear-gradient(top, #575757, #888);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#575757',
+		endColorstr='#888888');
+}
+</style>
+
+<script>
+	
+	$(document).ready(function() {
+		
+		var gezgin=navigator.userAgent.toLowerCase();
+		console.log(gezgin,(/chrome/.test(gezgin)));
+		if ((/chrome/.test(gezgin))==true){
+			errorHandler("ağ gezgininiz sistemle uyumsuz.Firefox kullanmanızı tavsiye ederiz.",20000);
+		}else{
+			succesHandler("ağ gezgini uyumlu");
+		}
+		
+		$("#kayan_alan").jCarouselLite({
+	        vertical: false, //dikey yapmak için
+	        hoverPause:true, //üzerine gelince durması için
+	        visible: 1, //3 adet yazı gösterilmesi için
+			auto:true, //bekleme süresi
+	        timeout:1000,
+			speed:1200, //hareket hızı
+	        scroll: 1,
+			mouseWheel: true
+			//btnPrev: "#onceki", //onceki yazi
+			//btnNext: "#sonraki" //sonraki yazi
+		   
+		});
+		
+		$("#stkHarList").prop("selectedIndex", -1);
+		
+		shortcut.add("ctrl+g", function() {
+			faturaRehber();
+	    });  
+		
+		shortcut.add("ctrl+space", function() {
+			$('#kayitmodu').val("y");
+			faturaKayit();
+	    });
+		
+		shortcut.add("ctrl+enter", function() {
+			//event.preventDefault();
+			$("#kaydet_yaz").click();
+	    });
+		
+		shortcut.add("ctrl+t", function() {
+			$('#fatuTarih').val("");
+			$('#vadeTarih').val("");
+			$('#fatuNo').val("");
+			$('#fatuHedef').val("");
+	    }); 
+	
+		shortcut.add("ctrl+u", function() {
+			$('#denetk').val("xxx");
+	    }); 
+		
+		islemturu_degisince();
+		
+		$('#yeniStkHar').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/yeniSTkHarList",
+				type			: "POST",
+				success			: yeniSTkHarList
+			};
+			$('#stkHarYonet').ajaxSubmit(formOption);
+		});
+		
+		$('#stkSil').on('click', function(event){
+			event.preventDefault();
+			msj="stk silinecek?"
+			return $("<div class='dialog' title='" + "Stk Silme Onayı" + "'><p>" +msj+ "</p></div>")
+		    .dialog({
+		        modal: true,
+		        buttons: {
+		            "onayla": function() {
+		                var formOption = {
+						url				: "/stkHarListSil",
+						type			: "POST",
+						success			: stkHarListSil,
+						beforeSubmit 	: kontrolStkHarListSil
+						};
+						$('#stkHarYonet').ajaxSubmit(formOption);
+						$( this ).dialog( "close" );
+		            },
+		            "iptal": function() {
+		                $( this ).dialog( "close" );
+		            }
+		        }
+			});		
+		});
+		
+		$('#stkKilit').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/stkKilitle",
+				type			: "POST",
+				success			: stkHarListYenile
+			};
+			$('#stkHarYonet').ajaxSubmit(formOption);
+		});
+		
+		$('#tumStkSil').on('click', function(event){
+			event.preventDefault();
+			msj="tüm stklar silinecek?"
+			return $("<div class='dialog' title='" + "Tümstk Silme Onayı" + "'><p>" +msj+ "</p></div>")
+		    .dialog({
+		        modal: true,
+		        buttons: {
+		            "onayla": function() {
+		                var formOption = {
+						url				: "/tumStkHarListSil",
+						type			: "POST",
+						success			: tumStkHarListSil
+						};
+						$('#stkHarYonet').ajaxSubmit(formOption);
+						$( this ).dialog( "close" );
+		            },
+		            "iptal": function() {
+		                $( this ).dialog( "close" );
+		            }
+		        }
+			});		
+		});
+
+		$('#belge_tara').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/belgeTara",
+				type			: "POST",
+				success: function (data, status) {
+					succesHandler(data);
+				}	
+			};
+			$('#stkHarYonet').ajaxSubmit(formOption);
+		});
+		
+		$('#yenistkGonder').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/stkAdGuncelle",
+				type			: "POST",
+				success			: stkHarListYenile,
+				beforeSubmit 	: kontrolStkSecili
+			};
+			$('#stkHarYonet').ajaxSubmit(formOption);
+		});
+
+		// Select elementinden değişik bir stk seçilirse tablo gösterilecek
+		$('#stkHarList').on('change', function(event){
+			$("#stkBaslik").html( $(this).val() );
+			formOption = {
+				url		: "/stkHarListGetir",
+				target	:"#stkTablo",
+				type	: "POST",
+				success	: stkHarListGetir
+			};
+			$('#stkHarYonet').ajaxSubmit(formOption);
+		});
+		
+		// satir icin yazilan select elementi
+		// 'yeni' yazıyorsa tabloya yeni satır eklemek için
+		
+		/*23:22 28.10.2014
+		$('#guncelsira').on('change', function(event){
+			stkYerlestir($("#guncelsira").val());
+		});
+		*/
+		/*
+		23:48 28.10.2014
+		$('#fkodlist').on('change', function(event){
+			faturaUstbilgi($('#fkodlist').val());
+		});
+		*/
+		$('#subeler').on('change', function(event){
+			$('#fatuKaynak').val($('#subeler').val());
+		});
+		
+		
+		
+		// AUTOCOMPLETE
+		$("#stkStokAdi").autocomplete({
+			source : "/addanStokAra",
+			type: "POST",
+			minLength : 3,
+			remoteDataType : 'json',
+			autoFill : true,
+			//select : secilenStokuGetir
+		});
+		
+		$('#stkStokKodu').keypress(function(event){
+			if(event.keyCode ==13 || event.keyCode ==9){
+				var bftip=$("#bftip").val();
+				if($('#stkStokKodu').val()!=""){
+					$.ajax({
+						url : "/stokGetir?kriter=kod&stokod=" + $('#stkStokKodu').val()+"&bftip="+bftip+"&kaynak="+$('#fatuKaynak').val()+"&hedef="+$('#fatuHedef').val(),
+					}).done(function(data) {
+						$("#stkStokKodu").val(data[0]);
+						$("#stkStokAdi").val(data[1]);
+						$("#stkTutar").val(data[2]);
+						$("#stkMiktar").focus();
+					});
+				}
+			}
+		});
+		
+		$('#stkStokAdi').on('blur', function(event){
+			secilenStokuGetir();
+		});
+		
+		/*
+		$('#stkMiktar').on('blur', function(event){
+			var miktar=$('#stkMiktar').val();
+			if ($('#stkStokKodu').val()=='5555'){
+				var total= 0;
+				miktar= miktar.match(/[*\/]*(\.\d+|\d+(\.\d+)?)/g) || [];
+				while(miktar.length){
+					total= parseFloat(miktar.shift())*total;
+				}
+			$('#stkMiktar').val(total);
+			}
+			
+		});
+		*/
+		$('#yeniStkHar').keypress(function(event){return event.keyCode != 13;});
+		$('#stkHarList').keypress(function(event){return event.keyCode != 13;});
+		$('#stkSil').keypress(function(event){return event.keyCode != 13;});
+		$('#tumStkSil').keypress(function(event){return event.keyCode != 13;});
+		$('#stkKDV').keypress(function(event){return event.keyCode != 13;});
+		$('#stkStokKodu').keypress(function(event){return event.keyCode != 13;});
+		$('#stkStokAdi').keypress(function(event){return event.keyCode != 13;});
+		$('#stkMiktar').keypress(function(event){return event.keyCode != 13;});
+		$('#stkTutardan').keypress(function(event){return event.keyCode != 13;});
+		$('#stkTutar').keypress(function(event){return event.keyCode != 13;});
+		
+		
+		$('#stkTutar').on('blur', function(event){
+			var opStkHar = {
+					url: "/stkEkle",
+					type: "post",
+					target: "#stkTablo",
+					dataType: "json",
+					beforeSubmit : stkKayitKontrol,
+					success : stkHarListGetir
+			};
+			$("#stkHarYonet").ajaxSubmit(opStkHar); 
+		});
+		
+		
+		$('#otoFatuNo').on('click', function(event){
+			event.preventDefault();
+			var opStkHar = {
+					url: "/otoFatuNo",
+					type: "POST",
+					beforeSubmit : otofisnoKontrol,
+					success : otoFisNoDonus
+			};
+			$('#stkHarYonet').ajaxSubmit(opStkHar);
+		});
+		
+		$('#fatuTarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			defaultDate: +7,
+			minDate: new Date(2014, 0, 1),
+			maxDate: new Date(2015, 11, 31),
+		}).mask('99-99-9999');
+		
+		//guncel tarih ayarlama
+		var d = new Date();
+		var month = d.getMonth()+1;
+		var day = d.getDate();
+		var output = (day<10 ? '0' : '') + day + '-' +(month<10 ? '0' : '') + month + '-' + d.getFullYear() ;
+		$('#fatuTarih').val(output);
+		$('#vadeTarih').val($('#fatuTarih').val());
+		
+		$('#fatuTarih').on('change', function(event){
+			$('#vadeTarih').val($('#fatuTarih').val());
+			if( $('#islemturu').val()[0]!="F"){
+				faturaRehber();
+			}
+		});
+		$('#vadeTarih').datepicker({
+			dateFormat: 'dd-mm-yy',
+			dayNamesMin: [ "Pz", "Pt", "Sa", "Ca", "Pe", "Cu", "Ct" ],
+			monthNames: [ "Ocak", "Subat", "Mart", "Nisan", "Mayis", "Haziran", "Temmuz", "Agustos", "Eylul", "Ekim", "Kasim", "Aralik" ],
+			duration: 1,
+			firstDay: 1,
+			minDate: new Date(2014, 0, 1),
+			maxDate: new Date(2015, 11, 31),
+		}).mask('99-99-9999');
+		
+		// AUTOCOMPLETE
+		$("#fatuKaynak").autocomplete({
+			source : "/cariBul",
+			type: "POST",
+			minLength : 2,
+			remoteDataType : 'json',
+			autoFill : true,
+			messages : {
+				noResults : ''
+			}
+		});
+		
+		// AUTOCOMPLETE
+		$("#fatuHedef").autocomplete({
+			source : "/cariBul",
+			type: "POST",
+			minLength : 2,
+			remoteDataType : 'json',
+			autoFill : true,
+			messages : {
+				noResults : ''
+			}
+		});
+		
+		$("#otogcnok").autocomplete({
+			source : "/cariBul",
+			type: "POST",
+			minLength : 2,
+			remoteDataType : 'json',
+			autoFill : true,
+			messages : {
+				noResults : ''
+			}
+		});
+		
+		$("#odemenoktasi").autocomplete({
+			source : "/cariBul",
+			type: "POST",
+			minLength : 2,
+			remoteDataType : 'json',
+			autoFill : true,
+			messages : {
+				noResults : ''
+			}
+		});
+		
+		$('#fatuKaydet').on('click', function(event){
+			event.preventDefault();
+			$('#kayitmodu').val("y");
+			faturaKayit();
+		});
+		
+		$('#kaydet_yaz').on('click', function(event){
+			event.preventDefault();
+			$('#kayitmodu').val("y");
+			$('#kasa_makbuz_bas').val("1");
+			faturaKayit();
+		});
+		
+		$('#makbuz_yaz').on('click', function(event){
+			event.preventDefault();
+			var opStkHar = {
+				url: "/makbuzYazdir",
+				type: "POST",
+				success: function (data, status) {
+					succesHandler(data);
+				}
+			}	
+			$('#stkHarYonet').ajaxSubmit(opStkHar);
+		});
+		
+		$('#fatuGuncelle').on('click', function(event){
+			event.preventDefault();
+			$('#kayitmodu').val("g");
+			faturaKayit();
+		});
+		
+		$('#fiyatAktar').on('click', function(event){
+			event.preventDefault();
+			fkod=$('#fkodsec').val();
+			$.ajax({
+				url : "/fiyatAktar?fkod="+fkod+'&fisno='+$('#fatuNo').val(),
+			}).done(function(data) {
+				succesHandler(data);
+				if(data=='tamam'){
+					succesHandler("Fiyat güncelleme yapıldı.");
+				}else{
+					errorHandler(data);
+				}
+			});
+		});
+		
+		$('#ustGuncelle').on('click', function(event){
+			event.preventDefault();
+			var opStkHar = {
+					url: "/ustGuncelle",
+					type: "POST",
+					beforeSubmit : ustGuncelleKontrol,
+					success: function (data, status) {
+						if(data=='tamam'){
+							faturaRehber();
+							$('#fkodsec').val("nev");
+							$('#vadesay').val("1");
+							succesHandler("Güncelleme kaydı yapıldı.");
+						}else{
+							errorHandler(data);
+						}
+					}	
+			};
+			$('#stkHarYonet').ajaxSubmit(opStkHar);
+		});
+		
+		$('#fatuSil').on('click', function(event){
+			event.preventDefault();
+			fkod=$('#fkodsec').val();
+			faturaSil(fkod);
+		});
+		
+		$('#otoFatura').on('click', function(event){
+			event.preventDefault();
+			var stkno=$('#stkHarList').val();
+			$.ajax({
+				url : "/stkYftr?stkno="+stkno+'&kdv='+$('#fatuKDV').is(":checked")+'&med='+$('#med').is(":checked"),
+			}).done(function(data) {
+				succesHandler(data);
+				//$("#stkSil").click();
+				
+			});
+		});
+		
+		$('#stkKopya').on('click', function(event){
+			event.preventDefault();
+			var stkno=$('#stkHarList').val();
+			$.ajax({
+				url : "/stkKopya?stkno="+stkno,
+			}).done(function(data) {
+				succesHandler(data);	
+			});
+		});
+		
+		$('#stkPosta').on('click', function(event){
+			event.preventDefault();
+			var stkno=$('#stkHarList').val();
+			$.ajax({
+				url : "/stkGonder?stkno="+stkno,
+			}).done(function(data) {
+				var win=window.open('about:blank');
+				with(win.document)
+				{
+				  open();
+				  write(data);
+				  close();
+				}
+			});
+		});
+		
+		$('#stkArsiv').on('click', function(event){
+			event.preventDefault();
+			var stkno=$('#stkHarList').val();
+			$.ajax({
+				url : "/stkArsiv?stkno="+stkno,
+			}).done(function(data) {
+				succesHandler(data);
+			});
+		});
+		
+		$('#fatuYazdir').on('click', function(event){
+			event.preventDefault();
+			var ek="";
+			var ek2="";
+			if ($('#ekirstrh').val()!=""){
+				ek="&ek="+$('#ekirstrh').val()
+			}
+			if ($('#ekzaman').val()!=""){
+				ek2="&ekzaman="+$('#ekzaman').val()
+			}
+			window.open("fatuYazdir?dizaynno="+$('#dizaynkod').val()+"&fkod="+$('#fkodsec').val()+ek+ek2,'_blank');
+			$('#fkodsec').val('nev')
+		});
+		
+		$('#fatuGonder').on('click', function(event){
+			event.preventDefault();
+			window.open("fatuGonder?fkod="+$('#fkodsec').val(),'_blank');
+			
+		});
+		
+		$('#fiyatDeg').on('click', function(event){
+			event.preventDefault();
+			$("#stkBaslik").html( $(this).val() );
+			formOption = {
+				url		: "/fiyatDeg", 
+				target	:"#stkTablo",
+				type	: "POST",
+				success	: stkHarListGetir
+			};
+			$('#stkHarYonet').ajaxSubmit(formOption);
+		});
+		
+		$('#fatuGoster').on('click', function(event){
+			event.preventDefault();
+			//var fresim = $('#fresim');
+			//fresim.attr('src', 'add.png');
+			var fresimkod=$('#fkodsec').val()+'.jpeg'; //resimkodal($('#fkodlist').val() )
+			var resi="<img id='fresim' src='http://192.168.1.254:6006/static/fatura_gorsel/"+fresimkod+"' data-rotate='90' width='100%' height='100%'/>";
+			$("#stkTablo").html(resi);
+			//$("#fresim").rotate(40);
+		});
+		 
+		
+		$('#harGozlem').on('click', function(event){
+			event.preventDefault();
+			console.log("har goz");
+			faturaRehber();
+		});
+	
+		$("#stksira").click(function(event){
+			event.preventDefault();
+			$("#stksira").val("nev");
+		});
+		
+		$("#fkodsec").click(function(event){
+			event.preventDefault();
+			$("#fkodsec").val("nev");
+		});
+		
+		$("#stkTablo").click(function(event){
+		    //event.preventDefault();
+			event = event || window.event;
+			console.log(event);
+	         if(event.target.id !='sisLink')
+	         {
+	            event.preventDefault(); 
+	         }
+			var targ;
+		    if (event.target) targ = event.target;
+		    else if (event.srcElement) targ = event.srcElement;
+		    if (targ.nodeType == 3) // defeat Safari bug
+		        targ = targ.parentNode;
+			console.log(targ.id);
+			var islem=targ.id.split("@");
+			var olay=islem[0];
+			var islem_no=islem[1];
+		    if(olay == "cahar_yukle"){
+				faturaUstbilgi(islem_no);
+			}
+			if(olay == "cahar_sil"){
+				faturaSil(islem_no);
+			}
+			if(olay == "stk_yukle"){
+				stkYerlestir(islem_no);
+			}
+			if(olay == "stk_sil"){
+				stkSatirSil(islem_no);
+			}
+			if(olay == "pano_kopya"){
+				var kaynak=$("#fatuKaynak").val().split('@')[1]
+				tempOption = new Option(islem_no+"@"+kaynak);
+				$(tempOption).attr("selected", true);
+				$("#yzliste").append(tempOption);
+			}
+		});
+		
+		$('#stokGozlem').on('click', function(event){
+			event.preventDefault();
+			var opsgozlem = {
+					url: "/sHareketGozlem",
+					DataType : 'json',
+					type: "POST",	
+					success: hareketGozlemDonus
+			};
+			$('#stkHarYonet').ajaxSubmit(opsgozlem);
+		});
+		
+		$('#vadelemeKontrol').on('click', function(event){
+			event.preventDefault();
+			
+			if($('#fkodsec').val() != ""){
+				$.ajax({
+					url : "/vadelemeKontrol?fkod=" + $('#fkodsec').val(),
+				}).done(function(data) {
+					if(data==0.0){
+						succesHandler("vadeleme başarılı");
+					}else{
+						if(data>0.0){
+							errorHandler("vadelemede fazlalık var: "+data);
+						}else{
+							errorHandler("vadelemede eksiklik var: "+data);
+						}
+					}
+				});
+			}else{
+			 errorHandler('bir fkod seçiniz!');
+			}
+		});
+		
+		
+		$('#bftip').change(function(){
+			//selected = $("#hartip option:selected").text();
+			if( $('#stkStokAdi').val()!="" ) {
+				secilenStokuGetir();
+			} else if( $('#stkStokKodu').val()!="" ) {
+				var bftip=$("#bftip").val();
+				$.ajax({
+					url : "/stokGetir?kriter=kod&stokod=" + $('#stkStokKodu').val()+"&bftip="+bftip+"&kaynak="+$('#fatuKaynak').val()+"&hedef="+$('#fatuHedef').val(),
+				}).done(function(data) {
+					$("#stkStokKodu").val(data[0]);
+					$("#stkStokAdi").val(data[1]);
+					$("#stkTutar").val(data[2]);
+				});
+			} 
+		});
+		
+		$('#hartip').change(function(){
+			islemturu_degisince();
+		});
+		$('#islemturu').change(function(){
+			islemturu_degisince();
+		});
+		
+		$('#fatuKaynak').on('blur', function(event){
+			vadeGunuAl($('#fatuKaynak').val()); 
+			//fkodListAl();
+		});
+		
+		$('#fatuHedef').on('blur', function(event){
+			vadeGunuAl($('#fatuHedef').val()); 
+			//fkodListAl();
+		});
+		
+		$('#degistir').on('click', function(event){
+			event.preventDefault();
+			var gcc=$('#fatuKaynak').val();
+			$('#fatuKaynak').val($('#fatuHedef').val());
+			$('#fatuHedef').val(gcc);
+		});
+		
+		$('#fsb_getir').on('click', function(event){
+			event.preventDefault();
+			stkFsbAl();
+		});
+		
+		$('#nag_getir').on('click', function(event){
+			event.preventDefault();
+			nagAl();
+		});
+		
+		$('#yzl_sil').on('click', function(event){
+			event.preventDefault();
+			$("#yzliste").find('option:selected').remove();
+		});
+		
+		$('#yzl_gonder').on('click', function(event){
+			event.preventDefault();
+			var yfisler = "";
+			$('#yzliste option').each(function() {
+			    yfisler+=$(this).val()+","
+			});
+			window.open('fatuYazdir?dizaynno='+$('#dizaynkod').val()+'&fkodlar='+yfisler);
+		});
+		
+		$('#stk_topbir').on('click', function(event){
+			event.preventDefault();
+			var yfisler = "";
+			$('#yzliste option').each(function() {
+			    yfisler+=$(this).val()+","
+			});
+			$.ajax({
+				url: "/stkTopbir?fkodlar="+yfisler,
+			}).done(function(data) {
+				if(data=='tamam'){
+					succesHandler("fişler stklaştı.kontrol ediniz.");
+				}else{
+					errorHandler(data);
+				}
+			});
+		});
+		
+		$('#irs_topfat').on('click', function(event){
+			event.preventDefault();
+			var tarih=$('#fatuTarih').val()
+			var fisno=$('#fatuNo').val()
+			var yfisler = "";
+			$('#yzliste option').each(function() {
+			    yfisler+=$(this).val()+","
+			});
+			$.ajax({
+				url: "/irsTopfat?fkodlar="+yfisler+"&tarih="+tarih+"&fisno="+fisno,
+			}).done(function(data) {
+				if(data=='tamam'){
+					succesHandler("irsaliyeler faturalaştı.kontrol ediniz.");
+				}else{
+					errorHandler(data);
+				}
+			});
+		});
+		
+		$('#lazeryaz').on('click', function(event){
+			event.preventDefault();
+			var oplazer = {
+			url: "/lazerYazdir",
+			type: "POST",
+			beforeSubmit : faturaKayitKontrol,
+			success: function (data, status) {
+				if(data=='tamam'){
+					$('#fkodsec').val("nev");
+					$('#tutar').val("0");
+					succesHandler("lazer yazdırıldı.");
+				}else{
+					errorHandler(data);
+				}
+			}
+			};
+			$('#stkHarYonet').ajaxSubmit(oplazer);
+		});
+		
+		$('#stkTermal').on('click', function(event){
+			event.preventDefault();
+			var oplazer = {
+			url: "/stkTermal",
+			type: "POST",
+			success: function (data, status) {
+				if(data=='tamam'){
+					succesHandler("lazer yazdırıldı.");
+				}else{
+					errorHandler(data);
+				}
+			}
+			};
+			$('#stkHarYonet').ajaxSubmit(oplazer);
+		});
+	
+		
+		$("#test").click(function(event){
+			event.preventDefault();
+			console.log("tes");
+		});	
+		
+		
+	});
+	
+	function faturaSil(islem_no){
+		msj="kayıt silinecek?"
+		return $("<div class='dialog' title='" + "Kayıt Silme Onayı" + "'><p>" +msj+ "</p></div>")
+	    .dialog({
+	        
+	        modal: true,
+	        buttons: {
+	            "onayla": function() {
+	                $.ajax({
+						url : "/fatuSil?fkod="+islem_no,
+					}).done(function(data) {
+						faturaRehber();
+						succesHandler(data);
+					});
+					$( this ).dialog( "close" );
+	            },
+	            "iptal": function() {
+	                $( this ).dialog( "close" );
+	            }
+	        }
+		});		 
+	}
+	
+	function faturaKaydet(){
+		var opFatuKayit = {
+			url: "/fatuKaydet",
+			type: "POST",
+			beforeSubmit : faturaKayitKontrol,
+			//success : fatuKayitDonus
+			success: function (data, status) {
+				if(data=='tamam'){
+					faturaRehber();
+					$('#faciklama').val("");
+					$('#kasa_makbuz_bas').val("0");
+					$('#fkodsec').val("nev");
+					succesHandler("İşlem kaydı yapıldı.");
+				}else{
+					errorHandler(data);
+				}
+			}
+		};
+		$('#stkHarYonet').ajaxSubmit(opFatuKayit);
+	}
+	
+	function faturaKayit() {
+		console.log($('#islemturu').val());
+		if( $('#islemturu').val()[0]=="F"){
+			stkno=$('#stkHarList').val();
+			text=("tarih:"+$('#fatuTarih').val()+"<p>"+"kaynak:"+$('#fatuKaynak').val()+"<p>"+"tip:"+$('#hartip').val()+"<p>"
+			+"hedef:"+$('#fatuHedef').val()+"<p>"+"kayıt modu:"+$('#kayitmodu').val()+"<p>"+"kdv durum:"+$('#fatuKDV').val()+"<p>"+
+			"stkno:"+stkno)
+			//+"<p>"+"tutar:"+$('#tutar').val())
+		    return $("<div class='dialog' title='" + "Fatura Kayıt Onayı" + "'><p>" + text + "</p></div>")
+		    .dialog({
+		        hide: "hide",
+				resizable: true,
+		        height:250,
+				width:500,
+		        modal: true,
+		        buttons: {
+		            "onayla": function() {
+		                //$('#dialogoutput').text($('#dialoglink').attr('data-string'));
+						faturaKaydet();
+						$( this ).dialog( "close" );
+		            },
+		            "iptal": function() {
+		                $( this ).dialog( "close" );
+		            }
+		        }
+			});
+		//kaa banka ise
+		}else{
+			faturaKaydet()
+		}
+	}
+	
+	function faturaRehber(){
+		
+		var opfgozlem = {
+			url: "/fHareketGozlem",
+			type: "POST",	
+			beforeSubmit : hareketGozlemKontrol,
+			success: hareketGozlemDonus
+			};
+		$('#stkHarYonet').ajaxSubmit(opfgozlem);
+		
+	}
+	
+	function vadeGunuAl(carikod){
+		$.ajax({
+			url : "/cariBilgiGetir?carikod=" +carikod,
+		}).done(function(data) {
+			var tarih=$('#fatuTarih').val();
+			var ptarih=tarih.split("-");
+			var vadetrh=new Date(ptarih[2], ptarih[1]-1, ptarih[0]);
+			vadetrh.setDate(vadetrh.getDate()+data);
+			$('#vadeTarih').val($.datepicker.formatDate('dd-mm-yy',vadetrh));
+			
+		});
+	
+	}
+	/*
+	00:17 29.10.2014
+	function fkodListAl(){
+		$.ajax({
+			url : "/fkodListAl?kaynak=" +$("#fatuKaynak").val()+"&hedef="+$("#fatuHedef").val()+"&tarih="+$("#fatuTarih").val(),
+		}).done(function(data) {
+			fkodon = new Option('nev');
+			$(fkodon).attr("selected", true);
+			$("#fkodlist").empty();
+			$("#fkodlist").append(fkodon);
+			for(row in data) {
+				tempOpt = new Option(data[row]);
+				$("#fkodlist").append(tempOpt);
+			}
+		});	
+	}
+	*/
+	function otofisnoKontrol(){
+		var fisno=$("#fatuNo").val();
+		if(fisno.length>=10){
+			errorHandler("10 haneli fiş numaraları için otofiş alınmaz!");
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	function islemturu_degisince(){
+		var hartip = $("#hartip").val()[0];
+		var islem = $("#islemturu").val()[0];
+		console.log(islem);
+		var onek=islem+""+hartip;
+		$.ajax({
+			url : "/otoTanimGetir?onek=" + onek+"&gctur="+hartip,
+		}).done(function(data) {
+			//$('#fatuNo').val(data[0]);
+			$('#fatuNo').val("");
+			$('#fatuKaynak').val(data[1]);
+			//$('#fatuHedef').val("");
+		});
+		if(islem=="K" || islem=="B"){
+			$(".nafatura_blok").hide();
+			$(".kasa_blok").show();
+		}else{
+			$(".nafatura_blok").show();
+			$(".kasa_blok").hide();
+			$('#fatuNo').val("");
+		}
+		if(islem=="B"){
+			$('#med').prop( "checked", true );
+		}else{
+			$('#med').prop( "checked", false );
+		}
+		
+	}
+	
+	function stkYerlestir(stkno){
+		$('#stksira').val(stkno);
+		$.ajax({
+			url : "/stkHarAl?guncelsira=" +stkno,
+		}).done(function(dataSatir) {
+			if (dataSatir != "") {
+				$('#stkStokKodu').val(dataSatir[0]);
+				$('#stkStokAdi').val(dataSatir[1]);
+				$('#stkMiktar').val(dataSatir[2]);
+				$('#stkTutar').val(dataSatir[3]);
+			} else {
+				$('#stkStokKodu').val("");
+				$('#stkStokAdi').val("");
+				$('#stkMiktar').val("");
+				$('#stkTutar').val("");
+			}	
+		});
+	}
+	
+	function stkSatirSil(stkno){
+		$('#stksira').val(stkno);
+		var formOption = {
+			url				: "/stkSatirSil",
+			type			: "POST",
+			target			:"#stkTablo",
+			success			: stkHarListGetir,
+			beforeSubmit 	: kontrolStkSatirSil
+		};
+		$('#stkHarYonet').ajaxSubmit(formOption);
+	}
+	
+	function hareketGozlemKontrol(formData, jqForm, options) {
+		var bosKontrol=true;
+		var hata="";
+		$('#bilgi').html("");
+		if($('#fatuKaynak').val() == ""){
+			bosKontrol=false;
+			hata="kaynak boş olamaz!";
+		}
+		/*
+		else
+		if($('#fatuHedef').val() == ""){
+			bosKontrol=false;
+			hata="hedef boş olamaz!";
+		}
+		*/
+		if(bosKontrol==false){
+			errorHandler(hata);
+		}
+		return bosKontrol;
+		
+	};
+	
+	function faturaKayitKontrol(formData, jqForm, options) {
+		var bosKontrol=true;
+		var hata="";
+		
+		if($('#fatuKaynak').val() == ""){
+			bosKontrol=false;
+			hata="kaynak boş olamaz!";
+		}
+		if($('#fatuHedef').val() == ""){
+			bosKontrol=false;
+			hata="hedef boş olamaz!";
+		}
+		if($('#fatuTarih').val() == ""){
+			bosKontrol=false;
+			hata="tarih boş olamaz!";
+		}
+		if($('#fatuNo').val() == "" && $('#islemturu').val()[0]=="F" ){
+			bosKontrol=false;
+			hata="fisno boş olamaz yahut 10 haneden fazla olamaz!";
+		}
+		//console.log(('#islemturu').val()[0],$('#kayitmodu').val())
+		if( $('#hartip').val()[0]=='I' && $('#kayitmodu').val()=='y'  && $('#islemturu').val()[0]=='F' ){
+			if($('#stkHarList').val() == null){
+				bosKontrol=false;
+				hata="Hareket İşlemleri için bir liste seçiniz!";
+			}
+		}else{
+			if(($('#tutar').val() == "" || $('#tutar').val() == 0 ) && $('#islemturu').val()[0]!='F'){
+				bosKontrol=false;
+				hata="Tutar Boş veya 0 olamaz!";
+			}
+		}
+		if($("#odemetip").is(':checked')){
+			if($('#odemenoktasi').val() == ""){
+				bosKontrol=false;
+				hata="Ödeme Noktası boş olamaz!";
+			}
+			//tutar elle ayarlanacaksa bu kontrol acilir
+			/*if($('#tutar').val() == "" || $('#tutar').val() == 0 ){
+				bosKontrol=false;
+				hata="Tutar Boş veya 0 olamaz!";
+			}*/
+		}	
+		
+		if(bosKontrol==false){
+			errorHandler(hata);
+		}else{
+			$('#bilgi').html("");
+			/*if( confirm($('#fatuTarih').val()+"<br>"+$('#fatuKaynak').val()+"-"+$('#fatuHedef').val()+"-"+			$('#kayitmodu').val()) ) {
+				return true;
+			} else {
+				return false;
+			}*/
+			//fatura_kayit_onay();
+		}
+		return bosKontrol;
+		
+	};
+	
+	function ustGuncelleKontrol(formData, jqForm, options) {
+		var bosKontrol=true;
+		var hata="";
+		
+		if($('#fatuTarih').val() == ""){
+			bosKontrol=false;
+			hata="tarih boş olamaz!";
+		}
+		if($('#fatuNo').val() == ""){
+			bosKontrol=false;
+			hata="tarih boş olamaz!";
+		}
+		if($('#fkodsec').val() == "nev"){
+			bosKontrol=false;
+			hata="fkodlist boş veya nev olamaz!";
+		}
+		if($('#vadeTarih').val() == ""){
+			bosKontrol=false;
+			hata="vade tarihi boş olamaz!";
+		}
+		if($('#tutar').val() == "" || $('#tutar').val() == 0 ){
+			bosKontrol=false;
+			hata="Tutar Boş veya 0 olamaz!";
+		}
+		
+		if(bosKontrol==false){
+			errorHandler(hata);
+		}else{
+			$('#bilgi').html("");
+			
+		}
+		return bosKontrol;
+		
+	};
+	
+	
+	
+	function yeniSTkHarList(res, statusText, xhr, $form) {
+		$("#stkTablo").html("");
+		$("#stkBaslik").html(res);
+		tempOption = new Option(res);
+		$(tempOption).attr("selected", true);
+		$("#stkHarList").append(tempOption);
+		/*23:20 28.10.2014
+		duzsira = new Option('nev');
+		$(duzsira).attr("selected", true);
+		$("#guncelsira").empty();
+		$("#guncelsira").append(duzsira);
+		*/
+		$("#stksira").val('nev')
+	}
+	
+	function tumStkHarListSil(res, statusText, xhr, $form) {
+		succesHandler("Tüm Stok Listesi Silindi");
+		$("#stkHarList").empty();
+		tempOption = new Option("");
+		$(tempOption).attr("selected", true);
+		$("#stkHarList").append(tempOption);
+		
+	}
+	
+	function kontrolStkSatirSil(formData, jqForm, options) {
+		if( $('#stkHarList').prop('selectedIndex') < 0 ) {
+			errorHandler("Lütfen Stok Hareketi Listesi Seçin");
+			return false;
+		}
+		if( $('#stksira').val() == "nev" ) {
+			errorHandler("Lütfen Stok Hareketi Seçin");
+			return false;
+		} 
+	}
+	
+	function kontrolTumStkHarListSil(formData, jqForm, options) {
+		if( confirm(" Stok Listesinin Hepsini Silmek İstediğinizden Emin misiniz?") ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	function otoFisNoDonus(res, statusText, xhr, $form) {
+		$('#fatuNo').val(res)
+	};
+	
+	function stkKayitKontrol(formData, jqForm, options) {
+		
+		if( $('#stkHarList').prop("selectedIndex") < 0 ){
+			errorHandler("Önce Stok Hareketi oluşturun!");
+			$("#stkStokAdi").empty();
+			return false;
+		}
+		if( $("#stkStokKodu").val() && $("#stkStokAdi").val() 
+				&& $("#stkMiktar").val() && $("#stkTutar").val() && $("#stkTutar").val()!=0) {
+			return true;
+		} else {
+			errorHandler("Boş sahalar var");
+			return false;
+		}
+	}
+	
+	function stkHarListGetir(res, statusText, xhr, $form) {
+	
+		//console.log(res);
+		var stkno;
+		stkno=$('#stkHarList').val();
+		$("#stkTablo").html("");
+		//STK AYARLARININ GETIRILMESI
+		$.ajax({
+			url : "/stkTanimGetir?stkno=" + stkno,
+		}).done(function(data) {
+			$("#fatuKaynak").val("@"+data[0]);
+			$("#fatuHedef").val("@"+data[1]);
+			console.log(data);
+			if(data[2]=='G'){
+				$("#hartip").empty();
+				gecopt = new Option('GİRİŞ');
+				$(gecopt).attr("selected", true);
+				$("#hartip").append(gecopt);
+				opt3 = new Option('CIKIŞ');
+				$("#hartip").append(opt3);
+				$("#hartip").val(data[2]);
+			}else{
+				$("#hartip").empty();
+				gecopt = new Option('CIKIŞ');
+				$(gecopt).attr("selected", true);
+				$("#hartip").append(gecopt);
+				opt3 = new Option('GİRİŞ');
+				$("#hartip").append(opt3);
+				$("#hartip").val(data[2]);
+			}
+			
+		});	
+		$('#stksira').val("nev")
+		//stkFsbAl();
+		$('#fsb').html("");
+		$('#stkBaslik').val($('#stkHarList').val());
+		if(res!='None'){
+			$("#stkTablo").html(res);
+			$("#hareketrapor").tablesorter();
+		}
+		var onek=stkno.substring(0,4);
+		if(onek=='fkod'){
+			var gecdes=stkno.replace('.stk','');
+			fkod=parseInt(gecdes.replace('fkod',''));
+			faturaUstbilgi(fkod);
+			
+		}
+		
+		stkFormuReset();
+	}
+	
+	function faturaUstbilgi(fkod){
+		$.ajax({
+			url : "/faturaUstbilgi?fkod=" + fkod,
+		}).done(function(data) {
+			$("#fatuNo").val(data[0]);
+			var ftip=data[1];
+			if(ftip=='G'){
+				$("#hartip").empty();
+				gecopt = new Option('GİRİŞ');
+				$(gecopt).attr("selected", true);
+				$("#hartip").append(gecopt);
+				opt3 = new Option('CIKIŞ');
+				$("#hartip").append(opt3);
+			}else{
+				$("#hartip").empty();
+				gecopt = new Option('CIKIŞ');
+				$(gecopt).attr("selected", true);
+				$("#hartip").append(gecopt);
+				opt3 = new Option('GİRİŞ');
+				$("#hartip").append(opt3);
+			}
+			var islem=data[2];
+			if(islem=='F'){
+				$("#islemturu").empty();
+				gecopt = new Option('FATURA');
+				$(gecopt).attr("selected", true);
+				$("#islemturu").append(gecopt);
+				opt2 = new Option('KASA');
+				$("#islemturu").append(opt2);
+				opt3 = new Option('BANKA');
+				$("#islemturu").append(opt3);
+			}
+			
+			if(islem=='K'){
+				$("#islemturu").empty();
+				gecopt = new Option('KASA');
+				$(gecopt).attr("selected", true);
+				$("#islemturu").append(gecopt);
+				opt2 = new Option('BANKA');
+				$("#islemturu").append(opt2);
+				opt3 = new Option('FATURA');
+				$("#islemturu").append(opt3);
+			}
+			if(islem=='B'){
+				$("#islemturu").empty();
+				gecopt = new Option('BANKA');
+				$(gecopt).attr("selected", true);
+				$("#islemturu").append(gecopt);
+				opt2 = new Option('KASA');
+				$("#islemturu").append(opt2);
+				opt3 = new Option('FATURA');
+				$("#islemturu").append(opt3);
+			}
+			$("#fatuTarih").val(data[3]);
+			$("#vadeTarih").val(data[4]);
+			$("#faciklama").val(data[5]);
+			$("#fatuKaynak").val(data[6]);
+			$("#fatuHedef").val(data[7]);
+			$("#fatuTakipKod").val(data[8]);
+			$("#tutar").val(data[9]);
+			var med=data[10];
+			var irs=data[11];
+			var fkdv=data[23];
+			if(med=='E'){
+				$("#med").prop("checked", true);
+			}else{
+				$("#med").prop("checked", false);
+			}
+			if(fkdv=='E'){
+				$("#fatuKDV").prop("checked", true);
+			}else{
+				$("#fatuKDV").prop("checked", false);
+			}
+			if(irs=='E'){
+				console.log("irs var");
+				 $("#irs").prop("checked", true);
+				//$('#irs').attr('checked','checked');
+			}else{
+				$("#irs").prop("checked", false);
+			}
+			$("#fkodsec").val(fkod);
+			
+		});	
+	}
+	
+	function diyalog_yap(title, text) {
+	    return $("<div class='dialog' title='" + title + "'><p>" + text + "</p></div>")
+	    .dialog({
+	        resizable: false,
+	        height:200,
+	        modal: true,
+	        buttons: {
+	            "onayla": function() {
+	                $( this ).dialog( "close" );
+	            },
+	            "iptal": function() {
+	                $( this ).dialog( "close" );
+	            }
+	        }
+		});
+	}
+	
+	function stkFsbAl(){
+		gctip=$('#hartip').val()[0]
+		$.ajax({
+			url : "/stkFsbAl?stkno=" + $('#stkHarList').val()+"&gctip="+gctip,
+		}).done(function(data) {
+			$('#fsb').html(data);
+		});	
+	}
+	
+	function nagAl(){
+		$.ajax({
+			url : "/nagAl?stkno=" + $('#stkHarList').val(),
+		}).done(function(data) {
+			$('#fsb').html("nakli agirlik:"+data+" kg");
+		});	
+	}
+	
+	function toplamSatiriEkle(data) {
+        var toplam = data.reduce(function(sum, row){
+           return sum + row[5]; 
+        }, 0);
+        totalRow = new Array("", "", "", "", "", toplam, "");
+        data.push(totalRow);
+	}
+	
+	function hareketGozlemDonus(res,statusText,xhr,$form){
+		//$('#hareketGozlem').html(res);
+		//fkodListAl();
+		//$("#fkodsec").val("nev");
+		if(res!='None'){
+			$("#stkTablo").html(res);
+			$("#hareketrapor").tablesorter();
+		}
+	}
+	
+	function stkFormuReset() {
+		$('#stkStokKodu').val("");
+		$('#stkStokAdi').val("");
+		$('#stkMiktar').val("");
+		$('#stkTutar').val("");
+		$('#stkTutardan').attr("checked", false);
+		$('#stkStokKodu').focus();
+	}
+	
+	function kontrolStkSecili(formData, jqForm, options) {
+		if( $('#stkHarList').prop('selectedIndex') < 0 ) {
+			errorHandler("Lütfen Stok Hareketi Listesi Seçin");
+			return false;
+		}
+	}	
+	
+	function kontrolStkHarListSil(formData, jqForm, options) {
+		if( $('#stkHarList').prop('selectedIndex') < 0 ) {
+			errorHandler("Lütfen Stok Hareketi Listesi Seçin");
+			return false;
+		}
+		if( $('#stkHarList').val().indexOf(".stk") == -1) {
+			errorHandler("stk kilitli");
+			return false;
+		}
+	}
+	function stkHarListSil(res, statusText, xhr, $form) {
+		succesHandler($('#stkHarList').val() + " Adlı Stok Listesi Silindi");
+		$("#stkBaslik").html("");
+		$("#stkHarList").empty();
+		tempOption = new Option("");
+		$(tempOption).attr("selected", true);
+		$("#stkHarList").append(tempOption);
+		for(row in res) {
+			tempOpt = new Option(res[row][0]);
+			$("#stkHarList").append(tempOpt);
+		}
+	}
+	
+	function stkHarListYenile(res, statusText, xhr, $form) {
+		$("#stkHarList").empty();
+		for(row in res) {
+			tempOpt = new Option(res[row][0]);
+			$("#stkHarList").append(tempOpt);
+		}
+		//tempOption = new Option("");
+		//$(tempOption).attr("selected", true);
+		//$("#stkHarList").append(tempOption);
+	}
+	
+	function errorHandler(message,time) {
+		console.log(time);
+		if (!time){
+			time=2000;
+		}
+		// TODO: hata mesajı dön
+		console.log("HATA:" + message);
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: time, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#900', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff',
+                
+            }
+        });
+	}
+	
+	function succesHandler(message) {
+		// TODO: hata mesajı dön
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#080', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff'
+            }
+        });
+	}
+	// AUTOCOMPLETE 
+	function secilenStokuGetir() {
+		stokad=$('#stkStokAdi').val();
+		stokad=stokad.replace(/%/g ,"%25");
+		stokad=stokad.replace(/&/g,"%26");
+		stokad=stokad.replace('+','%2B');
+		console.log(stokad);
+		var bftip=$("#bftip").val();
+		$.ajax({
+			url : "/stokGetir?kriter=ad&stokad=" + stokad+"&bftip="+bftip+"&kaynak="+$('#fatuKaynak').val()+"&hedef="+$('#fatuHedef').val(),
+		}).done(function(data) {
+			console.log(data);
+			$("#stkStokKodu").val(data[0]);
+			$("#stkTutar").val(data[2]);
+			$("#stkMiktar").focus();
+		});
+	};
+	
+	
+	
+</script>
+</head>
+<body>
+<form id="stkHarYonet" name="stkHarYonet">
+	<div class="stkHeader" tabindex="-1" >
+		<div class="formblock">
+			<a href="/faturaModul"><img src="fatura.png" class="hover" hinttext="Fatura" style="margin-right:120px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/cariModul"><img src="cari.png" class="hover" hinttext="Cari" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/stokModul"><img src="stok.png" class="hover" hinttext="Stok" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/siparisModul"><img src="spr.png" class="hover" hinttext="Sipariş" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/sayimModul"><img src="pencil.png" class="hover" hinttext="Sayım" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/raporModul"><img src="rapor.png" class="hover" hinttext="Rapor" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/veriModul"><img src="veri.png" class="hover" hinttext="Veri" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/altyapiModul"><img src="altyapi.png" class="hover" hinttext="Altyapı" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/logModul"><img src="log.png" class="hover" hinttext="Log" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/yetkiliModul"><img src="config.png" class="hover" hinttext="Yetkili" style="margin-right:20px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/faturaYardim"><img src="info.png" class="hover" hinttext="FATURA YARDIM" style="margin-left:5px;"></a> 
+		</div>
+		<div class="formblock">
+			<a href="/exit"><img src="cikis.png" class="hover" hinttext="ÇIKIŞ" style="margin-left:40px;"></a> 
+		</div>
+		
+		
+		<div id="kayan_alan" >
+			<label style="border-bottom-style:ridge;border-width:thin">DUYURULAR</label> 
+			<ul>
+		  {% for kayan in kayanlar %}
+			<li style="width: 500px;">{{kayan}}</li>
+			{% endfor %}
+			</ul>
+		</div>
+		
+		<div class="kulblok">{{kullanici}}</div>
+	</div>
+	<div class="pageContainer">
+		<div id='stkContainer' class="stkContainer" tabindex="-1">
+			<div id="stkBaslik"></div>
+			<hr noshade size=1 >
+			<div id="stkTablo"> </div>
+			<hr noshade size=1>
+			<div id="fsb1">
+			<input type="submit" name="fsb_getir" id="fsb_getir" value="fsb" class="button gray medium"/>
+			<input type="submit" name="nag_getir" id="nag_getir" value="nakli agırlık" class="button gray medium"/>
+			<div id="fsb"></div>
+			</div>
+		</div>
+		
+		<div class="stkHareket">
+			
+			<div class="stkIslem">
+				<div class="row">
+					<div class="left"><span>stkno:</span></div>
+					<div class="right">
+						<select name="stkHarList" id="stkHarList" class="txt" style="width: 150px;" > 
+						{% for har in hardos %}
+						<option>{{har[0]}}</option>
+						{% endfor %}
+						</select>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="row">
+					<div class="left"><span>Sıra No:</span></div>
+					<div class="right"><input type="text" class="txt" name="stksira" id="stksira"  value='nev' readonly style="margin-left:0px; width:30px;"/></div>
+					<div class="clear"></div>
+				</div>
+				<div class="row">
+					<div class="left"><span>Fiyat Türü:</span></div>
+					<div class="right">
+						<select id="bftip" name="bftip"  >
+							<option value="3" selected="selected">TRANS</option>
+							<option value="1">SATIŞ1</option>
+							<option value="2">SATIŞ2</option>
+							<option value="4">AKDVHARIC</option>
+							<option value="5">ALIŞ2</option>
+							<option value="6">ALIŞ3</option>
+							<option value="7">ALIM_SON</option>
+							<option value="8">SATIS_SON</option>
+						</select>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="row">
+					<div class="left"><span>Stok Kodu:</span></div>
+					<div class="right"><input type="text" ondblclick="this.value=''" name="stkStokKodu" id="stkStokKodu"/></div>
+					<div class="clear"></div>
+				</div>
+				<div class="row">
+					<div class="left"><span>Stok Adı:</span></div>
+					<div class="right"><input type="text" ondblclick="this.value=''" name="stkStokAdi" id="stkStokAdi"/></div>
+					<div class="clear"></div>
+				</div>
+				<div class="row">
+					<div class="left"><span>Miktar:</span></div>
+					<div class="right"><input type="text" ondblclick="this.value=''" name="stkMiktar" id="stkMiktar"/></div>
+					<div class="clear"></div>
+				</div>
+				<div class="row">
+					<div class="left"><span>Tutar:</span></div>
+					<div class="right"><input type="text" name="stkTutar" id="stkTutar"/></div>
+					<div class="clear"></div>
+				</div>
+				<div class="row">
+					<div class="left"><span>Tutardan :</span></div>
+					<div class="right" style="margin-left:-45px;"><input type="checkbox" name="stkTutardan" id="stkTutardan" /></div>
+					<div class="clear"></div>
+				</div>
+				<div class="row">
+					<div class="left"><span>Satır İskonto:</span></div>
+					<div class="right">
+					<input type="text" name="satisko" id="satisko" value="0" style="width: 100px;"/>
+					<input type="submit" name="stokGozlem" id="stokGozlem" value="//" class="button gray medium"/>
+					</div>
+					<div class="clear"></div>
+				</div>
+							
+			</div>
+			<hr noshade size=1>
+		
+			<div class="formblock">
+				<label>İşlem</label>
+				<select id="islemturu" name="islemturu" style="margin-top:5px; margin-right: 10px; width: 80px;" >
+					<option value="F" selected="selected">FATURA</option>
+					<option value="K">KASA</option>
+					<option value="B">BANKA</option>
+				</select>
+				<input id="kayitmodu" name="kayitmodu" type="hidden" value="" />
+				<input id="modulAd" name="modulAd" hidden value="fatura" />
+				<input id="kasa_makbuz_bas" name="kasa_makbuz_bas" hidden value="0" />
+			</div>
+			<div class="nafatura_blok">			
+				<div class="formblock">
+					<label>GC</label>
+					<select id="hartip" name="hartip" style="margin-top:5px; margin-right: 5px; width: 60px;" >
+						<option value="C" selected="selected">CIKIŞ</option>
+						<option value="G">GIRIS</option>
+					</select>
+				</div>
+				<div class="formblock">
+					<label>Fiş No:</label> 
+					<input type="text" class="txt" maxlength="10" name="fatuNo" id="fatuNo" value="0000xxxxxx" ondblclick="this.value='' "style="margin-top:5px;margin-right: 5px; width: 100px;"/>
+				</div>
+				<div class="formblock">
+					<label>&nbsp;</label>
+					<input type="submit" name="otoFatuNo" id="otoFatuNo" class="button gray medium"  value="O" style="margin-right: 5px; margin-top: 5px;"/>
+				</div>
+			</div>
+			<div class="formblock">
+				<label>Tarih:</label> 
+				<input type="text" class="txt" ondblclick="this.value='' " name="fatuTarih" id="fatuTarih" style="margin-right: 5px; width: 85px;"/>
+			</div>
+			<div class="nafatura_blok">	
+				<div class="formblock">
+					<label>Vade Tarih:</label> 
+					<input type="text" class="txt" ondblclick="this.value='' " name="vadeTarih" id="vadeTarih"  style="margin-right: 5px; width: 85px;"/>
+				</div>
+			</div>
+			<div class="nafatura_blok">	
+				<div class="formblock">
+					<label>KDV</label>
+					<input type="checkbox" class="txt" name="fatuKDV" id="fatuKDV" style="margin-right: 10px;margin-top:9px;" checked/>
+				</div>
+			</div>
+			<div class="formblock">
+				<label>MED</label>
+				<input type="checkbox" class="txt" name="med" id="med" style="margin-right: 10px;margin-top:9px;"/>
+			</div>
+			<div class="nafatura_blok">
+				<div class="formblock">
+					<label>IRS</label>
+					<input type="checkbox" class="txt" name="irs" id="irs" style="margin-right: 10px;margin-top:9px;"/>
+				</div>
+			</div>
+			<div class="formblock">
+				<label>Merkez Nokta:</label> 
+				<input type="text" class="txt" name="fatuKaynak" id="fatuKaynak" ondblclick="this.value='' " style="margin-right: 5px; width: 300px;"/>
+			</div>
+			<div class="formblock">
+				<label>Karşı Nokta:</label> <input type="text" class="txt" name="fatuHedef" id="fatuHedef" ondblclick="this.value='' " value="@" style="margin-right: 5px; width: 300px;"/>
+			</div>
+			<div class="formblock">
+				<label>Açıklama:</label> <input type="text" class="txt" name="faciklama" id="faciklama"  style="margin-right: 5px;margin-bottom:5px; width: 300px;"/>
+			</div>
+			<div class="kasa_blok">
+				<hr noshade size="1">
+				<div class="formblock">
+					<label>Kasiyer:</label> <input type="text" class="txt" name="kasiyer" id="kasiyer" value="SIDDIK ÖZER"  style="margin-right: 5px;margin-bottom:5px; width: 180px;"/>
+				</div>
+			</div>
+			<div class="kasa_blok">
+				<div class="formblock">
+					<label>İlgili:</label> <input type="text" class="txt" name="muhatap" id="muhatap"  style="margin-right: 5px;margin-bottom:5px; width: 180px;"/>
+				</div>
+			</div>
+			<hr noshade size="1">
+			<div class="nafatura_blok">
+				<div class="formblock" style="margin-top: 15px;">
+					<label>Oto GC:&nbsp;</label>
+				</div>
+				<div class="formblock">
+					<input type="checkbox" class="txt" name="otogc" id="otogc" style="margin-right: 10px;margin-bottom:7px;margin-top:13px;"/>
+				</div>
+				<div class="formblock">
+					<input type="text" class="txt" name="otogcnok" id="otogcnok" ondblclick="this.value='' " style="margin-right: 5px; width: 215px;margin-bottom: 7px;margin-top:9px;"/>
+				</div>
+			</div>
+			<hr noshade size="1">
+			<div class="nafatura_blok">
+				<div class="formblock">
+					<label>İskonto:</label> 
+					<input type="text" class="txt" name="fatisko" id="fatisko" style="margin-right: 5px; width: 60px;"/>
+				</div>
+			</div>
+			<div class="formblock">
+				<label>tutar:</label> 
+				<input type="text" class="txt" name="tutar" id="tutar"  value=0 style="margin-right: 5px; width: 70px;"/>
+			</div>
+			<div class="nafatura_blok">
+				<div class="formblock">
+					<label>vade:</label> 
+					<input type="text" class="txt" name="vadesay" id="vadesay"  value=1 style="margin-left:5px; width: 30px;"/>
+				</div>
+			</div>
+			<div class="formblock">
+				<label style="margin-left:25px;">fkod</label>
+				<input type="text" class="txt" name="fkodsec" id="fkodsec"  value='nev' readonly style="margin-left:25px;margin-bottom:5px; width:50px;"/>
+			</div>
+			<div class="nafatura_blok">
+				<label hidden=true>Takip Kodu:</label> <input type="hidden" class="txt" name="fatuTakipKod" id="fatuTakipKod" style="margin-right: 5px; width: 120px;"/>
+			</div>
+
+			<hr noshade size="1">
+			<div class="nafatura_blok">
+				<div class="formblock" style="margin-top: 4px;">
+					<label>Oto Ödeme:&nbsp;</label>
+				</div>
+				<div class="formblock">
+					<input type="checkbox" class="txt" name="odemetip" id="odemetip" style="margin-right: 10px;margin-bottom: 7px;"/>
+				</div>
+				<div class="formblock">
+					<input type="text" class="txt" name="odemenoktasi" id="odemenoktasi" ondblclick="this.value='' " style="margin-right: 5px; width: 200px;margin-bottom: 7px;"/>
+				</div>
+			</div>
+			<hr noshade size="1">
+			
+			<div id="yazdirma">
+				<label>fişno liste</label>
+				<select id="yzliste" name="yzliste">
+				</select>
+				<input type="submit" name="yzl_sil" id="yzl_sil" value="sil" class="button gray medium">
+				<input type="submit" name="yzl_gonder" id="yzl_gonder" value="toplu yazdır" class="button gray medium">
+				<input type="submit" name="irs_topfat" id="irs_topfat" value="toplu irs->fat" class="button gray medium">
+			</div>
+			<div id="yazdirma2">
+				<hr noshade size="1">
+				<label>yazıcı kodu</label>
+				<select id="yazicikod" name="yazicikod">
+				<option>1</option>
+				<option>2</option>
+				</select>
+				<input type="submit" name="lazeryaz" id="lazeryaz" value="lazer yazdır" class="button gray medium">	
+			</div>
+			<div id="tarama">
+				<hr noshade size="1">
+				<label>belge ismi</label>
+				<input type="text" class="txt" name="belge_ad" id="belge_ad" ondblclick="this.value='' " style="margin-right: 5px; width: 150px;margin-bottom: 7px;"/>
+				<input type="submit" name="belge_tara" id="belge_tara" value="tara" class="button gray medium">	
+			</div>
+		</div>
+		<div id="hintbox"></div>
+		<div class="seckeYeri">
+			<div class="formblock">
+				<input type="image" src="add.png" name="yeniStkHar" id="yeniStkHar" value="Yeni" class="hover" hinttext="yeni stk"/> 
+				<input  type="image" src="lock.png"  id="stkKilit" name="stkKilit" class="hover" hinttext="stk kilit" >
+				<input type="image" src="delete2.png" name="stkSil" id="stkSil" value="Sil" class="hover" hinttext="stk sil"/>
+				<input type="image" src="close.png" name="tumStkSil" id="tumStkSil" value="TümSil" class="hover" hinttext="tüm stkları sil"/>
+				<input type="image" src="up.png"  id="yenistkGonder" name="yenistkGonder" value="güncelle" class="hover" hinttext="stk ismi güncelle"/>
+				<input type="image" src="stkyaz.png"  id="stkTermal" name="stkTermal" value="stk yazdir" class="hover" hinttext="stk termal yazdır"/>
+				<input type="image" src="copy.png"  id="stkKopya" name="stkKopya" value="stk kopya" class="hover" hinttext="stk kopyala"/>
+				<input type="image" src="mail.png"  id="stkPosta" name="stkPosta" value="stk postala" class="hover" hinttext="stk postala"/>
+				<input type="image" src="arch.png"  id="stkArsiv" name="stkArsiv" value="stk arşivle" class="hover" hinttext="stk arşivle"/>
+				<label>&nbsp;</label>
+				<label>yeni stk adı</label>
+				<input type="text" ondblclick="this.value=''" name="yenistkAd" id="yenistkAd" value="guncel" style="width:90px;margin-top: 5px;"/>
+			</div>	
+			<hr noshade size=1>
+			<div class="formblock">
+				<label>&nbsp;</label>
+				<input type="image" src="save.png" name="fatuKaydet" id="fatuKaydet"  value="Kaydet" class="hover" hinttext="fatura kaydet" style="margin-right: 10px; margin-top: 3px;"/>
+			</div>
+			<div class="formblock">
+				<label>&nbsp;</label>
+				<input type="image" src="up2.png" name="fatuGuncelle" id="fatuGuncelle" value="Guncelle" class="hover" hinttext="fatura güncelle" style="margin-right: 10px; margin-top: 3px;"/>
+			</div>
+			<div class="formblock">
+				<label>&nbsp;</label>
+				<input type="image" src="trash.png" name="fatuSil" id="fatuSil" value="Sil" class="hover" hinttext="fatura sil" style="margin-right: 10px; margin-top: 3px;"/>
+			</div>
+			<div class="formblock">
+				<label>&nbsp;</label>
+				<input type="image" src="flag.png" name="ustGuncelle" id="ustGuncelle" class="hover" value="Üst Güncelle" hinttext="ÜstBaşlık Güncelle" style="margin-right: 10px; margin-top: 3px;"/>
+			</div>
+			<div class="nafatura_blok">
+				<div class="formblock">
+					<label>&nbsp;</label>
+					<input type="image" src="clipboard.png" name="otoFatura" id="otoFatura" value="Stk->Fatura" class="hover" hinttext="Stk->Fatura" style="margin-right:10px; margin-top: 3px;"/>
+				</div>
+				<div class="formblock">
+					<label>&nbsp;</label>
+					<input type="image" src="letter.png" name="fatuGonder" id="fatuGonder" value="Posta Gönder" class="hover" hinttext="eposta gönder" style="margin-right:10px; margin-top: 3px;"/>
+				</div>
+				<div class="formblock">
+					<select id="dizaynkod" name="dizaynkod" style= "margin-right:5px; margin-top:20px; width: 40px; ">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+					</select>
+				</div>
+				<div class="formblock">
+					<label>&nbsp;</label>
+					<input type="image" src="print.png" name="fatuYazdir" id="fatuYazdir" value="Yazdır" class="hover" hinttext="fatura yazdır" style="margin-right:10px; margin-top: 3px;"/>
+				</div>
+				<div class="formblock">
+					<label>&nbsp;</label>
+					<input type="image" src="search.png" name="fatuGoster" id="fatuGoster" value="Göster" class="hover" hinttext="fatura göster" style="margin-right:10px; margin-top: 3px;"/>
+				</div>
+				<div class="formblock">
+					<label>&nbsp;</label>
+					<input type="image" src="right.png" name="fiyatDeg" id="fiyatDeg" value="FiyatDeg" class="hover" hinttext="fiyat türünü değiştir" style="margin-right:10px; margin-top: 3px;"/>
+				</div>
+				<div class="formblock">
+					<label>&nbsp;</label>
+					<input type="image" src="statistics.png" name="vadelemeKontrol" id="vadelemeKontrol" value="VadeKontrol" class="hover" hinttext="vadeleme kontrol" style="margin-right: 10px; margin-top: 3px;"/>
+				</div>
+				<div class="formblock">
+					<label>&nbsp;</label>
+					<input type="image" src="wallet.png" name="fiyatAktar" id="fiyatAktar" value="FiyatAktar" class="hover" hinttext="fiyat aktar" style="margin-right: 10px; margin-top: 3px;"/>
+				</div>
+			</div>
+			<div class="formblock">
+				<label>&nbsp;</label>
+				<input type="image" src="monitor.png" name="harGozlem" id="harGozlem" value="Gözlem" class="hover" hinttext="hareket gözlem" style="margin-right:10px; margin-top: 3px;"/>
+			</div>
+			<div class="formblock">
+				<label>&nbsp;</label>
+				<input type="image" src="kaydet.png" name="kaydet_yaz" id="kaydet_yaz" value="Kaydet Yazdır" class="hover" hinttext="kaydet yazdır" style="margin-right:10px; margin-top: 3px;"/>
+			</div>
+			<div class="formblock">
+				<label>&nbsp;</label>
+				<input type="image" src="kaydet.png" name="makbuz_yaz" id="makbuz_yaz" value="Sadece Yazdır" class="hover" hinttext="sadece makbuz bas" style="margin-right:10px; margin-top: 3px;"/>
+			</div>
+			<div class="formblock">
+				<label>&nbsp;</label>
+				ek irs.t:<input type="text" class="txt" name="ekirstrh" id="ekirstrh" value="0" ondblclick="this.value='' " style="margin-right: 0px; width: 30px;margin-bottom: 0px;"/><br>
+				<label>&nbsp;</label>
+				ek saat:<input type="text" class="txt" name="ekzaman" id="ekzaman" value="0" ondblclick="this.value='' " style="margin-right: 0px; width: 30px;margin-bottom: 0px;"/>
+				<label>&nbsp;</label>
+				<input type="submit" name="test" id="test" value="test" style="margin-right: 30px; margin-top: 3px;"/>
+			</div>
+		</div>
+	</div>
+</form>
+</body>
+</html>

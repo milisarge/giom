@@ -1,0 +1,1 @@
+select ayar_deger from kul_ayar where kul_no = '@kul_no@' and ayar_bas='@ayar_bas@'

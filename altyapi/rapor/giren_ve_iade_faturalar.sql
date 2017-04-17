@@ -1,0 +1,3 @@
+SELECT * FROM `fatura` WHERE KAYNAK='28' AND HEDEF='03' AND (FTIP='C' OR (FNO LIKE 'I%' AND FTIP='G')) AND TARIH BETWEEN '2015-03-01' AND '2015-03-31' ORDER BY FTIPSELECT tarih,fno,aciklama,case when ftip='C' then geneltoplam else 0 end as giris,
+case when ftip='G' then geneltoplam else 0 end as cikis FROM `fatura` WHERE KAYNAK='28' AND HEDEF='03' AND (FTIP='C' OR (FNO LIKE 'I%' AND FTIP='G')) AND TARIH BETWEEN '2015-03-01' AND '2015-03-31' ORDER BY FTIPSELECT tarih,fno,aciklama,case when ftip='C' then geneltoplam else 0 end as giris,
+case when ftip='G' then geneltoplam else 0 end as cikis FROM `fatura` WHERE KAYNAK='28' AND HEDEF='03' AND (FTIP='C' OR (FNO LIKE 'I%' AND FTIP='G')) AND TARIH BETWEEN '2015-03-01' AND '2015-03-31' ORDER BY FTIP

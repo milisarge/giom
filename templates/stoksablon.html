@@ -1,0 +1,79 @@
+<table  border=1  align=left>
+<form id=stokModulform name=stokModul action="{{ url_for('stokModul') }}" method=post>
+<tr>
+<td>KOD:</td>
+<td><input type=text id=kod name=kod value="{{stok.kod}}" ondblclick=this.value=''></td>
+</tr>
+<tr>
+<td>ISIM:</td>
+<td><input type=text id=ad name=ad value="{{stok.isim}}" ondblclick=this.value='' width="250" style="width: 250px"></td>
+</tr>
+<tr>
+<td>ALKDV:</td>
+<td><input type=text id=alkdv name=alkdv value="{{stok.alis_kdv_kodu}}" width="50" style="width: 50px"></td>
+<td>SATKDV:</td>
+<td><input type=text id=satkdv name=satkdv value="{{stok.kdv_orani}}"   width="50" style="width: 50px"></td>
+<tr>
+<td>OLCUBR1:</td>
+<td><input type=text id=olcubr1 name=olcubr1 value="{{stok.olcu_br1}}"  width="50" style="width: 50px"></td>
+<td>OLCUBR2:</td>
+<td><input type=text id=olcubr2 name=olcubr2 value="{{stok.olcu_br2}}"  width="50" style="width: 50px"></td>
+<td>BIRIM AÐIRLIK:</td>
+<td><input type=text id=birimag name=birimag value="{{stok.birim_agirlik}}" width="50" style="width: 50px"></td>
+</tr>
+<tr>
+<td>NAKDV FIYAT:</td>
+<td><input type=text id=nakdv name=nakdv value="{{stok.alis_fiat1}}"></td></tr>
+<tr>
+<td>DAT FIYAT:</td>
+<td><input type=text id=datfiat name=datfiat value="{{stok.satis_fiat3}}"></td>
+<tr>
+<td>SAT1 FIYAT:</td>
+<td><input type=text id=sat1fiat name=sat1fiat value="{{stok.satis_fiat1}}"></td></tr>
+<tr>
+<td>SAT2 FIYAT:</td>
+<td><input type=text id=sat2fiat name=sat2fiat value="{{stok.satis_fiat2}}"></td>
+<tr>
+<td>BARKOD1:</td>
+<td><input type=text id=barkod1 name=barkod1 value="{{stok.barkod1}}"></td></tr>
+<tr>
+<td>BARKOD2:</td>
+<td><input type=text id=barkod2 name=barkod2 value="{{stok.barkod2}}"></td>
+<tr>
+<td>BARKOD3:</td>
+<td><input type=text id=barkod3 name=barkod3 value="{{stok.barkod3}}"></td></tr>
+
+<tr>
+<td>GRUP KODU:</td>
+<td><input type=text id=grupkod name=grupkod value="{{stok.grup_kodu}}"></td>
+</tr>
+<tr>
+<td>KOD1:</td>
+<td><input type=text id=kod1 name=kod1 value="{{stok.kod_1}}"></td>
+</tr>
+<tr>
+<td>KOD2:</td>
+<td><input type=text id=kod2 name=kod2 value="{{stok.kod_2}}"></td>
+</tr>
+<tr>
+<td>KOD3:</td>
+<td><input type=text id=kod3 name=kod3 value="{{stok.kod_3}}"></td>
+</tr>
+<tr>
+<td>KOD4:</td>
+<td><input type=text id=kod4 name=kod4 value="{{stok.kod_4}}"></td>
+</tr>
+<tr>
+<td>KOD5:</td>
+<td><input type=text id=kod5 name=kod5 value="{{stok.kod_5}}"></td>
+</tr>
+<tr>
+<td>SATICI KODU:</td>
+<td><input type=text id=satici_kodu name=satici_kodu value="{{stok.satici_kodu}}"></td>
+</tr>
+<tr>
+<td>
+</br>
+</td>
+</tr>
+</table>

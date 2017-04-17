@@ -1,0 +1,1 @@
+select stok_kodu,stok_adi from tblstsabit

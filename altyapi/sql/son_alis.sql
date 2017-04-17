@@ -1,0 +1,1 @@
+SELECT max(tarih) FROM sthar where hedef='@merkez@' and stok_kodu='@stokod@' and ftip='C' order by tarih

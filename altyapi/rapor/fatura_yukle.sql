@@ -1,0 +1,1 @@
+select * from fatura where inckeyno='@fkod@'

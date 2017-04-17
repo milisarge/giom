@@ -1,0 +1,1 @@
+select stok_kodu,stok_adi,satis_fiat1,satis_fiat2,satis_fiat3,kdv_orani,grup_kodu,olcu_br1,barkod1,barkod2,barkod3,barkod4,barkod5,barkod6 from tblstsabit where @kriter@ like '%@aranan@%'

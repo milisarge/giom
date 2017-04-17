@@ -1,0 +1,1 @@
+select durum from giris_liste where id='@id@'

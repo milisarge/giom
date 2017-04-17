@@ -1,0 +1,1 @@
+select cari_kod from tblcasabit where grup_kodu='@merkez@'

@@ -1,0 +1,34 @@
+
+<html>
+  {% block body %}
+ <!-- Codes by HTML.am -->
+ <html>
+ 
+ <body bgcolor='silver' > 
+	<title>RAPOR ALMA</title>
+  <div style="background-color:gray;)">
+  <table>
+   <tr>
+  <td>
+  <form action="{{ url_for('raporlama') }}" method=post>
+	  <dd>Ayar dosyasini yukleyin:
+      <dd><select name="inidosyasi">
+	  <option style="background-color: silver">{{iniakdos}}</option>
+	  {% for dosya in dosyalar %}
+        <option>{{dosya}}</option>
+      {% endfor %}
+	  </select>
+      <input type=submit name=komut value=raporla>
+	  <input type=submit name=komut value=ayarla>
+  </form>
+  </td>
+  </tr>
+  
+ </table>
+  </div>
+   </html>
+  {% endblock %}
+ <body>
+ 
+ </html>
+{% if sonuc %} {{ sonuc }}{% endif %}  

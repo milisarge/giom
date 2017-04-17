@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<title>GİOM - FATURA ÖNİZLEME</title>
+<style>
+
+div.kutu {
+	position: absolute;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height:90%;
+	font-size: 12px;
+}
+
+#fatura_hedef {
+	top: 160px;
+	left: 50px;
+	width: 600px;
+	height: 35px;
+}
+
+#fatura_adres {
+	top: 185px;
+	left: 50px;
+	width: 250px;
+	height: 45px;
+}
+#fatura_vdaire_vno {
+	top: 235px;
+	left: 50px;
+	width: 200px;
+	height: 15px;
+}
+#fatura_tarih {
+	top: 250px;
+	left: 1020px;
+}
+#fatura_tarih2 {
+	top: 275px;
+	left: 1020px;
+}
+#kalemler {
+	top: 355px;
+	left: 10px;
+	width: 1070px;
+	font-size: 12px;
+	font-family: calibri, verdana;
+}
+#fatura_tutaryaziyla {
+	top: 370px;
+	left: 30px;
+}
+#fatura_merkezsicilno {
+	top: 405px;
+	left: 30px;
+}
+#fatura_subesicilno {
+	top: 420px;
+	left: 30px;
+}
+#fatura_kaynakwebadresi {
+	top: 435px;
+	left: 30px;
+}
+
+#fatura_bruttutar {
+	top: 375px;
+	left: 1020px;
+}
+#fatura_kdv1 {
+	top: 375px;
+	left: 1020px;
+}
+#fatura_kdv8 {
+	top: 390px;
+	left: 1020px;
+}
+#fatura_kdv18 {
+	top: 405px;
+	left: 1020px;
+}
+#label_kdv1 {
+	top: 375px;
+	left: 950px;
+}
+#label_kdv8 {
+	top: 390px;
+	left: 950px;
+}
+#label_kdv18 {
+	top: 405px;
+	left: 950px;
+}
+#fatura_kdvtop {
+	top: 425px;
+	left: 1020px;
+}
+#fatura_kdvhtoplam {
+	top: 425px;
+	left: 950px;
+}
+#fatura_gtoplam {
+	top: 915px;
+	left: 1020px;
+}
+</style>
+</head>
+<body>
+{% for fatura in faturalar %}
+{% for sayfa in fatura.sayfayaz %}
+<div style="position: relative; height: 1019px; width: 550px; ">
+<div class="kutu" id="fatura_hedef"><span>{{fatura.hedef}}</span></div>
+<div class="kutu" id="fatura_adres"><span>{{fatura.adres}}</span></div>
+<div class="kutu" id="fatura_vdaire_vno"><span>{{fatura.vdaire}}/{{fatura.vergino}}</span></div>
+<div class="kutu" id="fatura_tarih"><span>{{fatura.tarih}}</span></div>
+<div class="kutu" id="fatura_tarih2"><span>{{fatura.tarih}}</span></div>
+<div class="kutu" id="kalemler">
+	<table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="0">
+		<tbody>
+		{% for urun in sayfa %}
+			<tr>
+				<td style="vertical-align: middle; width: 300px; height: 15px;">{{urun.ad}}</td>
+				<td style="vertical-align: middle; text-align: right; width: 46px; height: 15px; padding-right: 80px;">{{urun.miktar}}</td>
+				<td style="vertical-align: middle; width: 40px; height: 15px;">{{urun.birim}}</td>
+				<td style="vertical-align: middle; text-align: right; width: 40px; height: 15px;">    </td>
+				<td style="vertical-align: middle; text-align: right; width: 60px; height: 15px;padding-left: 40px;">   </td>
+				
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+
+</div>
+{% endfor %}
+{% endfor %}
+</body>
+</html>

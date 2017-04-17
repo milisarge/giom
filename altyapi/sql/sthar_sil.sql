@@ -1,0 +1,1 @@
+delete from sthar where inckeyno='@harkod@';

@@ -1,0 +1,157 @@
+<html>
+  {% block body %}
+ <body bgcolor='silver' > 
+ <div class=page>
+  <h2>Stok Hareket Islemleri</h2>
+  {% if error %}<p class=error><strong>Hata:</strong> {{ error }}{% endif %}
+  <script src="./static/jquery.js"></script>
+  <script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+  </script>
+  <script>
+  
+	$(function() {
+       
+	var stkadi = $('#stkad').val();
+	if ($('#stkad').attr('value') == "") {
+    $("#stkod").focus();
+	}
+	else {
+    $("#miktar").focus();
+	}
+
+	});
+ 
+	function aramakon()
+	{
+		var arama=document.forms["stokhrk"]["arama"].value;
+		if (arama==null || arama=="")
+		{alert("arama bos olamaz");return false;}
+	}
+	function bulkon()
+	{
+		var arama=document.forms["stokhrk"]["stkod"].value;
+		if (arama==null || arama=="")
+		{alert("stok kodu bos olamaz");return false;}
+	}
+	
+
+  </script>
+  <script type="text/javascript" src="./static/js/shortcut.js"></script>
+  <script>
+    $("select#hardos option").click(function(){
+		alert("cccccccccccccccc");
+	});
+	shortcut.add("ctrl+s", function() {
+        $("#kaydet").click();
+    }); 
+	shortcut.add("ctrl+d", function() {
+        $("#sil").click();
+    }); 	
+    shortcut.add("ctrl+enter", function() {
+        // Do something
+    }); 
+  </script>
+  <table><tr><td valign="top">
+  <div class=metanav>
+  <form name=stokhrk action="{{ url_for('halis') }}" method=post>
+    <dl>
+	 {% if kdv %}
+	 <dt>kdv durum<input type=checkbox name=kdvdurum checked>
+	 {% else %}
+	 <dt>kdv durum<input type=checkbox name=kdvdurum unchecked>
+	 {% endif %}
+	 <dt>stok kodu:
+	 <dd><input type=text id=stkod name=stkod value="{{stkod}}" onclick=this.value=''>
+     <dt>stok adi:
+	 <dd><select  type=text id=stkad name=stkad value="{{stkad}}" ><option>{{stkad}}</option></select>
+	 <dt>miktar:
+	 <dd><input size='5' type=text id=miktar name=miktar  value="{{miktar}}">
+	 <dt>alis fiyat:            
+	 <dd><input size='5' type=text id=bf name=bf value="{{bf}}">tutardan<input type=checkbox name=tutardan unchecked>
+     <dt><input type=submit name=komut value=bul onclick="return bulkon()">
+	 <dt><input type=submit name=komut id=kaydet value=kaydet><input type="submit" id=sil name=komut value=sil >
+	 <dt><input type=submit name=komut value=yazdir>
+	 <dt><input type=submit name=komut value=yenihareket>
+	 <dt><input type=submit name=komut value=stktumsil><input type=submit name=komut value=stksil>
+	 <dt><select  type=text id=hardos name=hardos value="{{hardos}}" >
+	 <option>{{hardos}}</option>
+	  {% for har in herdos %}
+        <option>{{har[0]}}</option>
+      {% endfor %}
+	 </select>
+	 <dt>duzenlenen sira:<select  type=text id=guncelsira name=guncelsira value="{{guncelsira}}" >
+	 <option>{{guncelsira}}</option>
+	 <option>yeni</option>
+	 
+	 </select>
+    </dl>
+  <a href="../"><img src="./static/ana.png" border="0"></a>
+  <a href="../sbk"><img src="./static/info.png" border="0"></a>
+  <a href="../fatura"><img src="./static/kaydet.png" border="0"></a>
+  <a target="_blank" href="./static/f21.html"><img src="./static/calc.ico" border="0"></a>
+  <a href="../exit"><img src="./static/close.png" border="0"></a><br>
+  </div>
+ 
+  <table  border=1  align=right>
+  {% if stharlar %}
+  {% for sthar in stharlar %}
+	   <tr>
+	   <td><input type=submit name=stharsira value="{{sthar[0]}}" ></td>
+	   <td>{{sthar[1]}}</td>
+	   <td>{{sthar[2]}}</td>
+	   <td>{{sthar[3]}}</td>
+	   <td>{{sthar[4]}}</td>
+	   <td>{{sthar[5]}}</td>
+	   </tr>
+  {% endfor %}
+  {% endif %}
+  
+  </table>
+  
+  </td>
+  
+  <td valign="top">
+
+	<h3>Stok Arama</h3> 
+  <dl>
+  <dt>kriter:<select  type=text id=kriter name=kriter value="{{kriter}}" >
+  <option>{{kriter}}</option>
+  <option>STOK_KODU</option>
+  <option>STOK_ADI</option>
+  <option>KOD_1</option>
+  <option>KOD_2</option>
+  <option>KOD_3</option>
+  <option>SATICI_KODU</option>
+  <option>BARKOD1</option>
+  <option>BARKOD2</option>
+  <option>BARKOD3</option>
+  </select>
+  ---><input type=text id=arama name=arama value="{{arama}}" >
+  <input type=submit name=komut value=stokgetir onclick="return aramakon()" >
+  </dl>
+    
+ <table  align=right>
+	{% if stoklar %}
+  {% for stok in stoklar %}
+	   <tr>
+	   <td><input type=submit name=gstok value="{{stok[2]}}" ></td>
+	   <td>{{stok[4]}}</td>
+	   <td>{{stok[54]}}</td>
+	   <td>{{stok[55]}}</td>
+	   <td>{{stok[56]}}</td>
+	   <td><input type=submit name=sbk value="{{stok[2]}}" ></td>
+	   </tr>
+  {% endfor %}
+  {% endif %}
+  </table>
+    
+  </form>
+  </td>
+  </tr></table>
+   
+ </div>
+ {% endblock %}
+ 
+ </html>
+ 
