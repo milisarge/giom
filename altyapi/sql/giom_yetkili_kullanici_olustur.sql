@@ -1,6 +1,6 @@
---- 1- Yetkili İlk Kullanıcının Eklenmesi
+---Yetkili İlk Kullanıcının Eklenmesi
 INSERT INTO `kullanici` (`ID`, `isim`, `sifre`, `uzun_isim`, `eposta`, `kayit_tarihi`, `yetki_duzey`) VALUES (1,'yetkili','giom*123','yetkili kullanıcı','yetkili@test.com','2017-01-01 01:00:00',99);
---- 2- Yetkili Kullanıcı ve Sistem Ayarlarının Eklenmesi
+---Yetkili Kullanıcı ve Sistem Ayarlarının Eklenmesi
 INSERT INTO `kul_ayar` (`ayar_no`, `kul_no`, `ayar_bas`, `ayar_deger`, `kayit_tarihi`) VALUES
 (1001,999,'prog_anadizin','/opt//giom','2017-01-01 01:01:01'),
 (1002,999,'stoklist_db','stoklist.db','2017-01-01 01:01:02'),
@@ -22,7 +22,7 @@ INSERT INTO `kul_ayar` (`ayar_no`, `kul_no`, `ayar_bas`, `ayar_deger`, `kayit_ta
 (1018,1,'k_noktasi','K10','2017-01-01 01:01:18'),
 (1019,1,'b_noktasi','B10','2017-01-01 01:01:19'),
 (1020,1,'pos_cari','@101','2017-01-01 01:01:20');
---- 3- Merkez cari ilk eklenmesi
+---Merkez cari ilk eklenmesi
 INSERT INTO `tblcasabit` (`SUBE_KODU`, `ISLETME_KODU`, `CARI_KOD`, `CARI_TEL`, `CARI_IL`, `ULKE_KODU`, `CARI_ISIM`, `CARI_TIP`, `GRUP_KODU`, 
 `RAPOR_KODU1`, `RAPOR_KODU2`, `RAPOR_KODU3`, `RAPOR_KODU4`, `IBAN`, `CARI_ADRES`, `CARI_ILCE`, `VERGI_DAIRESI`, `VERGI_NUMARASI`, `FAX`, `POSTAKODU`, 
 `DETAY_KODU`, `NAKLIYE_KATSAYISI`, `RISK_SINIRI`, `TEMINATI`, `CARISK`, `CCRISK`, `SARISK`, `SCRISK`, `CM_BORCT`, `CM_ALACT`, `CM_RAP_TARIH`, 
