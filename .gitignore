@@ -4,3 +4,4 @@ kondarma/*
 *.prn
 log/*.*
 sql_cikti/*.*
+*.db
