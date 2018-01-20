@@ -1935,7 +1935,7 @@ def stokModul():
 		if('stok' in request.args):
 			stokod = request.args.get('stok')
 		else:
-			stokod='5555'
+			stokod='test001'
 			
 		if('harkod' in request.args):
 			harkod = request.args.get('harkod')
