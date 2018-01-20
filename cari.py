@@ -23,9 +23,9 @@ class Cari:
 		self.iban=iban
 	def jsonla(self):
 		cari={'isim':self.isim,'kod':self.kod,
-		'adres':str(self.adres).decode('iso-8859_9'),'tel':self.tel,
+		'adres':self.adres,'tel':self.tel,
 		'tel2':self.tel2,'vergino':self.vergino,
-		'vergiyer':str(self.vergiyer).decode('iso-8859_9'),'muhkod':self.muhkod,'eposta':self.eposta,
+		'vergiyer':self.vergiyer,'muhkod':self.muhkod,'eposta':self.eposta,
 		'tip':self.tip,'iskoran':str(self.iskoran),'vadegunu':self.vadegunu,'cari_tip':self.cari_tip,'grupkod':self.grupkod,
-		'kod1':self.kod1,'iban':self.iban.decode('iso-8859_9')}
+		'kod1':self.kod1,'iban':self.iban}
 		return cari
