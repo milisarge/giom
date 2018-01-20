@@ -431,7 +431,7 @@ hr {
 			hataGoster("Lütfen Stok Hareketi Listesi Seçin");
 			return false;
 		}
-		if( $('#guncelsira').val() == "nev" ) {
+		if( $('#guncelsira').val() == "yeni" ) {
 			hataGoster("Lütfen Stok Hareketi Seçin");
 			return false;
 		} 
@@ -476,7 +476,7 @@ hr {
 		tempOption = new Option(res);
 		$(tempOption).attr("selected", true);
 		$("#stklist").append(tempOption);
-		duzsira = new Option('nev');
+		duzsira = new Option('yeni');
 		$(duzsira).attr("selected", true);
 		$("#guncelsira").empty();
 		$("#guncelsira").append(duzsira);
@@ -501,7 +501,7 @@ hr {
 		$.ajax({
 			url : "/stkSiraAl?stkno=" + stkno,
 		}).done(function(data) {
-			duzsira = new Option('nev');
+			duzsira = new Option('yeni');
 			$(duzsira).attr("selected", true);
 			$("#guncelsira").empty();
 			$("#guncelsira").append(duzsira);
@@ -814,7 +814,7 @@ hr {
 			</select>
 			
 			<select id="guncelsira"	name="guncelsira" tabindex="-1">
-				<option value="nev" selected>nev</option>
+				<option value="yeni" selected>yeni</option>
 			</select>
 			<input type="submit" name="stkYenile" id="stkYenile" value="Yenile" tabindex="-1"/>
 			<input type="submit" name="stkSatirSil" id="stkSatirSil" value="Satır Sil" tabindex="-1"/>

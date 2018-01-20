@@ -1061,7 +1061,7 @@ def chEkle():
 		mkod=request.form['kod_mcari']
 		chfkod=request.form['chfkod']
 		print chfkod,"---------"
-		if(mkod is not "" and chfkod=='nev'):
+		if(mkod is not "" and chfkod=='yeni'):
 			ofatura=Fatura()
 			kkod=request.form["kod"]
 			if ',' in kkod:
@@ -1168,7 +1168,7 @@ def stkEkle():
 		stokhar=(kod,ad,miktar,bf,tutar,stoklist)
 		con = lite.connect(app.config["DATABASE"])
 		cur = con.cursor()
-		if(sira =='nev' ):
+		if(sira =='yeni' ):
 			with con:
 				cur.execute("INSERT INTO stoklist (stkod,stkad,miktar,bf,tutar,stoklistno) VALUES(?, ?,?, ?, ?,?)", stokhar)
 		else :
@@ -1625,10 +1625,10 @@ def fatuKaydet():
 				return "fisno bos olamaz"
 			if 'fkodsec' in request.form :
 				fatura.fkod=request.form["fkodsec"]
-				if(kayitmodu=='g' and fatura.fkod=='nev'):
+				if(kayitmodu=='g' and fatura.fkod=='yeni'):
 					return "bir fkod seciniz!!!"
-				if(kayitmodu=='y' and fatura.fkod!='nev'):
-					return "fkodu nev seciniz!!!"
+				if(kayitmodu=='y' and fatura.fkod!='yeni'):
+					return "fkodu yeni seciniz!!!"
 			if(fatura.islem=='F'):
 				if "stkHarList" in request.form :
 					fatura.stharlistno=request.form["stkHarList"]
@@ -2423,7 +2423,7 @@ def kullaniciEkle():
 			kull.uisim=request.form['kul_uisim']
 			kull.eposta=request.form['kul_eposta']
 			kull.yetki=request.form['kul_yetki']
-			if(kull.no=='nev'):
+			if(kull.no=='yeni'):
 				mod='y'
 			data=mak.kullanici_islem(kull,mod)
 			#else:
@@ -2473,7 +2473,7 @@ def ayarEkle():
 			ayar.kulno=request.form['ayar_kulno']
 			ayar.bas=request.form['ayar_bas']
 			ayar.deger=request.form['ayar_deger']
-			if(ayar.no=='nev'):
+			if(ayar.no=='yeni'):
 				mod='y'
 			data=mak.ayar_islem(ayar,mod)
 		return Response(json.dumps(data),mimetype='application/json')
@@ -2756,9 +2756,9 @@ def psqlCalistir():
 		dosya = request.args.get('dosya')
 		paramlar = request.args.get('paramlar')
 		orjsql=open(dizin+dosya,'r').read()
-		nevsql=mak.param_guncelle(dosya,paramlar)
-		codecs.open(dizin+dosya+".deg",'w',"iso-8859_9").write(nevsql)
-		rapormak.sql(nevsql)
+		yenisql=mak.param_guncelle(dosya,paramlar)
+		codecs.open(dizin+dosya+".deg",'w',"iso-8859_9").write(yenisql)
+		rapormak.sql(yenisql)
 		rapor=rapormak.getHtml()
 		return Response(json.dumps(rapor),mimetype='application/json')
 	return render_template('giris.html', error="isim ve sifre giriniz")
@@ -2891,7 +2891,7 @@ def fiyatAktar():
 		data='fiyat aktarmada sorun var!!!'
 		if('fkod' in request.args):
 			fkod = request.args.get('fkod')
-			if(fkod!='nev'):
+			if(fkod!='yeni'):
 				data=mak.fiyat_guncelle(fkod)
 			else:
 				data='fkodlist değerini seçiniz!!!'
@@ -3009,7 +3009,7 @@ def lazerYazdir():
 	if("KULL_ID" in session and mak.girdi_kontrol(session['KULL_ID']) ):
 		fkod=request.form['fkodsec']
 		data=""
-		if fkod !="nev":
+		if fkod !="yeni":
 			yazicikod=request.form['yazicikod']
 			os.system(lazeryaz_komut+fkod+" "+yazicikod)
 			data="tamam"
@@ -3021,7 +3021,7 @@ def stkTermal():
 	if("KULL_ID" in session and mak.girdi_kontrol(session['KULL_ID']) ):
 		fkod=request.form['stkHarList']
 		data=""
-		if fkod !="nev":
+		if fkod !="yeni":
 			yazicikod=request.form['yazicikod']
 			os.system(lazeryaz_komut2+fkod+" "+yazicikod)
 			data="tamam"

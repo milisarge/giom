@@ -682,7 +682,7 @@ td {
 					success: function (data, status) {
 						if(data=='tamam'){
 							faturaRehber();
-							$('#fkodsec').val("nev");
+							$('#fkodsec').val("yeni");
 							$('#vadesay').val("1");
 							succesHandler("Güncelleme kaydı yapıldı.");
 						}else{
@@ -758,7 +758,7 @@ td {
 				ek2="&ekzaman="+$('#ekzaman').val()
 			}
 			window.open("fatuYazdir?dizaynno="+$('#dizaynkod').val()+"&fkod="+$('#fkodsec').val()+ek+ek2,'_blank');
-			$('#fkodsec').val('nev')
+			$('#fkodsec').val('yeni')
 		});
 		
 		$('#fatuGonder').on('click', function(event){
@@ -798,12 +798,12 @@ td {
 	
 		$("#stksira").click(function(event){
 			event.preventDefault();
-			$("#stksira").val("nev");
+			$("#stksira").val("yeni");
 		});
 		
 		$("#fkodsec").click(function(event){
 			event.preventDefault();
-			$("#fkodsec").val("nev");
+			$("#fkodsec").val("yeni");
 		});
 		
 		$("#stkTablo").click(function(event){
@@ -985,7 +985,7 @@ td {
 			beforeSubmit : faturaKayitKontrol,
 			success: function (data, status) {
 				if(data=='tamam'){
-					$('#fkodsec').val("nev");
+					$('#fkodsec').val("yeni");
 					$('#tutar').val("0");
 					succesHandler("lazer yazdırıldı.");
 				}else{
@@ -1055,7 +1055,7 @@ td {
 					faturaRehber();
 					$('#faciklama').val("");
 					$('#kasa_makbuz_bas').val("0");
-					$('#fkodsec').val("nev");
+					$('#fkodsec').val("yeni");
 					succesHandler("İşlem kaydı yapıldı.");
 				}else{
 					errorHandler(data);
@@ -1128,7 +1128,7 @@ td {
 		$.ajax({
 			url : "/fkodListAl?kaynak=" +$("#fatuKaynak").val()+"&hedef="+$("#fatuHedef").val()+"&tarih="+$("#fatuTarih").val(),
 		}).done(function(data) {
-			fkodon = new Option('nev');
+			fkodon = new Option('yeni');
 			$(fkodon).attr("selected", true);
 			$("#fkodlist").empty();
 			$("#fkodlist").append(fkodon);
@@ -1302,9 +1302,9 @@ td {
 			bosKontrol=false;
 			hata="tarih boş olamaz!";
 		}
-		if($('#fkodsec').val() == "nev"){
+		if($('#fkodsec').val() == "yeni"){
 			bosKontrol=false;
-			hata="fkodlist boş veya nev olamaz!";
+			hata="fkodlist boş veya yeni olamaz!";
 		}
 		if($('#vadeTarih').val() == ""){
 			bosKontrol=false;
@@ -1334,12 +1334,12 @@ td {
 		$(tempOption).attr("selected", true);
 		$("#stkHarList").append(tempOption);
 		/*23:20 28.10.2014
-		duzsira = new Option('nev');
+		duzsira = new Option('yeni');
 		$(duzsira).attr("selected", true);
 		$("#guncelsira").empty();
 		$("#guncelsira").append(duzsira);
 		*/
-		$("#stksira").val('nev')
+		$("#stksira").val('yeni')
 	}
 	
 	function tumStkHarListSil(res, statusText, xhr, $form) {
@@ -1356,7 +1356,7 @@ td {
 			errorHandler("Lütfen Stok Hareketi Listesi Seçin");
 			return false;
 		}
-		if( $('#stksira').val() == "nev" ) {
+		if( $('#stksira').val() == "yeni" ) {
 			errorHandler("Lütfen Stok Hareketi Seçin");
 			return false;
 		} 
@@ -1422,7 +1422,7 @@ td {
 			}
 			
 		});	
-		$('#stksira').val("nev")
+		$('#stksira').val("yeni")
 		//stkFsbAl();
 		$('#fsb').html("");
 		$('#stkBaslik').val($('#stkHarList').val());
@@ -1571,7 +1571,7 @@ td {
 	function hareketGozlemDonus(res,statusText,xhr,$form){
 		//$('#hareketGozlem').html(res);
 		//fkodListAl();
-		//$("#fkodsec").val("nev");
+		//$("#fkodsec").val("yeni");
 		if(res!='None'){
 			$("#stkTablo").html(res);
 			$("#hareketrapor").tablesorter();
@@ -1796,7 +1796,7 @@ td {
 				</div>
 				<div class="row">
 					<div class="left"><span>Sıra No:</span></div>
-					<div class="right"><input type="text" class="txt" name="stksira" id="stksira"  value='nev' readonly style="margin-left:0px; width:30px;"/></div>
+					<div class="right"><input type="text" class="txt" name="stksira" id="stksira"  value='yeni' readonly style="margin-left:0px; width:60px;"/></div>
 					<div class="clear"></div>
 				</div>
 				<div class="row">
@@ -1958,7 +1958,7 @@ td {
 			</div>
 			<div class="formblock">
 				<label style="margin-left:25px;">fkod</label>
-				<input type="text" class="txt" name="fkodsec" id="fkodsec"  value='nev' readonly style="margin-left:25px;margin-bottom:5px; width:50px;"/>
+				<input type="text" class="txt" name="fkodsec" id="fkodsec"  value='yeni' readonly style="margin-left:25px;margin-bottom:5px; width:50px;"/>
 			</div>
 			<div class="nafatura_blok">
 				<label hidden=true>Takip Kodu:</label> <input type="hidden" class="txt" name="fatuTakipKod" id="fatuTakipKod" style="margin-right: 5px; width: 120px;"/>
