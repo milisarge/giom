@@ -4,4 +4,5 @@ kondarma/*
 *.prn
 log/*.*
 sql_cikti/*.*
+!sql_cikti/beni.oku
 *.db

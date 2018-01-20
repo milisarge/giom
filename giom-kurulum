@@ -7,3 +7,4 @@ mysqld --initialize
 mysqladmin -p -u root version
 
 betikler/* çalıştırılacak
+mkdir -p sql_cikti
