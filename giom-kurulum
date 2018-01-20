@@ -1,0 +1,9 @@
+pip2 install -r gerekler
+sh gerekler.sh
+
+mysqld --initialize
+# yukarıdaki komut ile mysql şifresi vt ilkleme ayarları yapılır.
+#mysql test
+mysqladmin -p -u root version
+
+betikler/* çalıştırılacak
