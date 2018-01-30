@@ -18,7 +18,7 @@ where
 @hartip_kriter@
 @irs_kriter@
 ( c.grup_kodu=@karsicari@ and (kaynak in ('@iscari@') or hedef in ('@iscari@')) )
-group by f.inckeyno
+group by f.inckeyno,f.tarih,f.fno,f.geneltoplam,f.vade_tarihi,f.aciklama,f.ftip,f.hedef,f.kaynak,b.tur,c.cari_isim
 order by tarih
 )as t;
 
