@@ -488,3 +488,9 @@ ALTER TABLE `sthar`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+LOCK TABLES `islem_turleri` WRITE;
+/*!40000 ALTER TABLE `islem_turleri` DISABLE KEYS */;
+INSERT INTO `islem_turleri` (`mcari`, `kcari`, `gcmod`, `tur`) VALUES ('K','K','G','KASA VİRMANI'),('K','K','C','KASA VİRMANI'),('F','K','G','NAKİT TAHSİLAT'),('K','F','G','NAKİT TAHSİLAT'),('K','F','C','NAKİT TEDİYE'),('B','F','G','HAVALE'),('B','F','C','HAVALE'),('B','B','G','BANKA VİRMANI'),('B','B','C','BANKA VİRMANI'),('M','F','C','KREDİ KARTI ÖDEMESİ'),('M','F','G','KREDİ TAHSİLAT'),('F','F','G','ALIŞ F.'),('F','F','C','SATIŞ F.'),('A','F','G','-'),('A','F','C','-'),('A','K','G','-'),('A','K','C','-'),('A','B','G','-'),('A','B','C','-'),('K','B','G','BANKADAN CEKıLEN'),('K','B','C','BANKAYA YATAN'),('B','A','G','DEVİR BANK GİRİŞ'),('B','A','C','DEVİR BANK ÇIKIŞ'),('B','K','G','BANKAYA YATAN'),('B','K','C','BANKADAN ÇEKİLEN'),('F','K','C','NAKIT TEDIYE'),('B','M','C','KREDİ KARTINA ÖDENEN'),('B','M','G','KREDİ ÖDEME');
+/*!40000 ALTER TABLE `islem_turleri` ENABLE KEYS */;
+UNLOCK TABLES;
